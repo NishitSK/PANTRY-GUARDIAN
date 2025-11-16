@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String          @id @default(cuid())
+  email           String          @unique
+  passwordHash    String
+  name            String?
+  city            String          @default("London")
+  createdAt       DateTime        @default(now())
+  inventoryItems  InventoryItem[]
+}
+
+model Product {
+  id                      String          @id @default(cuid())
+  name                    String
+  category                String
+  baseShelfLifeDays       Int
+  roomTempShelfLifeDays   Int?
+  fridgeShelfLifeDays     Int?
+  freezerShelfLifeDays    Int?
+  storageNotes            String?
+  defaultStorageMethodId  String
+  defaultStorageMethod    StorageMethod   @relation(fields: [defaultStorageMethodId], references: [id])
+  createdAt               DateTime        @default(now())
+  inventoryItems          InventoryItem[]
+}
+
+model StorageMethod {
+  id                String          @id
+  name              String
+  tempRangeMinC     Int
+  tempRangeMaxC     Int
+  humidityPreferred Int
+  inventoryItems    InventoryItem[]
+  products          Product[]
+}
+
+model InventoryItem {
+  id              String            @id @default(cuid())
+  userId          String
+  user            User              @relation(fields: [userId], references: [id])
+  productId       String
+  product         Product           @relation(fields: [productId], references: [id])
+  storageMethodId String
+  storageMethod   StorageMethod     @relation(fields: [storageMethodId], references: [id])
+  purchasedAt     DateTime
+  openedAt        DateTime?
+  quantity        Float
+  unit            String
+  notes           String?
+  createdAt       DateTime          @default(now())
+  snapshots       WeatherSnapshot[]
+  predictions     Prediction[]
+  feedback        Feedback[]
+}
+
+model WeatherSnapshot {
+  id              String        @id @default(cuid())
+  inventoryItemId String
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  capturedAt      DateTime      @default(now())
+  tempC           Float
+  humidity        Float
+}
+
+model Prediction {
+  id              String        @id @default(cuid())
+  inventoryItemId String
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  predictedExpiry DateTime
+  modelVersion    String
+  confidence      Float
+  createdAt       DateTime      @default(now())
+}
+
+model Feedback {
+  id                  String        @id @default(cuid())
+  inventoryItemId     String
+  inventoryItem       InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  userReportedExpiry  DateTime?
+  freshnessScore      Int?
+  notes               String?
+  createdAt           DateTime      @default(now())
+}
