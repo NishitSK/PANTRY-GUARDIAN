@@ -49,6 +49,26 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Root endpoint - API info
+app.get('/', (req, res) => {
+  res.json({
+    name: 'Pantry Guardian API',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      health: '/health',
+      auth: '/api/auth/*',
+      inventory: '/api/inventory',
+      products: '/api/products',
+      storageMethods: '/api/storage-methods',
+      weather: '/api/weather/current',
+      user: '/api/user/profile',
+      feedback: '/api/feedback'
+    },
+    documentation: 'https://github.com/NishitSK/PANTRY-GUARDIAN'
+  });
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
