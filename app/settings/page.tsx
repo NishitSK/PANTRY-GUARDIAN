@@ -6,6 +6,7 @@ import SectionHeading from '@/components/ui/SectionHeading'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import { getApiBaseUrl } from '@/lib/api'
+import { detectUserCity } from '@/lib/geolocation'
 
 export default function SettingsPage() {
   const { data: session, status } = useSession()
@@ -38,39 +39,24 @@ export default function SettingsPage() {
   const handleDetectLocation = async () => {
     setMessage('Detecting your location...')
     
-    if (!navigator.geolocation) {
-      setMessage('Geolocation is not supported by your browser')
-      return
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords
-        
-        try {
-          // Reverse geocode to get city name
-          const response = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=7f2cc4799a7f2199aa43a90578920042`)
-          const data = await response.json()
-          
-          if (data && data[0]?.name) {
-            const detectedCity = data[0].name
-            setCity(detectedCity)
-            setMessage(`Location detected: ${detectedCity}. Click Update to save.`)
-          } else {
-            setMessage('Could not determine city name from your location')
-          }
-        } catch (error) {
-          setMessage('Failed to detect location')
-        }
-      },
-      (error) => {
-        if (error.code === error.PERMISSION_DENIED) {
-          setMessage('Location permission denied. Please enter city manually.')
-        } else {
-          setMessage('Failed to get your location. Please enter city manually.')
-        }
+    try {
+      const detectedCity = await detectUserCity()
+      
+      if (detectedCity) {
+        setCity(detectedCity)
+        setMessage(`Location detected: ${detectedCity}. Click Update to save.`)
+      } else {
+        setMessage('Could not determine city name from your location')
       }
-    )
+    } catch (error: any) {
+      if (error.message.includes('not supported')) {
+        setMessage('Geolocation is not supported by your browser')
+      } else if (error.code === 1) {
+        setMessage('Location permission denied. Please enter city manually.')
+      } else {
+        setMessage('Failed to get your location. Please enter city manually.')
+      }
+    }
   }
 
   const handleUpdateCity = async () => {
