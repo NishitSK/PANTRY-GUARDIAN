@@ -1,6 +1,8 @@
-﻿# Pantry Guardian
+# Pantry Guardian
 
 Pantry Guardian is a full-stack inventory management system that allows users to manage pantry items, track stock levels, and organize storage methods. The project includes a modern Next.js frontend and a dedicated Express backend powered by Prisma.
+
+🔗 Live Demo: https://pantry-guardian.vercel.app/
 
 ## Features
 - Add, edit, and delete pantry items  
@@ -114,7 +116,7 @@ markdown
 Copy code
 
 ## Production
-- Frontend deployed to Vercel  
+- Frontend deployed to Vercel: https://pantry-guardian.vercel.app/  
 - Backend deployed to Render  
   - Build command: `npm install`  
   - Start command: `npm start`
