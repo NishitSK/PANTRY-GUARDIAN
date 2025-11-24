@@ -21,7 +21,6 @@ router.get('/', async (req, res) => {
 
     const products = await prisma.product.findMany({
       where,
-      include: { category: true },
       orderBy: { name: 'asc' }
     });
 
