@@ -361,7 +361,7 @@ function inferMatchedGroceryName(name: string) {
   let bestHint = ''
   let bestScore = 0
 
-  for (const candidate of candidates) {
+  for (const candidate of Array.from(candidates)) {
     for (const hint of FOOD_HINT_WORDS) {
       const score = similarityScore(candidate, hint)
       if (score > bestScore) {
