@@ -2,11 +2,24 @@ import webpush from 'web-push'
 import connectDB from '@/lib/mongodb'
 import { PushSubscriber } from '@/models'
 
-webpush.setVapidDetails(
-	process.env.VAPID_SUBJECT || 'mailto:support@pantyguardian.app',
-	process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-	process.env.VAPID_PRIVATE_KEY!
-)
+let vapidConfigured = false
+
+function ensureVapidConfigured() {
+	if (vapidConfigured) return true
+
+	const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+	const privateKey = process.env.VAPID_PRIVATE_KEY
+	const subject = process.env.VAPID_SUBJECT || 'mailto:support@pantyguardian.app'
+
+	if (!publicKey || !privateKey) {
+		console.warn('Push notifications disabled: missing VAPID keys')
+		return false
+	}
+
+	webpush.setVapidDetails(subject, publicKey, privateKey)
+	vapidConfigured = true
+	return true
+}
 
 export type PushPayload = {
 	title: string
@@ -18,6 +31,10 @@ export type PushPayload = {
 }
 
 export async function sendPushToUser(userId: string, payload: PushPayload) {
+	if (!ensureVapidConfigured()) {
+		return { sent: 0, failed: 0 }
+	}
+
 	await connectDB()
 
 	const subscriptions = await (PushSubscriber as any).find({ userId })
