@@ -1,12 +1,23 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse, type NextFetchEvent, type NextRequest } from 'next/server'
 
 const isPublicRoute = createRouteMatcher(['/', '/ocr-test(.*)', '/auth/login(.*)', '/auth/signup(.*)', '/api/public(.*)', '/api/analyze-image(.*)']);
 
-export default clerkMiddleware(async (auth, request) => {
+const backendOnlyDeploy = process.env.BACKEND_ONLY_DEPLOY === 'true'
+
+const clerkAuthMiddleware = clerkMiddleware(async (auth, request) => {
   if (!isPublicRoute(request)) {
     await auth.protect();
   }
-});
+})
+
+export default function middleware(request: NextRequest, event: NextFetchEvent) {
+  if (backendOnlyDeploy) {
+    return NextResponse.next()
+  }
+
+  return clerkAuthMiddleware(request, event)
+}
 
 export const config = {
   matcher: [
