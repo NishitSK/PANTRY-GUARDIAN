@@ -1,0 +1,39 @@
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse, type NextFetchEvent, type NextRequest } from 'next/server'
+
+const isPublicRoute = createRouteMatcher(['/', '/ocr-test(.*)', '/auth/login(.*)', '/auth/signup(.*)', '/api/public(.*)', '/api/analyze-image(.*)']);
+
+const backendOnlyDeploy = process.env.BACKEND_ONLY_DEPLOY === 'true'
+
+const clerkAuthMiddleware = clerkMiddleware(async (auth, request) => {
+  if (!isPublicRoute(request)) {
+    await auth.protect();
+  }
+})
+
+export default function middleware(request: NextRequest, event: NextFetchEvent) {
+  // In split deployment, frontend /api calls are proxied to backend via rewrites.
+  // Let them pass through without Clerk protection on frontend.
+  if (request.nextUrl.pathname.startsWith('/api')) {
+    return NextResponse.next()
+  }
+
+  if (backendOnlyDeploy) {
+    if (!request.nextUrl.pathname.startsWith('/api')) {
+      return NextResponse.json({ message: 'Backend service is running' }, { status: 200 })
+    }
+
+    return NextResponse.next()
+  }
+
+  return clerkAuthMiddleware(request, event)
+}
+
+export const config = {
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
+  ],
+};

@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 45 33% 96%;
+    --foreground: 0 0% 6%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 6%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 6%;
+
+    --primary: 78 100% 44%;
+    --primary-strong: 78 100% 34%;
+    --primary-foreground: 0 0% 6%;
+
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 45 12% 86%;
+    --muted-foreground: 0 0% 34%;
+
+    --accent: 50 100% 92%;
+    --accent-foreground: 0 0% 6%;
+
+    --destructive: 0 72% 48%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 6%;
+    --input: 0 0% 6%;
+    --ring: 0 0% 6%;
+    --surface: 0 0% 100%;
+    --text-main: 0 0% 6%;
+    --text-muted: 0 0% 32%;
+
+    --radius: 0px;
+  }
+
+  .dark {
+    --background: 0 0% 6%;
+    --foreground: 45 33% 96%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 45 33% 96%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 45 33% 96%;
+
+    --primary: 78 100% 52%;
+    --primary-strong: 78 100% 42%;
+    --primary-foreground: 0 0% 6%;
+
+    --secondary: 0 0% 16%;
+    --secondary-foreground: 45 33% 96%;
+
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 72%;
+
+    --accent: 0 0% 14%;
+    --accent-foreground: 45 33% 96%;
+
+    --destructive: 0 72% 48%;
+    --destructive-foreground: 45 33% 96%;
+
+    --border: 45 33% 96%;
+    --input: 45 33% 96%;
+    --ring: 78 100% 52%;
+    --surface: 0 0% 10%;
+    --text-main: 45 33% 96%;
+    --text-muted: 0 0% 74%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    background-image:
+      linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.75) 100%),
+      linear-gradient(0deg, rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    overflow-x: hidden;
+    background-size: auto, 100% 24px, 24px 100%;
+  }
+
+  .dark body {
+    background-image:
+      linear-gradient(180deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.88) 100%),
+      linear-gradient(0deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  }
+
+  body[data-pg-loading='true'] .thin-footer {
+    display: none;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-surface border-2 border-black shadow-brutal;
+  }
+  
+  .editorial-underline {
+    position: relative;
+  }
+  
+  .editorial-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    opacity: 1;
+  }
+
+  .tonal-section {
+    @apply bg-background border-y-2 border-black dark:border-white;
+  }
+
+  .brutalist-panel {
+    @apply bg-surface border-2 border-black shadow-brutal-lg;
+  }
+
+  .brutalist-tag {
+    @apply inline-flex items-center gap-2 border-2 border-black bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.3em] text-black;
+  }
+
+  .brutalist-stat {
+    @apply border-2 border-black bg-surface px-5 py-4 shadow-brutal;
+  }
+
+  .brutalist-rule {
+    @apply h-[2px] bg-black dark:bg-white;
+  }
+
+  .brutalist-grid {
+    background-image: linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px), linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .dark .brutalist-grid {
+    background-image: linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  }
+}
+
+/* Material Symbols Adjustments */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}

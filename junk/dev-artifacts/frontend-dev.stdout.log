@@ -1,0 +1,12 @@
+
+> pantry-guardian@0.1.0 dev
+> next dev -p 3001
+
+  ▲ Next.js 14.2.33
+  - Local:        http://localhost:3001
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 3.5s
+ ✓ Compiled /middleware in 1054ms
+ ✓ Compiled (189 modules)

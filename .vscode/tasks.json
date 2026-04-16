@@ -64,6 +64,57 @@
 			"args": [],
 			"isBackground": false,
 			"group": "none"
+		},
+		{
+			"label": "seed-local-mongo",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"seed.js"
+			],
+			"isBackground": false,
+			"group": "none"
+		},
+		{
+			"label": "seed-local-mongo-recipes",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"seed.js"
+			],
+			"isBackground": false,
+			"group": "none"
+		},
+		{
+			"label": "verify-recipes-count",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"require('dotenv').config(); const mongoose = require('mongoose'); (async () => { const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/pantry-guardian'; await mongoose.connect(uri); const db = mongoose.connection.db; const count = await db.collection('recipes').countDocuments(); const titles = await db.collection('recipes').find({}, { projection: { title: 1 } }).sort({ title: 1 }).toArray(); console.log('recipeCount=' + count); console.log('titles=' + titles.map(r => r.title).join(' | ')); await mongoose.disconnect(); process.exit(0); })().catch(err => { console.error(err); process.exit(1); });"
+			],
+			"isBackground": false,
+			"group": "none"
+		},
+		{
+			"label": "seed-all-local-mongo",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"seed.js"
+			],
+			"isBackground": false,
+			"group": "none"
+		},
+		{
+			"label": "verify-local-db",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"scripts/verify-local-db.js"
+			],
+			"isBackground": false,
+			"group": "none"
 		}
 	]
 }

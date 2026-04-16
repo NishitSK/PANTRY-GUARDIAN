@@ -1,0 +1,266 @@
+[
+  {
+    "name": "Apples",
+    "category": "Fresh Fruits",
+    "shelfLife": {
+      "pantry": 14,
+      "fridge": 28,
+      "freezer": 365,
+      "base": 7
+    },
+    "defaultStorage": "room"
+  },
+  {
+    "name": "Bananas",
+    "category": "Fresh Fruits",
+    "shelfLife": {
+      "pantry": 5,
+      "fridge": 7,
+      "freezer": 180,
+      "base": 5
+    },
+    "defaultStorage": "room"
+  },
+  {
+    "name": "Oranges",
+    "category": "Fresh Fruits",
+    "shelfLife": {
+      "pantry": 14,
+      "fridge": 28,
+      "freezer": 365,
+      "base": 10
+    },
+    "defaultStorage": "room"
+  },
+  {
+    "name": "Strawberries",
+    "category": "Fresh Fruits",
+    "shelfLife": {
+      "pantry": 1,
+      "fridge": 7,
+      "freezer": 180,
+      "base": 3
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Grapes",
+    "category": "Fresh Fruits",
+    "shelfLife": {
+      "pantry": 2,
+      "fridge": 14,
+      "freezer": 365,
+      "base": 5
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Tomatoes",
+    "category": "Fresh Vegetables",
+    "shelfLife": {
+      "pantry": 7,
+      "fridge": 14,
+      "freezer": 180,
+      "base": 7
+    },
+    "defaultStorage": "room"
+  },
+  {
+    "name": "Lettuce",
+    "category": "Fresh Vegetables",
+    "shelfLife": {
+      "pantry": null,
+      "fridge": 10,
+      "freezer": null,
+      "base": 5
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Carrots",
+    "category": "Fresh Vegetables",
+    "shelfLife": {
+      "pantry": 7,
+      "fridge": 28,
+      "freezer": 365,
+      "base": 14
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Broccoli",
+    "category": "Fresh Vegetables",
+    "shelfLife": {
+      "pantry": 1,
+      "fridge": 7,
+      "freezer": 365,
+      "base": 5
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Potatoes",
+    "category": "Fresh Vegetables",
+    "shelfLife": {
+      "pantry": 30,
+      "fridge": 90,
+      "freezer": 365,
+      "base": 30
+    },
+    "defaultStorage": "room"
+  },
+  {
+    "name": "Milk",
+    "category": "Dairy",
+    "shelfLife": {
+      "pantry": null,
+      "fridge": 7,
+      "freezer": 90,
+      "base": 7
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Cheddar Cheese",
+    "category": "Dairy",
+    "shelfLife": {
+      "pantry": null,
+      "fridge": 60,
+      "freezer": 180,
+      "base": 21
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Yogurt",
+    "category": "Dairy",
+    "shelfLife": {
+      "pantry": null,
+      "fridge": 21,
+      "freezer": 60,
+      "base": 14
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Butter",
+    "category": "Dairy",
+    "shelfLife": {
+      "pantry": 7,
+      "fridge": 90,
+      "freezer": 365,
+      "base": 30
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Chicken Breast",
+    "category": "Meat & Poultry",
+    "shelfLife": {
+      "pantry": null,
+      "fridge": 2,
+      "freezer": 270,
+      "base": 2
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Ground Beef",
+    "category": "Meat & Poultry",
+    "shelfLife": {
+      "pantry": null,
+      "fridge": 2,
+      "freezer": 120,
+      "base": 2
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Bacon",
+    "category": "Meat & Poultry",
+    "shelfLife": {
+      "pantry": null,
+      "fridge": 14,
+      "freezer": 30,
+      "base": 7
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Eggs",
+    "category": "Eggs & Tofu",
+    "shelfLife": {
+      "pantry": 7,
+      "fridge": 35,
+      "freezer": 365,
+      "base": 28
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Tofu",
+    "category": "Eggs & Tofu",
+    "shelfLife": {
+      "pantry": null,
+      "fridge": 7,
+      "freezer": 180,
+      "base": 7
+    },
+    "defaultStorage": "fridge"
+  },
+  {
+    "name": "Bread",
+    "category": "Bakery",
+    "shelfLife": {
+      "pantry": 5,
+      "fridge": 14,
+      "freezer": 180,
+      "base": 5
+    },
+    "defaultStorage": "room"
+  },
+  {
+    "name": "Bagels",
+    "category": "Bakery",
+    "shelfLife": {
+      "pantry": 3,
+      "fridge": 14,
+      "freezer": 180,
+      "base": 5
+    },
+    "defaultStorage": "room"
+  },
+  {
+    "name": "Rice",
+    "category": "Pantry Staples",
+    "shelfLife": {
+      "pantry": 730,
+      "fridge": 1095,
+      "freezer": 1460,
+      "base": 730
+    },
+    "defaultStorage": "room"
+  },
+  {
+    "name": "Pasta",
+    "category": "Pantry Staples",
+    "shelfLife": {
+      "pantry": 730,
+      "fridge": 1095,
+      "freezer": 1460,
+      "base": 730
+    },
+    "defaultStorage": "room"
+  },
+  {
+    "name": "Olive Oil",
+    "category": "Pantry Staples",
+    "shelfLife": {
+      "pantry": 365,
+      "fridge": 730,
+      "freezer": null,
+      "base": 365
+    },
+    "defaultStorage": "room"
+  }
+]
