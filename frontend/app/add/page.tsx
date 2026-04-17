@@ -73,6 +73,13 @@ const pickPrimaryProductName = (name: string) => {
 const getMatchedInventoryName = (item: Pick<ReviewDetectedItem, 'matchedName'>) =>
   pickPrimaryProductName(item.matchedName || '').trim()
 
+const normalizeStorageKey = (value: string) => {
+  const v = value.toLowerCase().trim()
+  if (v.includes('freezer')) return 'freezer'
+  if (v.includes('fridge') || v.includes('refrigerator') || v.includes('refrig')) return 'fridge'
+  return 'room'
+}
+
 const normalizeQuantityForUnit = (rawQuantity: string, unit: string) => {
   const parsed = Number(rawQuantity)
   if (!Number.isFinite(parsed) || parsed <= 0) return rawQuantity
@@ -160,9 +167,21 @@ export default function AddItemPage() {
   }
 
   const resolveStorageMethodId = (storage: ReviewDetectedItem['suggestedStorage'], fallbackId: string) => {
-    const desired = storage === 'room_temp' ? 'room' : storage
-    const matched = storageMethods.find((method) => method.name.toLowerCase().includes(desired))
-    return matched?.id || fallbackId
+    const desired = storage === 'freezer' ? 'freezer' : storage === 'refrigerator' ? 'fridge' : 'room'
+
+    const byId = storageMethods.find((method) => normalizeStorageKey(method.id) === desired)
+    if (byId?.id) return byId.id
+
+    const byName = storageMethods.find((method) => normalizeStorageKey(method.name) === desired)
+    if (byName?.id) return byName.id
+
+    const fallbackById = storageMethods.find((method) => method.id === fallbackId)
+    if (fallbackById?.id) return fallbackById.id
+
+    const fallbackByName = storageMethods.find((method) => normalizeStorageKey(method.name) === normalizeStorageKey(fallbackId))
+    if (fallbackByName?.id) return fallbackByName.id
+
+    return storageMethods[0]?.id || fallbackId
   }
 
   const findBestProductByName = (name: string) => {
@@ -302,6 +321,18 @@ export default function AddItemPage() {
               defaultStorageMethodId: String(created.defaultStorageMethodId || defaultStorageMethodId),
             }
             locallyCreatedProducts.push(chosenProduct)
+          } else {
+            let createReason = `product create failed (${createRes.status})`
+            try {
+              const payload = await createRes.json()
+              if (payload?.error) createReason = String(payload.error)
+            } catch {
+              // Ignore JSON parse errors and keep status reason
+            }
+
+            skippedCount += 1
+            skippedItems.push(`${matchedInventoryName} (${createReason})`)
+            continue
           }
         }
 
@@ -329,8 +360,16 @@ export default function AddItemPage() {
         })
 
         if (!response.ok) {
+          let addReason = `inventory add failed (${response.status})`
+          try {
+            const payload = await response.json()
+            if (payload?.error) addReason = String(payload.error)
+          } catch {
+            // Ignore JSON parse errors and keep status reason
+          }
+
           skippedCount += 1
-          skippedItems.push(matchedInventoryName || 'unknown item')
+          skippedItems.push(`${matchedInventoryName || 'unknown item'} (${addReason})`)
           continue
         }
 
@@ -342,7 +381,11 @@ export default function AddItemPage() {
       }
 
       if (addedCount === 0) {
-        setError('No items were added. Please verify matched item names in review list.')
+        setError(
+          skippedItems.length
+            ? `No items were added. Failed items: ${skippedItems.slice(0, 6).join(', ')}${skippedItems.length > 6 ? '...' : ''}`
+            : 'No items were added. Please verify matched item names in review list.'
+        )
         setSubmitting(false)
         return
       }
