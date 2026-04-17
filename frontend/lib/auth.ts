@@ -6,7 +6,10 @@ import bcrypt from 'bcrypt'
 import connectDB from '@/lib/mongodb'
 import { User } from '@/models'
 
+const nextAuthSecret = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || process.env.CLERK_SECRET_KEY
+
 export const authOptions: NextAuthOptions = {
+  secret: nextAuthSecret,
   session: { strategy: 'jwt' },
   pages: { signIn: '/auth/login' },
   providers: [
