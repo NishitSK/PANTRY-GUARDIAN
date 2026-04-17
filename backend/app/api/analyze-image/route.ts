@@ -193,7 +193,7 @@ function inferMatchedGroceryName(name: string) {
   let bestScore = 0
   
   // Combine custom hints with DB keys for matching
-  const allHints = [...new Set([...FOOD_HINT_WORDS, ...Object.keys(SHELF_LIFE_DB)])]
+  const allHints = Array.from(new Set([...FOOD_HINT_WORDS, ...Object.keys(SHELF_LIFE_DB)]))
 
   for (const candidate of Array.from(candidates)) {
     for (const hint of allHints) {
