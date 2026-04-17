@@ -24,6 +24,10 @@ services:
         sync: false
       - key: WEATHER_API_KEY
         sync: false
+      - key: RECEIPT_OCR_API_URL
+        sync: false
+      - key: RECEIPT_OCR_OCR_PATH
+        value: /ocr/
       - key: FRONTEND_URL
         sync: false
       - key: NODE_VERSION
