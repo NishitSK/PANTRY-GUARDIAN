@@ -1,9 +1,19 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse, type NextFetchEvent, type NextRequest } from 'next/server'
 
-const isPublicRoute = createRouteMatcher(['/', '/ocr-test(.*)', '/auth/login(.*)', '/auth/signup(.*)', '/api/public(.*)', '/api/analyze-image(.*)']);
-
-const backendOnlyDeploy = process.env.BACKEND_ONLY_DEPLOY === 'true'
+const isPublicRoute = createRouteMatcher([
+  '/',
+  '/about(.*)',
+  '/support(.*)',
+  '/qna(.*)',
+  '/privacy(.*)',
+  '/terms(.*)',
+  '/ocr-test(.*)',
+  '/auth/login(.*)',
+  '/auth/signup(.*)',
+  '/api/public(.*)',
+  '/api/analyze-image(.*)',
+]);
 
 const clerkAuthMiddleware = clerkMiddleware(async (auth, request) => {
   if (!isPublicRoute(request)) {
@@ -11,22 +21,24 @@ const clerkAuthMiddleware = clerkMiddleware(async (auth, request) => {
   }
 })
 
-export default function middleware(request: NextRequest, event: NextFetchEvent) {
+export default async function middleware(request: NextRequest, event: NextFetchEvent) {
   // In split deployment, frontend /api calls are proxied to backend via rewrites.
   // Let them pass through without Clerk protection on frontend.
   if (request.nextUrl.pathname.startsWith('/api')) {
     return NextResponse.next()
   }
 
-  if (backendOnlyDeploy) {
-    if (!request.nextUrl.pathname.startsWith('/api')) {
-      return NextResponse.json({ message: 'Backend service is running' }, { status: 200 })
+  try {
+    return await clerkAuthMiddleware(request, event)
+  } catch (error) {
+    console.error('[frontend middleware] Clerk middleware failed:', error)
+
+    if (isPublicRoute(request)) {
+      return NextResponse.next()
     }
 
-    return NextResponse.next()
+    return NextResponse.redirect(new URL('/auth/login', request.url))
   }
-
-  return clerkAuthMiddleware(request, event)
 }
 
 export const config = {
