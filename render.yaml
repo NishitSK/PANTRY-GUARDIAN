@@ -26,5 +26,7 @@ services:
         sync: false
       - key: FRONTEND_URL
         sync: false
+      - key: NODE_VERSION
+        value: 22
       - key: NODE_ENV
         value: production
