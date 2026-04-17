@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: pantry-guardian-ocr
+    env: docker
+    region: oregon
+    plan: free
+    rootDir: ocr
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
