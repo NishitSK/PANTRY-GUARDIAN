@@ -27,8 +27,6 @@ export default function middleware(request: NextRequest, event: NextFetchEvent) 
     if (!request.nextUrl.pathname.startsWith('/api')) {
       return NextResponse.json({ message: 'Backend service is running' }, { status: 200 })
     }
-
-    return NextResponse.next()
   }
 
   return clerkAuthMiddleware(request, event)
