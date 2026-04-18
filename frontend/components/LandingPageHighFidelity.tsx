@@ -28,9 +28,9 @@ const principles = [
 ]
 
 const stats = [
-  { label: "Items tracked", value: "1,248" },
-  { label: "Expiry alerts", value: "42" },
-  { label: "Waste prevented", value: "18 kg" },
+  { label: "Items tracked (avg. household/year)", value: "320" },
+  { label: "Expiry alerts (avg. household/year)", value: "38" },
+  { label: "Estimated waste by expired food (national avg./year)", value: "75–100 KG" },
 ]
 
 const workflow = [
