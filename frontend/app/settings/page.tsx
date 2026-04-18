@@ -6,6 +6,7 @@ import Image from 'next/image'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Card from '@/components/ui/Card'
 import { Button } from '@/components/ui/shadcn-button'
+import { ArrowLeft } from 'lucide-react'
 import { getApiBaseUrl } from '@/lib/api'
 import { detectUserCity } from '@/lib/geolocation'
 
@@ -107,7 +108,14 @@ export default function SettingsPage() {
 
   return (
     <main className="container mx-auto overflow-x-hidden px-2 sm:px-4 py-6 sm:py-8">
-      <div className="mb-8">
+      <div className="mb-6">
+        <button
+          onClick={() => router.back()}
+          className="group inline-flex items-center gap-2 border-2 border-black bg-white px-4 py-2 text-[10px] font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all shadow-[4px_4px_0_#000] hover:shadow-none hover:translate-x-1 hover:translate-y-1 mb-6"
+        >
+          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+          Back to Dashboard
+        </button>
         <SectionHeading>Settings</SectionHeading>
         <p className="text-gray-600 dark:text-gray-400 mt-2">Manage your account and preferences</p>
       </div>

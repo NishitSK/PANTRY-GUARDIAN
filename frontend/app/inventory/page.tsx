@@ -650,45 +650,45 @@ export default function InventoryPage() {
                     const scoreLabel = getScoreLabel(item.productId?.category || '', item.productId?.name || '')
 
                     return (
-                      <div key={item._id} className="border-4 border-black bg-[#F4F4EF] shadow-[6px_6px_0_#000]">
+                      <div key={item._id} className="border-4 border-black bg-[#F4F4EF] shadow-[6px_6px_0_#000] flex flex-col h-full">
                         {/* Header */}
-                        <div className="p-4">
-                          <div className="flex items-start justify-between gap-2">
+                        <div className="p-4 flex flex-col h-full">
+                          <div className="flex items-start justify-between gap-2 mb-3">
                             <div className="flex-1 min-w-0">
-                              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-black/50">{displayLabel}</p>
+                              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-black/50 truncate whitespace-nowrap">{displayLabel}</p>
                               <h3 className="mt-0.5 text-xl font-noto-serif font-bold text-black leading-tight truncate">
                                 {item.productId?.name}
                               </h3>
                             </div>
-                            <div className={cn('shrink-0 px-2.5 py-1 border-2 border-black text-[9px] font-black uppercase tracking-[0.18em]', statusBg(item.status))}>
+                            <div className={cn('shrink-0 px-2.5 py-1 border-2 border-black text-[9px] font-black uppercase tracking-[0.18em] whitespace-nowrap', statusBg(item.status))}>
                               {statusLabel(item.status, item.daysLeft ?? 0, scoreLabel)}
                             </div>
                           </div>
 
                           {/* Source badge */}
                           {item.source === 'receipt_scan' && (
-                            <span className="mt-1.5 inline-flex items-center gap-1 border border-black bg-white px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.18em] text-black/70">
+                            <span className="mb-3 inline-flex items-center gap-1 border border-black bg-white px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.18em] text-black/70 w-fit">
                               📷 Receipt scan
                             </span>
                           )}
 
-                          <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-manrope">
-                            <div className="border-2 border-black bg-white p-2">
+                          <div className="grid grid-cols-2 gap-2 text-xs font-manrope mt-auto">
+                            <div className="border-2 border-black bg-white p-2 flex flex-col justify-center">
                               <p className="text-[9px] font-black uppercase tracking-[0.14em] text-black/50">Storage</p>
-                              <span className={cn('mt-1 inline-flex border border-black px-1.5 py-0.5 text-[9px] font-black uppercase', storageBadge(item.storageMethodId?.name))}>
+                              <span className={cn('mt-1 inline-flex border border-black px-1.5 py-0.5 text-[9px] font-black uppercase w-fit', storageBadge(item.storageMethodId?.name))}>
                                 {item.storageMethodId?.name || 'Room Temp'}
                               </span>
                             </div>
-                            <div className="border-2 border-black bg-white p-2">
+                            <div className="border-2 border-black bg-white p-2 flex flex-col justify-center">
                               <p className="text-[9px] font-black uppercase tracking-[0.14em] text-black/50">Quantity</p>
-                              <p className="mt-1 font-bold text-black">{item.quantity} <span className="opacity-60 text-[9px]">{item.unit}</span></p>
+                              <p className="mt-1 font-bold text-black truncate">{item.quantity} <span className="opacity-60 text-[9px]">{item.unit}</span></p>
                             </div>
                             <div className="col-span-2 border-2 border-black bg-white p-2">
                               <div className="flex justify-between items-center mb-1">
                                 <p className="text-[9px] font-black uppercase tracking-[0.14em] text-black/50">{scoreLabel}</p>
                                 <span className="text-[9px] font-black text-black">{pct}%</span>
                               </div>
-                              <div className="h-1.5 bg-black/10 border border-black overflow-hidden">
+                              <div className="h-1.5 bg-black/10 border border-black overflow-hidden relative">
                                 <div
                                   className={cn('h-full transition-all', pct > 50 ? 'bg-[#93E1A8]' : pct > 20 ? 'bg-[#FFE66D]' : 'bg-[#FFAB40]')}
                                   style={{ width: `${pct}%` }}

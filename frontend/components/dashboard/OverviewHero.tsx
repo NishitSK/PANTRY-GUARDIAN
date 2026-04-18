@@ -28,20 +28,20 @@ export default function OverviewHero({
   const offset = circumference - (purity / 100) * circumference
 
   return (
-    <div className="relative overflow-hidden bg-[#F6F1E7] min-h-[400px] mt-8 mb-12 p-6 font-sans border-4 border-black shadow-[10px_10px_0_#000]">
+    <div className="relative overflow-hidden bg-[#F6F1E7] min-h-[400px] mt-4 mb-8 sm:mt-8 sm:mb-12 p-3 sm:p-6 font-sans border-4 border-black shadow-[10px_10px_0_#000] flex items-center justify-center">
 
       {/* Brutalist Background Blocks */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute -left-10 -top-10 h-40 w-40 bg-[#FFE66D] border-4 border-black rotate-12" />
+        <div className="absolute -left-10 -top-10 h-40 w-40 bg-[#FFE66D] border-4 border-black rotate-12 opacity-50 sm:opacity-100" />
         <div className="absolute right-8 top-8 h-16 w-16 bg-[#93E1A8] border-2 border-black" />
       </div>
 
       {/* Main Panel */}
-      <div className="relative z-10 w-full flex flex-col lg:flex-row items-center justify-between gap-12 bg-white border-4 border-black shadow-[8px_8px_0_#000] p-10 transition-all duration-300">
+      <div className="relative z-10 w-full bg-white border-4 border-black shadow-[8px_8px_0_#000] p-6 sm:p-10 transition-all duration-300 flex flex-col lg:flex-row items-center justify-between gap-12">
 
         {isEmpty ? (
           /* ── EMPTY STATE ── */
-          <div className="flex flex-col items-center text-center max-w-lg mx-auto py-6 gap-6">
+          <div className="flex flex-col items-center text-center max-w-lg mx-auto py-2 sm:py-6 gap-6 w-full">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

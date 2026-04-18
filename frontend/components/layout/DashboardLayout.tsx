@@ -25,8 +25,8 @@ export default function DashboardLayout({
       <RouteWarmup />
       <SpoilageNotifier />
       
-      <main className="flex-1 overflow-y-auto p-3 pb-24 sm:p-4 sm:pb-24 md:p-6 md:pb-6 transition-all duration-300">
-        <div className="mx-auto max-w-7xl animate-in fade-in slide-in-from-bottom-4 duration-500 pb-10">
+      <main className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-24 sm:pb-24 md:pb-6 transition-all duration-300 flex flex-col items-center">
+        <div className="w-full mx-auto max-w-7xl animate-in fade-in slide-in-from-bottom-4 duration-500 pb-10">
           {children}
         </div>
         <ThinFooter scope="dashboard" />
