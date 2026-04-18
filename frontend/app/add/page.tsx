@@ -400,6 +400,7 @@ export default function AddItemPage() {
         return
       }
 
+      router.refresh()
       router.push('/inventory')
     } catch (err: any) {
       setError(err?.message || 'Failed to add reviewed items')
@@ -536,6 +537,7 @@ export default function AddItemPage() {
         throw new Error(data.error || 'Failed to add item')
       }
 
+      router.refresh()
       router.push('/inventory')
     } catch (err: any) {
       setError(err.message)

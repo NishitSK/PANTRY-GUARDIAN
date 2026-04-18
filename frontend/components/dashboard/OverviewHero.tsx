@@ -93,7 +93,7 @@ export default function OverviewHero({
                 className="text-5xl md:text-6xl font-black text-black leading-tight mb-4 tracking-tight"
               >
                 Good morning, <span className="bg-[#FFE66D] px-2">{userName}</span>.<br />
-                Your kitchen is <span className="bg-[#93E1A8] px-2">{purity}%</span> fresh.
+                Your kitchen is <span className="bg-[#93E1A8] px-2">{purity}%</span> prime.
               </motion.h1>
 
               <motion.p
@@ -104,7 +104,7 @@ export default function OverviewHero({
               >
                 {urgentItemName
                   ? <>The <strong>{urgentItemName}</strong> in your pantry is expiring soon — use it today to avoid waste.</>
-                  : <>All your tracked items look fresh. Keep it up.</>
+                  : <>All items in prime condition. Keep it up.</>
                 }
               </motion.p>
 
@@ -127,7 +127,7 @@ export default function OverviewHero({
               </div>
             </div>
 
-            {/* Freshness Progress Ring — only shown when data exists */}
+            {/* Pantry Health Progress Ring — only shown when data exists */}
             <div className="relative w-56 h-56 flex items-center justify-center shrink-0">
               <svg className="w-full h-full -rotate-90">
                 <circle
@@ -147,7 +147,7 @@ export default function OverviewHero({
               </svg>
               <div className="absolute flex flex-col items-center bg-white border-2 border-black px-4 py-3">
                 <span className="text-5xl font-noto-serif font-bold text-black">{purity}%</span>
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-black mt-1">Freshness</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-black mt-1">Pantry Health</span>
               </div>
             </div>
           </>

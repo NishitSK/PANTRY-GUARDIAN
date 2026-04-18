@@ -27,7 +27,7 @@ export type ShelfLifeEntry = {
   freezer: number
   defaultStorage: 'room' | 'fridge' | 'freezer'
   category: string
-  scoreLabel: 'Freshness' | 'Pantry health' | 'Shelf life' | 'Quality'
+  scoreLabel: 'Condition' | 'Pantry health' | 'Shelf life' | 'Quality'
   notes: string
 }
 
@@ -98,83 +98,83 @@ const PANTRY_STAPLES: Record<string, ShelfLifeEntry> = {
 // ─── Fresh Produce ────────────────────────────────────────────────────────────
 
 const FRESH_PRODUCE: Record<string, ShelfLifeEntry> = {
-  apple: { base: 14, room: 14, fridge: 42, freezer: 365, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Store in cool place. Refrigerate for longest life.' },
-  apples: { base: 14, room: 14, fridge: 42, freezer: 365, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Store in cool place. Refrigerate for longest life.' },
-  banana: { base: 5, room: 5, fridge: 7, freezer: 90, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Ripen at room temp; refrigerate once ripe.' },
-  bananas: { base: 5, room: 5, fridge: 7, freezer: 90, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Ripen at room temp; refrigerate once ripe.' },
-  orange: { base: 14, room: 14, fridge: 28, freezer: 180, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Room temp up to 2 weeks; fridge up to 4 weeks.' },
-  mango: { base: 5, room: 5, fridge: 14, freezer: 365, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Ripen at room temp, then refrigerate.' },
-  grapes: { base: 7, room: 2, fridge: 14, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Refrigerate unwashed; wash just before eating.' },
-  strawberries: { base: 3, room: 1, fridge: 7, freezer: 180, defaultStorage: 'fridge', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Very perishable; refrigerate and eat within a week.' },
-  lemon: { base: 14, room: 7, fridge: 21, freezer: 120, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Room temp 1 week; fridge up to 3 weeks.' },
-  pomegranate: { base: 14, room: 7, fridge: 60, freezer: 365, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Whole pomegranate can be refrigerated for up to 2 months.' },
-  coconut: { base: 7, room: 7, fridge: 14, freezer: 90, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Whole fresh coconut: 1-2 weeks. Refrigerate opened.' },
-  nariyal: { base: 7, room: 7, fridge: 14, freezer: 90, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Fresh coconut: use within 2 weeks.' },
-  papaya: { base: 5, room: 3, fridge: 7, freezer: 180, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Ripen at room temp; refrigerate when ripe.' },
-  guava: { base: 5, room: 3, fridge: 7, freezer: 180, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Use within a week.' },
-  tomato: { base: 7, room: 7, fridge: 14, freezer: 180, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Best flavor at room temp; refrigerate only when very ripe.' },
-  tomatoes: { base: 7, room: 7, fridge: 14, freezer: 180, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Best flavor at room temperature.' },
-  carrot: { base: 21, room: 7, fridge: 28, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Remove greens; refrigerate for up to 4 weeks.' },
-  carrots: { base: 21, room: 7, fridge: 28, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Remove greens; refrigerate for up to 4 weeks.' },
-  potato: { base: 30, room: 30, fridge: 90, freezer: 365, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Store in cool, dark, dry place away from onions.' },
-  potatoes: { base: 30, room: 30, fridge: 90, freezer: 365, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Cool, dark, dry place.' },
-  onion: { base: 30, room: 30, fridge: 60, freezer: 240, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Cool, dark place with ventilation. Do not store with potatoes.' },
-  onions: { base: 30, room: 30, fridge: 60, freezer: 240, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Cool, dark, ventilated place.' },
-  garlic: { base: 60, room: 60, fridge: 180, freezer: 365, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Whole bulb: 2 months room temp; individual cloves: a few weeks.' },
-  ginger: { base: 21, room: 7, fridge: 21, freezer: 180, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Freeze for longest life.' },
-  spinach: { base: 5, room: 1, fridge: 7, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Refrigerate and use within a week.' },
-  palak: { base: 5, room: 1, fridge: 7, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Use within a week of purchase.' },
-  broccoli: { base: 5, room: 1, fridge: 7, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Refrigerate; use within a week.' },
-  lettuce: { base: 7, room: 1, fridge: 10, freezer: 0, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Keep refrigerated; 7-10 days.' },
-  capsicum: { base: 10, room: 3, fridge: 14, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Refrigerate for up to 2 weeks.' },
-  'bell pepper': { base: 10, room: 3, fridge: 14, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Refrigerate; whole peppers last up to 2 weeks.' },
-  bhindi: { base: 3, room: 1, fridge: 4, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Okra: use within 3-4 days of purchase.' },
-  okra: { base: 3, room: 1, fridge: 4, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Use within 3-4 days.' },
-  cauliflower: { base: 7, room: 2, fridge: 14, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Refrigerate; use within 2 weeks.' },
-  cucumber: { base: 7, room: 2, fridge: 10, freezer: 0, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Refrigerate; use within 10 days.' },
-  coriander: { base: 7, room: 2, fridge: 14, freezer: 90, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Refrigerate with stems in water and cover leaves.' },
-  dhania: { base: 7, room: 2, fridge: 14, freezer: 90, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Store with stems in water in fridge.' },
-  mint: { base: 10, room: 2, fridge: 14, freezer: 90, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Refrigerate with stems in water.' },
-  methi: { base: 5, room: 1, fridge: 7, freezer: 90, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Fenugreek leaves: use within a week.' },
+  apple: { base: 14, room: 14, fridge: 42, freezer: 365, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Store in cool place. Refrigerate for longest life.' },
+  apples: { base: 14, room: 14, fridge: 42, freezer: 365, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Store in cool place. Refrigerate for longest life.' },
+  banana: { base: 5, room: 5, fridge: 7, freezer: 90, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Ripen at room temp; refrigerate once ripe.' },
+  bananas: { base: 5, room: 5, fridge: 7, freezer: 90, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Ripen at room temp; refrigerate once ripe.' },
+  orange: { base: 14, room: 14, fridge: 28, freezer: 180, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Room temp up to 2 weeks; fridge up to 4 weeks.' },
+  mango: { base: 5, room: 5, fridge: 14, freezer: 365, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Ripen at room temp, then refrigerate.' },
+  grapes: { base: 7, room: 2, fridge: 14, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Refrigerate unwashed; wash just before eating.' },
+  strawberries: { base: 3, room: 1, fridge: 7, freezer: 180, defaultStorage: 'fridge', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Very perishable; refrigerate and eat within a week.' },
+  lemon: { base: 14, room: 7, fridge: 21, freezer: 120, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Room temp 1 week; fridge up to 3 weeks.' },
+  pomegranate: { base: 14, room: 7, fridge: 60, freezer: 365, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Whole pomegranate can be refrigerated for up to 2 months.' },
+  coconut: { base: 7, room: 7, fridge: 14, freezer: 90, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Whole fresh coconut: 1-2 weeks. Refrigerate opened.' },
+  nariyal: { base: 7, room: 7, fridge: 14, freezer: 90, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Fresh coconut: use within 2 weeks.' },
+  papaya: { base: 5, room: 3, fridge: 7, freezer: 180, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Ripen at room temp; refrigerate when ripe.' },
+  guava: { base: 5, room: 3, fridge: 7, freezer: 180, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Use within a week.' },
+  tomato: { base: 7, room: 7, fridge: 14, freezer: 180, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Best flavor at room temp; refrigerate only when very ripe.' },
+  tomatoes: { base: 7, room: 7, fridge: 14, freezer: 180, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Best flavor at room temperature.' },
+  carrot: { base: 21, room: 7, fridge: 28, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Remove greens; refrigerate for up to 4 weeks.' },
+  carrots: { base: 21, room: 7, fridge: 28, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Remove greens; refrigerate for up to 4 weeks.' },
+  potato: { base: 30, room: 30, fridge: 90, freezer: 365, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Store in cool, dark, dry place away from onions.' },
+  potatoes: { base: 30, room: 30, fridge: 90, freezer: 365, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Cool, dark, dry place.' },
+  onion: { base: 30, room: 30, fridge: 60, freezer: 240, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Cool, dark place with ventilation. Do not store with potatoes.' },
+  onions: { base: 30, room: 30, fridge: 60, freezer: 240, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Cool, dark, ventilated place.' },
+  garlic: { base: 60, room: 60, fridge: 180, freezer: 365, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Whole bulb: 2 months room temp; individual cloves: a few weeks.' },
+  ginger: { base: 21, room: 7, fridge: 21, freezer: 180, defaultStorage: 'room', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Freeze for longest life.' },
+  spinach: { base: 5, room: 1, fridge: 7, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Refrigerate and use within a week.' },
+  palak: { base: 5, room: 1, fridge: 7, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Use within a week of purchase.' },
+  broccoli: { base: 5, room: 1, fridge: 7, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Refrigerate; use within a week.' },
+  lettuce: { base: 7, room: 1, fridge: 10, freezer: 0, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Keep refrigerated; 7-10 days.' },
+  capsicum: { base: 10, room: 3, fridge: 14, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Refrigerate for up to 2 weeks.' },
+  'bell pepper': { base: 10, room: 3, fridge: 14, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Refrigerate; whole peppers last up to 2 weeks.' },
+  bhindi: { base: 3, room: 1, fridge: 4, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Okra: use within 3-4 days of purchase.' },
+  okra: { base: 3, room: 1, fridge: 4, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Use within 3-4 days.' },
+  cauliflower: { base: 7, room: 2, fridge: 14, freezer: 365, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Refrigerate; use within 2 weeks.' },
+  cucumber: { base: 7, room: 2, fridge: 10, freezer: 0, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Refrigerate; use within 10 days.' },
+  coriander: { base: 7, room: 2, fridge: 14, freezer: 90, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Refrigerate with stems in water and cover leaves.' },
+  dhania: { base: 7, room: 2, fridge: 14, freezer: 90, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Store with stems in water in fridge.' },
+  mint: { base: 10, room: 2, fridge: 14, freezer: 90, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Refrigerate with stems in water.' },
+  methi: { base: 5, room: 1, fridge: 7, freezer: 90, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Fenugreek leaves: use within a week.' },
 }
 
 // ─── Dairy ────────────────────────────────────────────────────────────────────
 
 const DAIRY: Record<string, ShelfLifeEntry> = {
-  milk: { base: 7, room: 0, fridge: 7, freezer: 90, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Freshness', notes: 'Must be refrigerated. Freeze only if needed.' },
-  butter: { base: 30, room: 10, fridge: 90, freezer: 365, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Freshness', notes: 'Refrigerate; freeze for up to 1 year.' },
-  'cheddar cheese': { base: 21, room: 0, fridge: 60, freezer: 180, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Freshness', notes: 'Wrap tightly; hard cheese keeps 1-2 months refrigerated.' },
-  cheese: { base: 21, room: 0, fridge: 30, freezer: 120, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Freshness', notes: 'Hard cheeses last longer than soft.' },
-  paneer: { base: 5, room: 0, fridge: 7, freezer: 60, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Freshness', notes: 'Fresh paneer: use within 5-7 days refrigerated.' },
-  yogurt: { base: 14, room: 0, fridge: 21, freezer: 60, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Freshness', notes: 'Check expiry; refrigerate.' },
-  dahi: { base: 7, room: 0, fridge: 14, freezer: 30, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Freshness', notes: 'Curd/dahi: use within 1-2 weeks refrigerated.' },
-  cream: { base: 14, room: 0, fridge: 14, freezer: 90, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Freshness', notes: 'Single/double cream: 1-2 weeks refrigerated.' },
+  milk: { base: 7, room: 0, fridge: 7, freezer: 90, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Condition', notes: 'Must be refrigerated. Freeze only if needed.' },
+  butter: { base: 30, room: 10, fridge: 90, freezer: 365, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Condition', notes: 'Refrigerate; freeze for up to 1 year.' },
+  'cheddar cheese': { base: 21, room: 0, fridge: 60, freezer: 180, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Condition', notes: 'Wrap tightly; hard cheese keeps 1-2 months refrigerated.' },
+  cheese: { base: 21, room: 0, fridge: 30, freezer: 120, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Condition', notes: 'Hard cheeses last longer than soft.' },
+  paneer: { base: 5, room: 0, fridge: 7, freezer: 60, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Condition', notes: 'Fresh paneer: use within 5-7 days refrigerated.' },
+  yogurt: { base: 14, room: 0, fridge: 21, freezer: 60, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Condition', notes: 'Check expiry; refrigerate.' },
+  dahi: { base: 7, room: 0, fridge: 14, freezer: 30, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Condition', notes: 'Curd/dahi: use within 1-2 weeks refrigerated.' },
+  cream: { base: 14, room: 0, fridge: 14, freezer: 90, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Condition', notes: 'Single/double cream: 1-2 weeks refrigerated.' },
   ghee: { base: 365, room: 90, fridge: 365, freezer: 1095, defaultStorage: 'room', category: 'Dairy', scoreLabel: 'Pantry health', notes: 'Clarified butter: very stable — 3 months room, 1 year fridge.' },
-  eggs: { base: 28, room: 14, fridge: 35, freezer: 365, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Freshness', notes: 'Refrigerate for longest life.' },
-  egg: { base: 28, room: 14, fridge: 35, freezer: 365, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Freshness', notes: 'Refrigerate for longest life.' },
+  eggs: { base: 28, room: 14, fridge: 35, freezer: 365, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Condition', notes: 'Refrigerate for longest life.' },
+  egg: { base: 28, room: 14, fridge: 35, freezer: 365, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Condition', notes: 'Refrigerate for longest life.' },
 }
 
 // ─── Meat & Seafood ───────────────────────────────────────────────────────────
 
 const MEAT: Record<string, ShelfLifeEntry> = {
-  chicken: { base: 2, room: 0, fridge: 2, freezer: 270, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Freshness', notes: 'Cook within 2 days. Freeze if not using immediately.' },
-  'chicken breast': { base: 2, room: 0, fridge: 2, freezer: 270, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Freshness', notes: 'Cook within 2 days. Freeze for up to 9 months.' },
-  beef: { base: 2, room: 0, fridge: 3, freezer: 120, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Freshness', notes: 'Cook or freeze within 3 days.' },
-  'ground beef': { base: 2, room: 0, fridge: 2, freezer: 120, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Freshness', notes: 'Highly perishable; use within 2 days.' },
-  fish: { base: 2, room: 0, fridge: 2, freezer: 180, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Freshness', notes: 'Use within 1-2 days. Freeze for up to 6 months.' },
-  shrimp: { base: 2, room: 0, fridge: 2, freezer: 180, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Freshness', notes: 'Use within 2 days. Excellent frozen.' },
-  bacon: { base: 7, room: 0, fridge: 7, freezer: 30, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Freshness', notes: 'Cured meat; refrigerate and use within 1 week of opening.' },
+  chicken: { base: 2, room: 0, fridge: 2, freezer: 270, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Condition', notes: 'Cook within 2 days. Freeze if not using immediately.' },
+  'chicken breast': { base: 2, room: 0, fridge: 2, freezer: 270, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Condition', notes: 'Cook within 2 days. Freeze for up to 9 months.' },
+  beef: { base: 2, room: 0, fridge: 3, freezer: 120, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Condition', notes: 'Cook or freeze within 3 days.' },
+  'ground beef': { base: 2, room: 0, fridge: 2, freezer: 120, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Condition', notes: 'Highly perishable; use within 2 days.' },
+  fish: { base: 2, room: 0, fridge: 2, freezer: 180, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Condition', notes: 'Use within 1-2 days. Freeze for up to 6 months.' },
+  shrimp: { base: 2, room: 0, fridge: 2, freezer: 180, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Condition', notes: 'Use within 2 days. Excellent frozen.' },
+  bacon: { base: 7, room: 0, fridge: 7, freezer: 30, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Condition', notes: 'Cured meat; refrigerate and use within 1 week of opening.' },
 }
 
 // ─── Bakery ───────────────────────────────────────────────────────────────────
 
 const BAKERY: Record<string, ShelfLifeEntry> = {
-  bread: { base: 5, room: 5, fridge: 14, freezer: 90, defaultStorage: 'room', category: 'Bakery', scoreLabel: 'Freshness', notes: 'Room temp 3-5 days. Refrigerator extends to 2 weeks. Freeze for 3 months.' },
-  bagels: { base: 3, room: 3, fridge: 7, freezer: 180, defaultStorage: 'room', category: 'Bakery', scoreLabel: 'Freshness', notes: 'Best within 3 days. Freeze immediately for long storage.' },
+  bread: { base: 5, room: 5, fridge: 14, freezer: 90, defaultStorage: 'room', category: 'Bakery', scoreLabel: 'Condition', notes: 'Room temp 3-5 days. Refrigerator extends to 2 weeks. Freeze for 3 months.' },
+  bagels: { base: 3, room: 3, fridge: 7, freezer: 180, defaultStorage: 'room', category: 'Bakery', scoreLabel: 'Condition', notes: 'Best within 3 days. Freeze immediately for long storage.' },
   biscuits: { base: 14, room: 14, fridge: 0, freezer: 90, defaultStorage: 'room', category: 'Bakery', scoreLabel: 'Shelf life', notes: 'Sealed packet: 2-4 weeks. Freeze opened packs.' },
   cookies: { base: 14, room: 14, fridge: 21, freezer: 90, defaultStorage: 'room', category: 'Bakery', scoreLabel: 'Shelf life', notes: 'Store in airtight container at room temp up to 2 weeks.' },
-  cake: { base: 4, room: 4, fridge: 7, freezer: 90, defaultStorage: 'room', category: 'Bakery', scoreLabel: 'Freshness', notes: 'Unfrosted: 4 days room. Frosted: refrigerate.' },
-  roti: { base: 2, room: 2, fridge: 4, freezer: 30, defaultStorage: 'room', category: 'Bakery', scoreLabel: 'Freshness', notes: 'Best eaten fresh. Refrigerate up to 4 days.' },
+  cake: { base: 4, room: 4, fridge: 7, freezer: 90, defaultStorage: 'room', category: 'Bakery', scoreLabel: 'Condition', notes: 'Unfrosted: 4 days room. Frosted: refrigerate.' },
+  roti: { base: 2, room: 2, fridge: 4, freezer: 30, defaultStorage: 'room', category: 'Bakery', scoreLabel: 'Condition', notes: 'Best eaten fresh. Refrigerate up to 4 days.' },
 }
 
 // ─── Frozen Foods ─────────────────────────────────────────────────────────────
@@ -188,13 +188,13 @@ const FROZEN: Record<string, ShelfLifeEntry> = {
 // ─── Beverages ────────────────────────────────────────────────────────────────
 
 const BEVERAGES: Record<string, ShelfLifeEntry> = {
-  juice: { base: 14, room: 3, fridge: 14, freezer: 180, defaultStorage: 'fridge', category: 'Beverages', scoreLabel: 'Freshness', notes: 'Refrigerate after opening.' },
+  juice: { base: 14, room: 3, fridge: 14, freezer: 180, defaultStorage: 'fridge', category: 'Beverages', scoreLabel: 'Condition', notes: 'Refrigerate after opening.' },
   water: { base: 730, room: 730, fridge: 0, freezer: 0, defaultStorage: 'room', category: 'Beverages', scoreLabel: 'Shelf life', notes: 'Sealed bottled water: indefinite. Store away from chemicals.' },
   soda: { base: 270, room: 270, fridge: 365, freezer: 0, defaultStorage: 'room', category: 'Beverages', scoreLabel: 'Quality', notes: 'Carbonate fades over time but stays safe.' },
   wine: { base: 1095, room: 1095, fridge: 1460, freezer: 0, defaultStorage: 'room', category: 'Beverages', scoreLabel: 'Quality', notes: 'Depends heavily on variety. Red: 3-5 years. White: 2-3 years.' },
   beer: { base: 180, room: 180, fridge: 270, freezer: 0, defaultStorage: 'room', category: 'Beverages', scoreLabel: 'Quality', notes: 'Best within 6 months of brewing.' },
-  lassi: { base: 3, room: 0, fridge: 3, freezer: 0, defaultStorage: 'fridge', category: 'Beverages', scoreLabel: 'Freshness', notes: 'Homemade lassi: use within 3 days refrigerated.' },
-  buttermilk: { base: 14, room: 0, fridge: 14, freezer: 0, defaultStorage: 'fridge', category: 'Beverages', scoreLabel: 'Freshness', notes: 'Refrigerate; use within 2 weeks.' },
+  lassi: { base: 3, room: 0, fridge: 3, freezer: 0, defaultStorage: 'fridge', category: 'Beverages', scoreLabel: 'Condition', notes: 'Homemade lassi: use within 3 days refrigerated.' },
+  buttermilk: { base: 14, room: 0, fridge: 14, freezer: 0, defaultStorage: 'fridge', category: 'Beverages', scoreLabel: 'Condition', notes: 'Refrigerate; use within 2 weeks.' },
 }
 
 // ─── Master index ─────────────────────────────────────────────────────────────
@@ -214,15 +214,15 @@ export const SHELF_LIFE_DB: Record<string, ShelfLifeEntry> = {
  * Far more realistic than the API's current "14 days for everything" fallback.
  */
 export const CATEGORY_DEFAULTS: Record<string, Omit<ShelfLifeEntry, 'notes'> & { notes: string }> = {
-  'Fresh Fruits': { base: 7, room: 7, fridge: 14, freezer: 180, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Freshness', notes: 'Varies by variety; most fruits last 5-14 days.' },
-  'Fresh Vegetables': { base: 7, room: 3, fridge: 10, freezer: 180, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Freshness', notes: 'Most vegetables last 5-10 days refrigerated.' },
-  Dairy: { base: 14, room: 0, fridge: 14, freezer: 90, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Freshness', notes: 'Always refrigerate dairy.' },
-  'Meat & Poultry': { base: 2, room: 0, fridge: 2, freezer: 180, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Freshness', notes: 'Cook or freeze within 1-2 days.' },
-  Bakery: { base: 5, room: 5, fridge: 14, freezer: 90, defaultStorage: 'room', category: 'Bakery', scoreLabel: 'Freshness', notes: 'Baked goods: 3-7 days room temp.' },
+  'Fresh Fruits': { base: 7, room: 7, fridge: 14, freezer: 180, defaultStorage: 'room', category: 'Fresh Fruits', scoreLabel: 'Condition', notes: 'Varies by variety; most fruits last 5-14 days.' },
+  'Fresh Vegetables': { base: 7, room: 3, fridge: 10, freezer: 180, defaultStorage: 'fridge', category: 'Fresh Vegetables', scoreLabel: 'Condition', notes: 'Most vegetables last 5-10 days refrigerated.' },
+  Dairy: { base: 14, room: 0, fridge: 14, freezer: 90, defaultStorage: 'fridge', category: 'Dairy', scoreLabel: 'Condition', notes: 'Always refrigerate dairy.' },
+  'Meat & Poultry': { base: 2, room: 0, fridge: 2, freezer: 180, defaultStorage: 'fridge', category: 'Meat & Poultry', scoreLabel: 'Condition', notes: 'Cook or freeze within 1-2 days.' },
+  Bakery: { base: 5, room: 5, fridge: 14, freezer: 90, defaultStorage: 'room', category: 'Bakery', scoreLabel: 'Condition', notes: 'Baked goods: 3-7 days room temp.' },
   'Pantry Staples': { base: 365, room: 365, fridge: 730, freezer: 1095, defaultStorage: 'room', category: 'Pantry Staples', scoreLabel: 'Pantry health', notes: 'Most dry pantry goods last 1-2 years sealed.' },
   Beverages: { base: 180, room: 180, fridge: 365, freezer: 0, defaultStorage: 'room', category: 'Beverages', scoreLabel: 'Quality', notes: 'Varies by type.' },
   'Frozen Foods': { base: 180, room: 0, fridge: 3, freezer: 365, defaultStorage: 'freezer', category: 'Frozen Foods', scoreLabel: 'Quality', notes: 'Keep frozen until use.' },
-  'Eggs & Tofu': { base: 28, room: 7, fridge: 35, freezer: 180, defaultStorage: 'fridge', category: 'Eggs & Tofu', scoreLabel: 'Freshness', notes: 'Refrigerate eggs; use tofu within a week.' },
+  'Eggs & Tofu': { base: 28, room: 7, fridge: 35, freezer: 180, defaultStorage: 'fridge', category: 'Eggs & Tofu', scoreLabel: 'Condition', notes: 'Refrigerate eggs; use tofu within a week.' },
 }
 
 /**
@@ -278,7 +278,7 @@ export function getScoreLabel(category: string, productName: string): string {
     return 'Pantry health'
   }
   if (cat.includes('frozen') || cat.includes('beverage')) return 'Quality'
-  return 'Freshness'
+  return 'Condition'
 }
 
 /**

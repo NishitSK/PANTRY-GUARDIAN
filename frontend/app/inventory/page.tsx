@@ -45,7 +45,7 @@ interface InventoryItem {
   storageSuggestion?: string
 }
 
-type SortKey = 'expiry' | 'name' | 'added' | 'freshness'
+type SortKey = 'expiry' | 'name' | 'added' | 'condition'
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -61,7 +61,7 @@ function statusLabel(status: InventoryItem['status'], daysLeft: number, scoreLab
   if (status === 'urgent') return daysLeft === 0 ? 'Expires today' : `Expires in ${daysLeft}d`
   if (status === 'expiring_soon') return `Expires in ${daysLeft}d`
   // Pantry/quality items: don't say "Fresh" — say "Good" or storage-specific
-  if (scoreLabel === 'Pantry health') return 'Good'
+  if (scoreLabel === 'Pantry health' || scoreLabel === 'Condition') return 'Prime'
   if (scoreLabel === 'Shelf life') return 'In stock'
   if (scoreLabel === 'Quality') return 'Good quality'
   return 'Fresh'
@@ -102,7 +102,7 @@ function storageBadge(name?: string) {
   return 'bg-[#FFE66D] text-black'
 }
 
-function freshnessPercent(daysLeft: number, shelfLife: number) {
+function getConditionScore(daysLeft: number, shelfLife: number) {
   if (daysLeft <= 0) return 0
   return Math.min(100, Math.round((daysLeft / Math.max(shelfLife, 1)) * 100))
 }
@@ -169,7 +169,7 @@ function enhanceItem(item: any): InventoryItem {
   // - item is actually at risk (≤30% remaining OR ≤14 days left)
   // - gain is meaningful (best option adds ≥25% more shelf life)
   let storageSuggestion: string | undefined
-  const pct = freshnessPercent(daysLeft, shelfLife)
+  const pct = getConditionScore(daysLeft, shelfLife)
   const gainDays = current ? best.days - current.days : 0
   const gainPct = current && current.days > 0 ? gainDays / current.days : 0
   if ((pct <= 30 || daysLeft <= 14) && gainDays > 0 && gainPct >= 0.25) {
@@ -306,8 +306,8 @@ function EditModal({ item, onClose, onSaved }: { item: InventoryItem; onClose: (
 
 // ─── Freshness Explainer Row ──────────────────────────────────────────────────
 
-function FreshnessExplainer({ item }: { item: InventoryItem }) {
-  const pct = freshnessPercent(item.daysLeft ?? 0, item.shelfLifeDays ?? 14)
+function ConditionExplainer({ item }: { item: InventoryItem }) {
+  const pct = getConditionScore(item.daysLeft ?? 0, item.shelfLifeDays ?? 14)
   const purchased = new Date(item.purchasedAt).toLocaleDateString()
   const expiry = item.expiryDate ? new Date(item.expiryDate).toLocaleDateString() : '—'
   const scoreLabel = getScoreLabel(item.productId?.category || '', item.productId?.name || '')
@@ -401,9 +401,9 @@ export default function InventoryPage() {
     result = [...result].sort((a, b) => {
       if (sortBy === 'expiry') return (a.daysLeft ?? 9999) - (b.daysLeft ?? 9999)
       if (sortBy === 'name') return (a.productId?.name || '').localeCompare(b.productId?.name || '')
-      if (sortBy === 'freshness') {
-        const fa = freshnessPercent(a.daysLeft ?? 0, a.shelfLifeDays ?? 14)
-        const fb = freshnessPercent(b.daysLeft ?? 0, b.shelfLifeDays ?? 14)
+      if (sortBy === 'condition') {
+        const fa = getConditionScore(a.daysLeft ?? 0, a.shelfLifeDays ?? 14)
+        const fb = getConditionScore(b.daysLeft ?? 0, b.shelfLifeDays ?? 14)
         return fb - fa
       }
       // 'added': default createdAt desc — already sorted from API
@@ -447,6 +447,7 @@ export default function InventoryPage() {
       if (!res.ok) throw new Error('Delete failed')
       setItems(prev => prev.filter(i => i._id !== id))
       setSelectedIds(prev => { const n = new Set(prev); n.delete(id); return n })
+      router.refresh()
     } catch (e) {
       console.error(e)
     } finally {
@@ -462,6 +463,7 @@ export default function InventoryPage() {
       ))
       setItems(prev => prev.filter(i => !selectedIds.has(i._id)))
       setSelectedIds(new Set())
+      router.refresh()
     } finally {
       setBulkDeleting(false)
     }
@@ -822,7 +824,7 @@ export default function InventoryPage() {
                               <p className="text-[9px] uppercase text-black/50">{item.unit}</p>
                             </div>
 
-                            {/* Freshness */}
+                            {/* Condition */}
                             <div className="col-span-2 flex justify-end">
                               <div className="w-28 space-y-1.5">
                                 <div className="flex justify-between text-[8px] font-black uppercase tracking-tight text-black/60">
@@ -832,7 +834,7 @@ export default function InventoryPage() {
                                     title="Show freshness breakdown"
                                   >
                                     {isExpanded ? <ChevronUp className="h-2.5 w-2.5" /> : <ChevronDown className="h-2.5 w-2.5" />}
-                                    Freshness
+                                    Condition
                                   </button>
                                   <span className="text-black font-black">{pct}%</span>
                                 </div>
@@ -869,7 +871,7 @@ export default function InventoryPage() {
                             </div>
                           </motion.div>
 
-                          {isExpanded && <FreshnessExplainer item={item} />}
+                          {isExpanded && <ConditionExplainer item={item} />}
                         </div>
                       )
                     })}
@@ -953,7 +955,10 @@ export default function InventoryPage() {
         <EditModal
           item={editItem}
           onClose={() => setEditItem(null)}
-          onSaved={updated => setItems(prev => prev.map(i => i._id === updated._id ? updated : i))}
+          onSaved={updated => {
+            setItems(prev => prev.map(i => i._id === updated._id ? updated : i))
+            router.refresh()
+          }}
         />
       )}
     </DashboardLayout>

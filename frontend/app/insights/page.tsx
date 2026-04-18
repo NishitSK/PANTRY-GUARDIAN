@@ -119,7 +119,7 @@ export default async function InsightsPage() {
     // Context-aware header description (no hardcoded editorial)
     const headerDesc = totalItems === 0
         ? 'No items tracked yet. Add your first pantry item to start seeing analytics.'
-        : `${totalItems} item${totalItems !== 1 ? 's' : ''} tracked — ${freshCount} fresh, ${expiringCount} expiring soon${expiredCount > 0 ? `, ${expiredCount} expired` : ''}.`
+        : `${totalItems} item${totalItems !== 1 ? 's' : ''} tracked — ${freshCount} in prime condition, ${expiringCount} expiring soon${expiredCount > 0 ? `, ${expiredCount} expired` : ''}.`
 
     return (
         <DashboardLayout>
@@ -250,7 +250,7 @@ export default async function InsightsPage() {
                                     </div>
                                     <div>
                                         <p className="text-4xl font-noto-serif font-bold text-black">{freshCount}</p>
-                                        <p className="text-[10px] font-black text-black/70 uppercase tracking-widest mt-1">Fully Fresh</p>
+                                        <p className="text-[10px] font-black text-black/70 uppercase tracking-widest mt-1">Prime Condition</p>
                                     </div>
                                 </div>
                             </div>
@@ -292,13 +292,13 @@ export default async function InsightsPage() {
                                     </div>
                                     <h3 className="text-2xl font-noto-serif mb-4">Preservation Quotient</h3>
                                     <p className="text-stone-400 font-manrope text-sm leading-relaxed mb-6">
-                                        {freshPercent}% of your pantry is currently fresh.
+                                        {freshPercent}% of your pantry is currently in prime condition.
                                         {expiringCount > 0 && ` ${expiringCount} item${expiringCount !== 1 ? 's' : ''} need attention in the next 3 days.`}
                                         {expiredCount > 0 && ` ${expiredCount} item${expiredCount !== 1 ? 's' : ''} have already expired.`}
                                     </p>
                                     <div className="space-y-4">
                                         <div className="flex justify-between text-[10px] font-black uppercase tracking-widest mb-1">
-                                            <span>Freshness</span>
+                                            <span>Pantry Health</span>
                                             <span className="text-[#93E1A8]">{freshPercent}%</span>
                                         </div>
                                         <div className="h-2 w-full bg-white/10 border border-white overflow-hidden">

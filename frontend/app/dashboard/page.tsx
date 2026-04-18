@@ -109,7 +109,7 @@ export default async function DashboardPage() {
         ? '0 items tracked — add your first item to get started'
         : stats.expiringSoonCount > 0
             ? `${stats.totalItems} item${stats.totalItems !== 1 ? 's' : ''} tracked · ${stats.expiringSoonCount} expiring soon`
-            : `${stats.totalItems} item${stats.totalItems !== 1 ? 's' : ''} tracked · All looking fresh`
+            : `${stats.totalItems} item${stats.totalItems !== 1 ? 's' : ''} tracked · Items in prime condition`
 
     return (
         <DashboardLayout>
@@ -144,7 +144,7 @@ export default async function DashboardPage() {
                     <div className="col-span-12 lg:col-span-8">
                         <ExpiringSoonCarousel items={stats.expiringItems} />
 
-                        {/* Freshness Plan — data-driven, never hardcoded */}
+                        {/* Pantry Health Report — data-driven, never hardcoded */}
                         <div className="bg-[#FFFDF7] p-10 border-4 border-black shadow-[10px_10px_0_#000] relative overflow-hidden">
                             <div className="relative z-10">
                                 {isEmpty ? (
@@ -166,7 +166,7 @@ export default async function DashboardPage() {
                                     /* Data-present state */
                                     <>
                                         <p className="text-[10px] font-black uppercase tracking-[0.22em] text-black/50 mb-3">Recipe Suggestions</p>
-                                        <h2 className="text-3xl font-noto-serif font-bold text-black mb-4">Your Freshness Plan</h2>
+                                        <h2 className="text-3xl font-noto-serif font-bold text-black mb-4">Pantry Health Report</h2>
                                         <p className="text-black/80 font-manrope text-lg leading-relaxed max-w-xl mb-8">
                                             {stats.urgentItemName
                                                 ? <>Based on your {stats.totalItems} tracked item{stats.totalItems !== 1 ? 's' : ''}, we suggest using your <span className="text-black bg-[#93E1A8] px-1 font-black">{stats.urgentItemName}</span> soon — it&apos;s expiring in 3 days or less.</>
@@ -216,7 +216,7 @@ export default async function DashboardPage() {
                                     {/* Fresh bar */}
                                     <div className="space-y-2">
                                         <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-black">
-                                            <span>Fresh</span>
+                                            <span>Prime</span>
                                             <span>{stats.freshCount} item{stats.freshCount !== 1 ? 's' : ''} · {stats.freshPercent}%</span>
                                         </div>
                                         <div className="h-2 bg-black/10 overflow-hidden border border-black">
