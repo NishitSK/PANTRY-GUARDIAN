@@ -3,7 +3,8 @@
 import { useUser, useClerk } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import Image from 'next/image'
 import { Package, Calendar, MapPin, User as UserIcon, ArrowLeft, LogOut, ShieldCheck, Sparkles, Award } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { getApiBaseUrl } from '@/lib/api'
@@ -36,15 +37,9 @@ export default function ProfilePage() {
     if (isLoaded && !isSignedIn) {
       router.push('/auth/login')
     }
-  }, [isLoaded, isSignedIn])
+  }, [isLoaded, isSignedIn, router])
 
-  useEffect(() => {
-    if (user?.primaryEmailAddress?.emailAddress) {
-      fetchUserProfile()
-    }
-  }, [user])
-
-  const fetchUserProfile = async () => {
+  const fetchUserProfile = useCallback(async () => {
     try {
       const baseUrl = getApiBaseUrl()
       const response = await fetch(`${baseUrl}/api/user/profile`)
@@ -61,7 +56,14 @@ export default function ProfilePage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    if (user?.primaryEmailAddress?.emailAddress) {
+      fetchUserProfile()
+    }
+  }, [user, fetchUserProfile])
+
 
   const handleSave = async () => {
     setSaving(true)
@@ -165,7 +167,14 @@ export default function ProfilePage() {
                     
                     <div className="relative z-10">
                         {user?.imageUrl ? (
-                     <img src={user.imageUrl} alt="Profile" className="mx-auto mb-8 h-32 w-32 border-4 border-black object-cover transition-transform duration-300 group-hover:scale-105" />
+                           <Image 
+                             src={user.imageUrl} 
+                             alt="Profile" 
+                             width={128} 
+                             height={128} 
+                             className="mx-auto mb-8 h-32 w-32 border-4 border-black object-cover transition-transform duration-300 group-hover:scale-105" 
+                             unoptimized 
+                           />
                         ) : (
                     <div className="mx-auto mb-8 flex h-32 w-32 items-center justify-center border-4 border-black bg-[#FFE66D] text-5xl font-noto-serif text-black transition-transform duration-300 group-hover:scale-105">
                                  {user?.firstName?.charAt(0).toUpperCase() || 'U'}

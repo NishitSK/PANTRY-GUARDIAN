@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine } from 'recharts'
 import { Button } from '@/components/ui/Button'
@@ -412,11 +412,41 @@ export default function AddItemPage() {
     fetchData()
   }, [])
 
+  const calculatePrediction = useCallback(() => {
+    const product = products.find(p => p.id === selectedProductId)
+    const storage = storageMethods.find(s => s.id === selectedStorageId)
+
+    if (!product || !storage) return
+
+    // Determine shelf life based on storage method
+    let shelfLifeDays = product.baseShelfLifeDays
+    const methodLower = storage.name.toLowerCase()
+
+    if (methodLower.includes('room') && product.roomTempShelfLifeDays !== null) {
+      shelfLifeDays = product.roomTempShelfLifeDays
+    } else if ((methodLower.includes('fridge') || methodLower.includes('refrig')) && product.fridgeShelfLifeDays !== null) {
+      shelfLifeDays = product.fridgeShelfLifeDays
+    } else if (methodLower.includes('freezer') && product.freezerShelfLifeDays !== null) {
+      shelfLifeDays = product.freezerShelfLifeDays
+    }
+
+    // Apply penalty if opened
+    let effectiveDays = shelfLifeDays
+    if (openedAt) {
+      effectiveDays = Math.round(shelfLifeDays * 0.75) // 25% reduction if opened
+    }
+
+    const purchased = new Date(purchasedAt)
+    const expiry = new Date(purchased)
+    expiry.setDate(expiry.getDate() + effectiveDays)
+    setPredictedExpiry(expiry)
+  }, [products, selectedProductId, storageMethods, selectedStorageId, openedAt, purchasedAt])
+
   useEffect(() => {
     if (selectedProductId && selectedStorageId && purchasedAt) {
       calculatePrediction()
     }
-  }, [selectedProductId, selectedStorageId, purchasedAt, openedAt])
+  }, [selectedProductId, selectedStorageId, purchasedAt, openedAt, calculatePrediction])
 
   const fetchData = async () => {
     try {
@@ -458,35 +488,6 @@ export default function AddItemPage() {
     }
   }
 
-  const calculatePrediction = () => {
-    const product = products.find(p => p.id === selectedProductId)
-    const storage = storageMethods.find(s => s.id === selectedStorageId)
-
-    if (!product || !storage) return
-
-    // Determine shelf life based on storage method
-    let shelfLifeDays = product.baseShelfLifeDays
-    const methodLower = storage.name.toLowerCase()
-
-    if (methodLower.includes('room') && product.roomTempShelfLifeDays !== null) {
-      shelfLifeDays = product.roomTempShelfLifeDays
-    } else if ((methodLower.includes('fridge') || methodLower.includes('refrig')) && product.fridgeShelfLifeDays !== null) {
-      shelfLifeDays = product.fridgeShelfLifeDays
-    } else if (methodLower.includes('freezer') && product.freezerShelfLifeDays !== null) {
-      shelfLifeDays = product.freezerShelfLifeDays
-    }
-
-    // Apply penalty if opened
-    let effectiveDays = shelfLifeDays
-    if (openedAt) {
-      effectiveDays = Math.round(shelfLifeDays * 0.75) // 25% reduction if opened
-    }
-
-    const purchased = new Date(purchasedAt)
-    const expiry = new Date(purchased)
-    expiry.setDate(expiry.getDate() + effectiveDays)
-    setPredictedExpiry(expiry)
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

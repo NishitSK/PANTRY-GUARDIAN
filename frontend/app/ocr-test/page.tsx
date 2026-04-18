@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
+import Image from 'next/image'
 import { getApiBaseUrl } from '@/lib/api'
 
 type ParsedItem = {
@@ -709,7 +710,15 @@ export default function OcrTestPage() {
             </button>
 
             {previewUrl ? (
-              <img src={previewUrl} alt="Receipt preview" className="max-h-[420px] w-full border-2 border-black object-contain" />
+              <div className="relative max-h-[420px] w-full border-2 border-black overflow-hidden aspect-video">
+                <Image 
+                  src={previewUrl} 
+                  alt="Receipt preview" 
+                  fill
+                  className="object-contain" 
+                  unoptimized
+                />
+              </div>
             ) : null}
           </section>
 

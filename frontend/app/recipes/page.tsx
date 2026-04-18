@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import type { ComponentType } from 'react'
@@ -577,10 +578,13 @@ export default async function RecipesPage() {
 										className="group flex flex-col overflow-hidden border-4 border-black bg-white shadow-[8px_8px_0_#000] transition-transform duration-200 hover:-translate-y-1"
 									>
 										<div className="relative aspect-[16/10] overflow-hidden border-b-4 border-black bg-[#F6F1E7]">
-											<img
+											<Image
 												src={getRecipeImageSrc(recipe)}
 												alt={recipe.title}
-												className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+												fill
+												sizes="(max-width: 768px) 100vw, 50vw"
+												className="object-cover transition-transform duration-500 group-hover:scale-105"
+												unoptimized
 											/>
 											<div className="absolute inset-0 bg-gradient-to-t from-black/18 via-transparent to-transparent" />
 										</div>
@@ -656,10 +660,13 @@ export default async function RecipesPage() {
 								{remainingRecipes.map((recipe) => (
 									<article key={recipe.id} className="border-2 border-white/20 bg-white/5 p-5 transition-transform hover:-translate-y-1">
 										<div className="relative mb-4 aspect-[16/10] overflow-hidden border border-white/20 bg-white/5">
-											<img
+											<Image
 													src={getRecipeImageSrc(recipe)}
 												alt={recipe.title}
-												className="h-full w-full object-cover opacity-90 transition-transform duration-500 hover:scale-105"
+												fill
+												sizes="(max-width: 768px) 100vw, 33vw"
+												className="object-cover opacity-90 transition-transform duration-500 hover:scale-105"
+												unoptimized
 											/>
 										</div>
 										<div className="flex items-start justify-between gap-3">

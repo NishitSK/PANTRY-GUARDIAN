@@ -110,12 +110,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         suppressHydrationWarning
         className={`${anton.variable} ${ibmMono.variable} ${outfit.variable} ${fraunces.variable} ${notoSerif.variable} ${manrope.variable}`}
       >
-        <head>
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-          />
-        </head>
+        <head />
         <body className="min-h-screen bg-background text-foreground antialiased transition-colors duration-300 flex flex-col">
           <PwaInstaller />
           <PushNotificationPrompt />
