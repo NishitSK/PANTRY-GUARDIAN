@@ -92,35 +92,48 @@ export default async function DashboardPage() {
     let dbUser;
     let stats;
     let connectionError = null;
+    stats = {
+        totalItems: 0,
+        expiringSoonCount: 0,
+        freshCount: 0,
+        expiredCount: 0,
+        freshPercent: 0,
+        expiringItems: [],
+        urgentItemName: null
+    }
 
-    try {
-        await connectDB()
-        const email = user?.emailAddresses?.[0]?.emailAddress
-        if (!email) redirect('/auth/login')
+    const envReport = {
+        hasClerkKey: !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+        hasClerkSecret: !!process.env.CLERK_SECRET_KEY,
+        hasMongoUri: !!process.env.MONGODB_URI,
+        nodeEnv: process.env.NODE_ENV
+    }
+    
+    console.log('[Diagnostic Report]', envReport)
 
-        dbUser = await User.findOne({ email }).lean()
-        if (!dbUser) {
-            await User.create({
-                email,
-                name: user?.fullName || user?.firstName || undefined,
-                image: user?.imageUrl,
-            })
+    if (!envReport.hasMongoUri || !envReport.hasClerkKey) {
+        connectionError = `Missing critical environment variables: ${!envReport.hasMongoUri ? 'MONGODB_URI ' : ''}${!envReport.hasClerkKey ? 'CLERK_KEY ' : ''}`
+    } else {
+        try {
+            await connectDB()
+            const email = user?.emailAddresses?.[0]?.emailAddress
+            if (!email) redirect('/auth/login')
+
             dbUser = await User.findOne({ email }).lean()
-        }
+            if (!dbUser) {
+                await User.create({
+                    email,
+                    name: user?.fullName || user?.firstName || undefined,
+                    image: user?.imageUrl,
+                })
+                dbUser = await User.findOne({ email }).lean()
+            }
 
-        if (!dbUser) redirect('/auth/login')
-        stats = await getDashboardStats(dbUser._id.toString())
-    } catch (error: any) {
-        console.error('[Dashboard Error]', error)
-        connectionError = error.message || 'Unknown connection error'
-        stats = {
-            totalItems: 0,
-            expiringSoonCount: 0,
-            freshCount: 0,
-            expiredCount: 0,
-            freshPercent: 0,
-            expiringItems: [],
-            urgentItemName: null
+            if (!dbUser) redirect('/auth/login')
+            stats = await getDashboardStats(dbUser._id.toString())
+        } catch (error: any) {
+            console.error('[Dashboard Error]', error)
+            connectionError = error.message || 'Database connection timeout or refused'
         }
     }
 
