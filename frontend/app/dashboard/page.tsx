@@ -89,23 +89,71 @@ export default async function DashboardPage() {
 
     const user = await currentUser()
     const email = user?.emailAddresses?.[0]?.emailAddress
-    if (!email) redirect('/auth/login')
+    let dbUser;
+    let stats;
+    let connectionError = null;
 
-    await connectDB()
+    try {
+        await connectDB()
+        const email = user?.emailAddresses?.[0]?.emailAddress
+        if (!email) redirect('/auth/login')
 
-    let dbUser = await User.findOne({ email }).lean()
-    if (!dbUser) {
-        await User.create({
-            email,
-            name: user?.fullName || user?.firstName || undefined,
-            image: user?.imageUrl,
-        })
         dbUser = await User.findOne({ email }).lean()
+        if (!dbUser) {
+            await User.create({
+                email,
+                name: user?.fullName || user?.firstName || undefined,
+                image: user?.imageUrl,
+            })
+            dbUser = await User.findOne({ email }).lean()
+        }
+
+        if (!dbUser) redirect('/auth/login')
+        stats = await getDashboardStats(dbUser._id.toString())
+    } catch (error: any) {
+        console.error('[Dashboard Error]', error)
+        connectionError = error.message || 'Unknown connection error'
+        stats = {
+            totalItems: 0,
+            expiringSoonCount: 0,
+            freshCount: 0,
+            expiredCount: 0,
+            freshPercent: 0,
+            expiringItems: [],
+            urgentItemName: null
+        }
     }
 
-    if (!dbUser) redirect('/auth/login')
+    if (connectionError) {
+        return (
+            <DashboardLayout>
+                <div className="max-w-[1400px] mx-auto py-20 px-4">
+                    <div className="border-4 border-black bg-[#FFD2CC] p-10 shadow-[10px_10px_0_#000] text-center">
+                        <h1 className="text-3xl font-black uppercase mb-4">Connection Diagnostic</h1>
+                        <p className="text-xl font-bold mb-8">The dashboard cannot reach your database.</p>
+                        <div className="bg-white/50 p-6 border-2 border-black inline-block text-left font-mono text-sm mb-8">
+                            <p className="text-red-700 font-bold mb-2">Error: {connectionError}</p>
+                            <p className="text-black/60">Possible causes:</p>
+                            <ul className="list-disc ml-6 mt-2 space-y-1">
+                                <li>MongoDB Atlas IP Whitelist is missing (Add 0.0.0.0/0)</li>
+                                <li>Vercel Environment Variables are not applied (Redeploy needed)</li>
+                                <li>Database credentials in MONGODB_URI are incorrect</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <button 
+                                onClick={() => window.location.reload()} 
+                                className="border-2 border-black bg-white px-6 py-2 font-black uppercase tracking-widest hover:bg-black hover:text-white transition-colors"
+                            >
+                                Try Refreshing
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </DashboardLayout>
+        )
+    }
 
-    const stats = await getDashboardStats(dbUser._id.toString())
     const isEmpty = stats.totalItems === 0
 
     // Contextual header copy — no poetic placeholder text

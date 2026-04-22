@@ -29,26 +29,83 @@ export default async function InsightsPage() {
         redirect('/auth/login')
     }
 
-    await connectDB()
-    const uri = process.env.MONGODB_URI || ''
-    console.log(`[DB Diagnostic] Insights connecting to: ${uri.substring(0, 15)}...`)
+    let user;
+    let weather = null;
+    let itemsWithPredictions = [];
+    let connectionError = null;
 
-    let user = await User.findOne({ email }).lean()
+    try {
+        await connectDB()
+        const clerkUser = await currentUser()
+        const email = clerkUser?.emailAddresses?.[0]?.emailAddress
+        if (!email) redirect('/auth/login')
 
-    if (!user) {
-        await User.create({
-            email,
-            name: clerkUser?.fullName || clerkUser?.firstName || undefined,
-            image: clerkUser?.imageUrl,
-        })
         user = await User.findOne({ email }).lean()
+        if (!user) {
+            await User.create({
+                email,
+                name: clerkUser?.fullName || clerkUser?.firstName || undefined,
+                image: clerkUser?.imageUrl,
+            })
+            user = await User.findOne({ email }).lean()
+        }
+
+        if (!user) redirect('/auth/login')
+
+        weather = user.city ? await getCurrentWeather(user.city) : null
+        
+        const items = await InventoryItem.find({ userId: user._id.toString() })
+            .populate('productId')
+            .populate('storageMethodId')
+            .lean()
+
+        itemsWithPredictions = await Promise.all(
+            items.map(async (item: any) => {
+                const predictions = await Prediction.find({ inventoryItemId: item._id.toString() })
+                    .sort({ createdAt: -1 })
+                    .limit(1)
+                    .lean()
+
+                return {
+                    ...item,
+                    predictions: predictions
+                }
+            })
+        )
+    } catch (error: any) {
+        console.error('[Insights Error]', error)
+        connectionError = error.message || 'Unknown connection error'
     }
 
-    if (!user) {
-        redirect('/auth/login')
+    if (connectionError) {
+        return (
+            <DashboardLayout>
+                <div className="max-w-[1400px] mx-auto py-20 px-4">
+                    <div className="border-4 border-black bg-[#FFD2CC] p-10 shadow-[10px_10px_0_#000] text-center">
+                        <h1 className="text-3xl font-black uppercase mb-4">Insights Diagnostic</h1>
+                        <p className="text-xl font-bold mb-8">Unable to generate analytics.</p>
+                        <div className="bg-white/50 p-6 border-2 border-black inline-block text-left font-mono text-sm mb-8">
+                            <p className="text-red-700 font-bold mb-2">Error: {connectionError}</p>
+                            <p className="text-black/60">Possible causes:</p>
+                            <ul className="list-disc ml-6 mt-2 space-y-1">
+                                <li>MongoDB Atlas IP Whitelist is missing (Add 0.0.0.0/0)</li>
+                                <li>Vercel Environment Variables are not applied (Redeploy needed)</li>
+                                <li>Database credentials in MONGODB_URI are incorrect</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <button 
+                                onClick={() => window.location.reload()} 
+                                className="border-2 border-black bg-white px-6 py-2 font-black uppercase tracking-widest hover:bg-black hover:text-white transition-colors"
+                            >
+                                Try Refreshing
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </DashboardLayout>
+        )
     }
-
-    const weather = user.city ? await getCurrentWeather(user.city) : null
     const currentTempC = weather?.tempC ?? 20
     const currentHumidity = weather?.humidity ?? 60
 
