@@ -102,12 +102,12 @@ export default async function InsightsPage() {
                             </ul>
                         </div>
                         <div>
-                            <button 
-                                onClick={() => window.location.reload()} 
-                                className="border-2 border-black bg-white px-6 py-2 font-black uppercase tracking-widest hover:bg-black hover:text-white transition-colors"
+                            <a
+                                href="/insights"
+                                className="inline-block border-2 border-black bg-white px-6 py-2 font-black uppercase tracking-widest hover:bg-black hover:text-white transition-colors"
                             >
                                 Try Refreshing
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
