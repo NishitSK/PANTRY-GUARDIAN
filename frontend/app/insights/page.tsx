@@ -31,6 +31,8 @@ export default async function InsightsPage() {
 
     let user;
     let weather = null;
+    let currentTempC = 20;
+    let currentHumidity = 60;
     let itemsWithPredictions = [];
     let connectionError = null;
 
@@ -53,6 +55,10 @@ export default async function InsightsPage() {
         if (!user) redirect('/auth/login')
 
         weather = user.city ? await getCurrentWeather(user.city) : null
+        if (weather) {
+            currentTempC = weather.tempC
+            currentHumidity = weather.humidity
+        }
         
         const items = await InventoryItem.find({ userId: user._id.toString() })
             .populate('productId')
@@ -106,28 +112,6 @@ export default async function InsightsPage() {
             </DashboardLayout>
         )
     }
-    const currentTempC = weather?.tempC ?? 20
-    const currentHumidity = weather?.humidity ?? 60
-
-    const items = await InventoryItem.find({ userId: user._id.toString() })
-        .populate('productId')
-        .populate('storageMethodId')
-        .lean()
-
-    const itemsWithPredictions = await Promise.all(
-        items.map(async (item: any) => {
-            const predictions = await Prediction.find({ inventoryItemId: item._id.toString() })
-                .sort({ createdAt: -1 })
-                .limit(1)
-                .lean()
-
-            return {
-                ...item,
-                predictions: predictions
-            }
-        })
-    )
-
     // Count by category
     const categoryCount = itemsWithPredictions.reduce((acc, item: any) => {
         const cat = item.productId?.category || 'Unknown'
