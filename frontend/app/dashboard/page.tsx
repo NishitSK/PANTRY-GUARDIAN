@@ -84,15 +84,8 @@ async function getDashboardStats(userId: string) {
 }
 
 export default async function DashboardPage() {
-    const { userId } = await auth()
-    if (!userId) redirect('/auth/login')
-
-    const user = await currentUser()
-    const email = user?.emailAddresses?.[0]?.emailAddress
     let dbUser;
-    let stats;
-    let connectionError = null;
-    stats = {
+    let stats = {
         totalItems: 0,
         expiringSoonCount: 0,
         freshCount: 0,
@@ -100,7 +93,8 @@ export default async function DashboardPage() {
         freshPercent: 0,
         expiringItems: [],
         urgentItemName: null
-    }
+    };
+    let connectionError = null;
 
     const envReport = {
         hasClerkKey: !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
@@ -111,13 +105,18 @@ export default async function DashboardPage() {
     
     console.log('[Diagnostic Report]', envReport)
 
-    if (!envReport.hasMongoUri || !envReport.hasClerkKey) {
-        connectionError = `Missing critical environment variables: ${!envReport.hasMongoUri ? 'MONGODB_URI ' : ''}${!envReport.hasClerkKey ? 'CLERK_KEY ' : ''}`
+    if (!envReport.hasMongoUri || !envReport.hasClerkKey || !envReport.hasClerkSecret) {
+        connectionError = `Missing environment variables: ${!envReport.hasMongoUri ? 'MONGODB_URI ' : ''}${!envReport.hasClerkKey ? 'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ' : ''}${!envReport.hasClerkSecret ? 'CLERK_SECRET_KEY ' : ''}`
     } else {
         try {
-            await connectDB()
+            const { userId } = await auth()
+            if (!userId) redirect('/auth/login')
+
+            const user = await currentUser()
             const email = user?.emailAddresses?.[0]?.emailAddress
             if (!email) redirect('/auth/login')
+
+            await connectDB()
 
             dbUser = await User.findOne({ email }).lean()
             if (!dbUser) {
@@ -133,7 +132,7 @@ export default async function DashboardPage() {
             stats = await getDashboardStats(dbUser._id.toString())
         } catch (error: any) {
             console.error('[Dashboard Error]', error)
-            connectionError = error.message || 'Database connection timeout or refused'
+            connectionError = error.message || 'Authentication or database error'
         }
     }
 

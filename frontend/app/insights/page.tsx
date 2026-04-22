@@ -18,17 +18,6 @@ const InsightsLocationWeather = nextDynamic(() => import('@/components/InsightsL
 const InsightsCharts = nextDynamic(() => import('@/components/insights/InsightsCharts'), { ssr: false })
 
 export default async function InsightsPage() {
-    const { userId } = await auth()
-    if (!userId) {
-        redirect('/auth/login')
-    }
-
-    const clerkUser = await currentUser()
-    const email = clerkUser?.emailAddresses?.[0]?.emailAddress
-    if (!email) {
-        redirect('/auth/login')
-    }
-
     let user;
     let weather = null;
     let currentTempC = 20;
@@ -36,12 +25,24 @@ export default async function InsightsPage() {
     let itemsWithPredictions = [];
     let connectionError = null;
 
-    try {
-        await connectDB()
-        const clerkUser = await currentUser()
-        const email = clerkUser?.emailAddresses?.[0]?.emailAddress
-        if (!email) redirect('/auth/login')
+    const envReport = {
+        hasClerkKey: !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+        hasClerkSecret: !!process.env.CLERK_SECRET_KEY,
+        hasMongoUri: !!process.env.MONGODB_URI,
+    }
 
+    if (!envReport.hasMongoUri || !envReport.hasClerkKey || !envReport.hasClerkSecret) {
+        connectionError = `Missing environment variables: ${!envReport.hasMongoUri ? 'MONGODB_URI ' : ''}${!envReport.hasClerkKey ? 'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ' : ''}${!envReport.hasClerkSecret ? 'CLERK_SECRET_KEY ' : ''}`
+    } else {
+        try {
+            const { userId } = await auth()
+            if (!userId) redirect('/auth/login')
+
+            const clerkUser = await currentUser()
+            const email = clerkUser?.emailAddresses?.[0]?.emailAddress
+            if (!email) redirect('/auth/login')
+
+            await connectDB()
         user = await User.findOne({ email }).lean()
         if (!user) {
             await User.create({
@@ -82,6 +83,7 @@ export default async function InsightsPage() {
         console.error('[Insights Error]', error)
         connectionError = error.message || 'Unknown connection error'
     }
+}
 
     if (connectionError) {
         return (
