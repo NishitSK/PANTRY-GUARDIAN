@@ -85,6 +85,7 @@ async function getDashboardStats(userId: string) {
 
 export default async function DashboardPage() {
     let dbUser;
+    let user: any = null;
     let stats = {
         totalItems: 0,
         expiringSoonCount: 0,
@@ -112,7 +113,7 @@ export default async function DashboardPage() {
             const { userId } = await auth()
             if (!userId) redirect('/auth/login')
 
-            const user = await currentUser()
+            user = await currentUser()
             const email = user?.emailAddresses?.[0]?.emailAddress
             if (!email) redirect('/auth/login')
 
