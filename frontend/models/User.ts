@@ -42,4 +42,12 @@ const UserSchema = new Schema<IUser>(
 // Prevent model recompilation in development
 const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', UserSchema)
 
+// Drop stale username_1 index left from a previous schema version.
+// This caused E11000 duplicate key errors for users without a username.
+if (mongoose.connection.readyState === 1) {
+    User.collection.dropIndex('username_1').catch(() => {
+        // Index may not exist — that's fine, ignore the error
+    })
+}
+
 export default User
