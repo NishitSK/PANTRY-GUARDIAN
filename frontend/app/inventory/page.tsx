@@ -645,7 +645,7 @@ export default function InventoryPage() {
                   {group.items.map(item => {
                     const displayLabel = getCategoryDisplayLabel(item.productId?.category || '')
                     const canonical = normalizeCategory(item.productId?.category || '')
-                    const pct = freshnessPercent(item.daysLeft ?? 0, item.shelfLifeDays ?? 14)
+                    const pct = getConditionScore(item.daysLeft ?? 0, item.shelfLifeDays ?? 14)
                     const isExpanded = expandedId === item._id
                     const scoreLabel = getScoreLabel(item.productId?.category || '', item.productId?.name || '')
 
@@ -762,7 +762,7 @@ export default function InventoryPage() {
                     {group.items.map((item, idx) => {
                       const displayLabel = getCategoryDisplayLabel(item.productId?.category || '')
                       const canonical = normalizeCategory(item.productId?.category || '')
-                      const pct = freshnessPercent(item.daysLeft ?? 0, item.shelfLifeDays ?? 14)
+                      const pct = getConditionScore(item.daysLeft ?? 0, item.shelfLifeDays ?? 14)
                       const isExpanded = expandedId === item._id
                       const isSelected = selectedIds.has(item._id)
                       const scoreLabel = getScoreLabel(item.productId?.category || '', item.productId?.name || '')

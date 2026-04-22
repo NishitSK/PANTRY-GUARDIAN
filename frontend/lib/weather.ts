@@ -31,11 +31,12 @@ export async function getCurrentWeather(city: string): Promise<Weather | null> {
 
 export async function fetchWeatherDetailed(city: string): Promise<WeatherDetailed | null> {
   const key = process.env.WEATHER_API_KEY
-  console.log(`[Weather] Fetching for city: ${city}, Key exists: ${!!key}`)
+  const cleanCity = city.replace(/\b(taluk|district)\b/gi, '').trim()
+  console.log(`[Weather] Fetching for city: ${cleanCity} (original: ${city}), Key exists: ${!!key}`)
   if (key) {
     try {
-      const g = await geocode(city, key)
-      const base = g ? `lat=${g.lat}&lon=${g.lon}` : `q=${encodeURIComponent(city)}`
+      const g = await geocode(cleanCity, key)
+      const base = g ? `lat=${g.lat}&lon=${g.lon}` : `q=${encodeURIComponent(cleanCity)}`
       const url = `https://api.openweathermap.org/data/2.5/weather?${base}&units=metric&appid=${key}`
       console.log(`[Weather] Fetching URL: ${url.replace(key, 'HIDDEN')}`)
       

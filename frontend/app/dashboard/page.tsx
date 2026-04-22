@@ -1,5 +1,7 @@
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
+
+export const dynamic = 'force-dynamic'
 import connectDB from '@/lib/mongodb'
 import { InventoryItem, User } from '@/models'
 import DashboardLayout from '@/components/layout/DashboardLayout'
@@ -13,6 +15,8 @@ import { Plus, ArrowRight } from 'lucide-react'
 async function getDashboardStats(userId: string) {
     try {
         await connectDB()
+        const uri = process.env.MONGODB_URI || ''
+        console.log(`[DB Diagnostic] Dashboard connecting to: ${uri.substring(0, 15)}...`)
     } catch (error) {
         console.warn('Dashboard DB connection skipped:', error)
         return {

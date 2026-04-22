@@ -426,6 +426,8 @@ export default async function RecipesPage() {
 
 	try {
 		await connectDB()
+		const uri = process.env.MONGODB_URI || ''
+		console.log(`[DB Diagnostic] Recipes connecting to: ${uri.substring(0, 15)}...`)
 		const dbUser = await getOrCreateDbUser()
 
 		if (dbUser) {

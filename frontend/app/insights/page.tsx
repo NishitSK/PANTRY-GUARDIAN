@@ -1,9 +1,11 @@
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
+
+export const dynamic = 'force-dynamic'
 import connectDB from '@/lib/mongodb'
 import { User, InventoryItem, Prediction } from '@/models'
 import DashboardLayout from '@/components/layout/DashboardLayout'
-import dynamic from 'next/dynamic'
+import nextDynamic from 'next/dynamic'
 import { predict } from '@/lib/prediction'
 import { getCurrentWeather } from '@/lib/weather'
 import Link from 'next/link'
@@ -12,8 +14,8 @@ import {
   TrendingUp, Activity, ArrowUpRight, Plus
 } from 'lucide-react'
 
-const InsightsLocationWeather = dynamic(() => import('@/components/InsightsLocationWeather'), { ssr: false })
-const InsightsCharts = dynamic(() => import('@/components/insights/InsightsCharts'), { ssr: false })
+const InsightsLocationWeather = nextDynamic(() => import('@/components/InsightsLocationWeather'), { ssr: false })
+const InsightsCharts = nextDynamic(() => import('@/components/insights/InsightsCharts'), { ssr: false })
 
 export default async function InsightsPage() {
     const { userId } = await auth()
@@ -28,6 +30,8 @@ export default async function InsightsPage() {
     }
 
     await connectDB()
+    const uri = process.env.MONGODB_URI || ''
+    console.log(`[DB Diagnostic] Insights connecting to: ${uri.substring(0, 15)}...`)
 
     let user = await User.findOne({ email }).lean()
 

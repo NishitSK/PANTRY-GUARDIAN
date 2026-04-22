@@ -38,8 +38,9 @@ export default function InsightsLocationWeather() {
     setFetchingWeather(true)
     try {
       console.log('Fetching weather for:', targetCity)
+      const cleanCity = targetCity.replace(/\b(taluk|district)\b/gi, '').trim()
       const baseUrl = getApiBaseUrl()
-      const r = await fetch(`${baseUrl}/api/weather/current?city=${encodeURIComponent(targetCity)}&t=${Date.now()}`, {
+      const r = await fetch(`${baseUrl}/api/weather/current?city=${encodeURIComponent(cleanCity)}&t=${Date.now()}`, {
         cache: 'no-store',
         headers: { 'Cache-Control': 'no-cache' }
       })
