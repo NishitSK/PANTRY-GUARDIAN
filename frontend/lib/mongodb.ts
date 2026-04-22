@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 
-const DEFAULT_MONGODB_URI = 'mongodb://127.0.0.1:27017/pantry-guardian'
-const MONGODB_URI = process.env.MONGODB_URI || DEFAULT_MONGODB_URI
+const MONGODB_URI = process.env.MONGODB_URI
 
 interface Cached {
     conn: typeof mongoose | null
