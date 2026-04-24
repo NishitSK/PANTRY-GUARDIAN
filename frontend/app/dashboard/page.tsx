@@ -2,6 +2,7 @@ import { auth, currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 import connectDB from '@/lib/mongodb'
 import { InventoryItem, User } from '@/models'
 import DashboardLayout from '@/components/layout/DashboardLayout'
@@ -9,29 +10,11 @@ import OverviewHero from '@/components/dashboard/OverviewHero'
 import ExpiringSoonCarousel from '@/components/dashboard/ExpiringSoonCarousel'
 import QuickActions from '@/components/dashboard/QuickActions'
 import { calculateShelfLife } from '@/lib/shelfLifeDb'
+import { getInventoryFromBackendApi } from '@/lib/serverInventory'
 import Link from 'next/link'
 import { Plus, ArrowRight } from 'lucide-react'
 
-async function getDashboardStats(userId: string) {
-    try {
-        await connectDB()
-        const uri = process.env.MONGODB_URI || ''
-        console.log(`[DB Diagnostic] Dashboard connecting to: ${uri.substring(0, 15)}...`)
-    } catch (error) {
-        console.warn('Dashboard DB connection skipped:', error)
-        return {
-            totalItems: 0,
-            expiringSoonCount: 0,
-            freshCount: 0,
-            expiredCount: 0,
-            expiringItems: [],
-            freshPercent: 0,
-            urgentItemName: null as string | null,
-        }
-    }
-
-    const items = await InventoryItem.find({ userId }).populate('productId').populate('storageMethodId').lean()
-  
+async function getDashboardStatsFromItems(items: any[]) {
     const today = new Date()
     let expiringSoonCount = 0
     let expiredCount = 0
@@ -83,6 +66,37 @@ async function getDashboardStats(userId: string) {
     }
 }
 
+async function getDashboardStats(userId: string) {
+    try {
+        const apiItems = await getInventoryFromBackendApi()
+        if (apiItems) {
+            return getDashboardStatsFromItems(apiItems)
+        }
+    } catch (error) {
+        console.warn('Dashboard inventory API load skipped:', error)
+    }
+
+    try {
+        await connectDB()
+        const uri = process.env.MONGODB_URI || ''
+        console.log(`[DB Diagnostic] Dashboard connecting to: ${uri.substring(0, 15)}...`)
+    } catch (error) {
+        console.warn('Dashboard DB connection skipped:', error)
+        return {
+            totalItems: 0,
+            expiringSoonCount: 0,
+            freshCount: 0,
+            expiredCount: 0,
+            expiringItems: [],
+            freshPercent: 0,
+            urgentItemName: null as string | null,
+        }
+    }
+
+    const items = await InventoryItem.find({ userId }).populate('productId').populate('storageMethodId').lean()
+    return getDashboardStatsFromItems(items)
+}
+
 export default async function DashboardPage() {
     let dbUser;
     let user: any = null;
@@ -101,13 +115,14 @@ export default async function DashboardPage() {
         hasClerkKey: !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
         hasClerkSecret: !!process.env.CLERK_SECRET_KEY,
         hasMongoUri: !!process.env.MONGODB_URI,
+        hasApiUrl: !!process.env.NEXT_PUBLIC_API_URL,
         nodeEnv: process.env.NODE_ENV
     }
     
     console.log('[Diagnostic Report]', envReport)
 
-    if (!envReport.hasMongoUri || !envReport.hasClerkKey || !envReport.hasClerkSecret) {
-        connectionError = `Missing environment variables: ${!envReport.hasMongoUri ? 'MONGODB_URI ' : ''}${!envReport.hasClerkKey ? 'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ' : ''}${!envReport.hasClerkSecret ? 'CLERK_SECRET_KEY ' : ''}`
+    if ((!envReport.hasMongoUri && !envReport.hasApiUrl) || !envReport.hasClerkKey || !envReport.hasClerkSecret) {
+        connectionError = `Missing environment variables: ${!envReport.hasMongoUri && !envReport.hasApiUrl ? 'MONGODB_URI or NEXT_PUBLIC_API_URL ' : ''}${!envReport.hasClerkKey ? 'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ' : ''}${!envReport.hasClerkSecret ? 'CLERK_SECRET_KEY ' : ''}`
     } else {
         try {
             const { userId } = await auth()
@@ -117,20 +132,24 @@ export default async function DashboardPage() {
             const email = user?.emailAddresses?.[0]?.emailAddress
             if (!email) redirect('/auth/login')
 
-            await connectDB()
+            if (envReport.hasApiUrl) {
+                stats = await getDashboardStats(userId)
+            } else {
+                await connectDB()
 
-            dbUser = await User.findOne({ email }).lean()
-            if (!dbUser) {
-                await User.create({
-                    email,
-                    name: user?.fullName || user?.firstName || undefined,
-                    image: user?.imageUrl,
-                })
                 dbUser = await User.findOne({ email }).lean()
-            }
+                if (!dbUser) {
+                    await User.create({
+                        email,
+                        name: user?.fullName || user?.firstName || undefined,
+                        image: user?.imageUrl,
+                    })
+                    dbUser = await User.findOne({ email }).lean()
+                }
 
-            if (!dbUser) redirect('/auth/login')
-            stats = await getDashboardStats(dbUser._id.toString())
+                if (!dbUser) redirect('/auth/login')
+                stats = await getDashboardStats(dbUser._id.toString())
+            }
         } catch (error: any) {
             console.error('[Dashboard Error]', error)
             connectionError = error.message || 'Authentication or database error'

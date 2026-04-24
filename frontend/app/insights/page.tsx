@@ -2,12 +2,14 @@ import { auth, currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 import connectDB from '@/lib/mongodb'
 import { User, InventoryItem, Prediction } from '@/models'
 import DashboardLayout from '@/components/layout/DashboardLayout'
 import nextDynamic from 'next/dynamic'
 import { predict } from '@/lib/prediction'
 import { getCurrentWeather } from '@/lib/weather'
+import { getInventoryFromBackendApi } from '@/lib/serverInventory'
 import Link from 'next/link'
 import {
   Package, AlertTriangle, Timer, Leaf,
@@ -29,10 +31,11 @@ export default async function InsightsPage() {
         hasClerkKey: !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
         hasClerkSecret: !!process.env.CLERK_SECRET_KEY,
         hasMongoUri: !!process.env.MONGODB_URI,
+        hasApiUrl: !!process.env.NEXT_PUBLIC_API_URL,
     }
 
-    if (!envReport.hasMongoUri || !envReport.hasClerkKey || !envReport.hasClerkSecret) {
-        connectionError = `Missing environment variables: ${!envReport.hasMongoUri ? 'MONGODB_URI ' : ''}${!envReport.hasClerkKey ? 'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ' : ''}${!envReport.hasClerkSecret ? 'CLERK_SECRET_KEY ' : ''}`
+    if ((!envReport.hasMongoUri && !envReport.hasApiUrl) || !envReport.hasClerkKey || !envReport.hasClerkSecret) {
+        connectionError = `Missing environment variables: ${!envReport.hasMongoUri && !envReport.hasApiUrl ? 'MONGODB_URI or NEXT_PUBLIC_API_URL ' : ''}${!envReport.hasClerkKey ? 'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ' : ''}${!envReport.hasClerkSecret ? 'CLERK_SECRET_KEY ' : ''}`
     } else {
         try {
             const { userId } = await auth()
@@ -42,43 +45,48 @@ export default async function InsightsPage() {
             const email = clerkUser?.emailAddresses?.[0]?.emailAddress
             if (!email) redirect('/auth/login')
 
-            await connectDB()
-        user = await User.findOne({ email }).lean()
-        if (!user) {
-            await User.create({
-                email,
-                name: clerkUser?.fullName || clerkUser?.firstName || undefined,
-                image: clerkUser?.imageUrl,
-            })
-            user = await User.findOne({ email }).lean()
-        }
+            if (envReport.hasApiUrl) {
+                const apiItems = await getInventoryFromBackendApi()
+                itemsWithPredictions = apiItems || []
+            } else {
+                await connectDB()
+                user = await User.findOne({ email }).lean()
+                if (!user) {
+                    await User.create({
+                        email,
+                        name: clerkUser?.fullName || clerkUser?.firstName || undefined,
+                        image: clerkUser?.imageUrl,
+                    })
+                    user = await User.findOne({ email }).lean()
+                }
 
-        if (!user) redirect('/auth/login')
+                if (!user) redirect('/auth/login')
 
-        weather = user.city ? await getCurrentWeather(user.city) : null
-        if (weather) {
-            currentTempC = weather.tempC
-            currentHumidity = weather.humidity
-        }
-        
-        const items = await InventoryItem.find({ userId: user._id.toString() })
-            .populate('productId')
-            .populate('storageMethodId')
-            .lean()
+                weather = user.city ? await getCurrentWeather(user.city) : null
+                if (weather) {
+                    currentTempC = weather.tempC
+                    currentHumidity = weather.humidity
+                }
 
-        itemsWithPredictions = await Promise.all(
-            items.map(async (item: any) => {
-                const predictions = await Prediction.find({ inventoryItemId: item._id.toString() })
-                    .sort({ createdAt: -1 })
-                    .limit(1)
+                const items = await InventoryItem.find({ userId: user._id.toString() })
+                    .populate('productId')
+                    .populate('storageMethodId')
                     .lean()
 
-                return {
-                    ...item,
-                    predictions: predictions
-                }
-            })
-        )
+                itemsWithPredictions = await Promise.all(
+                    items.map(async (item: any) => {
+                        const predictions = await Prediction.find({ inventoryItemId: item._id.toString() })
+                            .sort({ createdAt: -1 })
+                            .limit(1)
+                            .lean()
+
+                        return {
+                            ...item,
+                            predictions: predictions
+                        }
+                    })
+                )
+            }
     } catch (error: any) {
         console.error('[Insights Error]', error)
         connectionError = error.message || 'Unknown connection error'

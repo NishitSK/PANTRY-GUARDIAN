@@ -5,6 +5,7 @@ import type { ComponentType } from 'react'
 import DashboardLayout from '@/components/layout/DashboardLayout'
 import RecipeDetailButton from '@/components/RecipeDetailButton'
 import connectDB from '@/lib/mongodb'
+import { getInventoryFromBackendApi } from '@/lib/serverInventory'
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { InventoryItem, Recipe, User } from '@/models'
 import {
@@ -24,6 +25,9 @@ import {
 	Wheat,
 	ArrowRight,
 } from 'lucide-react'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 type RecipeIngredient = {
 	name: string
@@ -425,12 +429,24 @@ export default async function RecipesPage() {
 	let dbRecipes: RecipeCard[] = []
 
 	try {
+		const apiItems = await getInventoryFromBackendApi()
+		if (apiItems) {
+			inventoryRecords = apiItems.map((item: any) => ({
+				id: String(item._id || item.id),
+				productId: item.productId as InventoryProduct,
+			}))
+		}
+	} catch (error) {
+		console.warn('Recipes inventory API load skipped:', error)
+	}
+
+	try {
 		await connectDB()
 		const uri = process.env.MONGODB_URI || ''
 		console.log(`[DB Diagnostic] Recipes connecting to: ${uri.substring(0, 15)}...`)
 		const dbUser = await getOrCreateDbUser()
 
-		if (dbUser) {
+		if (dbUser && inventoryRecords.length === 0) {
 			const inventoryItems = await InventoryItem.find({ userId: dbUser._id.toString() })
 				.populate('productId')
 				.lean()
