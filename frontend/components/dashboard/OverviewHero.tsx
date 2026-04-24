@@ -128,8 +128,8 @@ export default function OverviewHero({
             </div>
 
             {/* Pantry Health Progress Ring — only shown when data exists */}
-            <div className="relative w-44 h-44 sm:w-56 sm:h-56 flex items-center justify-center shrink-0">
-              <svg className="w-full h-full -rotate-90">
+            <div className="relative w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center shrink-0 overflow-visible">
+              <svg className="h-full w-full -rotate-90 overflow-visible" viewBox="0 0 224 224" aria-hidden="true">
                 <circle
                   className="text-black/10"
                   cx="112" cy="112" fill="transparent" r={radius}

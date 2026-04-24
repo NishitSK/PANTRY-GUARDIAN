@@ -627,11 +627,11 @@ export default function InventoryPage() {
         </div>
 
         {/* ── Grid/Card View ────────────────────────────── */}
-        <div className="mb-10 space-y-6">
+        <div className="mb-10 space-y-6 px-1 sm:px-0">
           {groupedItems.map((group) => (
             <section
               key={group.dayKey}
-              className="border-4 border-black shadow-[6px_6px_0_#000]"
+              className="max-w-full overflow-hidden border-4 border-black shadow-[6px_6px_0_#000]"
               style={group.hueStyle}
             >
               <div className="flex flex-col gap-2 border-b-2 border-black/30 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
@@ -645,7 +645,7 @@ export default function InventoryPage() {
               </div>
 
               {viewMode === 'grid' ? (
-                <div className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                <div className="grid min-w-0 gap-4 p-3 sm:grid-cols-2 sm:p-4 lg:grid-cols-3 2xl:grid-cols-4">
                   {group.items.map(item => {
                     const displayLabel = getCategoryDisplayLabel(item.productId?.category || '')
                     const canonical = normalizeCategory(item.productId?.category || '')
@@ -654,17 +654,17 @@ export default function InventoryPage() {
                     const scoreLabel = getScoreLabel(item.productId?.category || '', item.productId?.name || '')
 
                     return (
-                      <div key={item._id} className="border-4 border-black bg-[#F4F4EF] shadow-[6px_6px_0_#000] flex flex-col h-full">
+                      <div key={item._id} className="flex h-full min-w-0 flex-col border-4 border-black bg-[#F4F4EF] shadow-[4px_4px_0_#000] sm:shadow-[6px_6px_0_#000]">
                         {/* Header */}
-                        <div className="p-4 flex flex-col h-full">
-                          <div className="flex items-start justify-between gap-2 mb-3">
+                        <div className="p-4 flex min-w-0 flex-col h-full">
+                          <div className="mb-3 flex min-w-0 flex-col gap-2 min-[430px]:flex-row min-[430px]:items-start min-[430px]:justify-between">
                             <div className="flex-1 min-w-0">
                               <p className="text-[9px] font-black uppercase tracking-[0.2em] text-black/50 truncate whitespace-nowrap">{displayLabel}</p>
                               <h3 className="mt-0.5 text-xl font-noto-serif font-bold text-black leading-tight truncate">
                                 {item.productId?.name}
                               </h3>
                             </div>
-                            <div className={cn('shrink-0 px-2.5 py-1 border-2 border-black text-[9px] font-black uppercase tracking-[0.18em] whitespace-nowrap', statusBg(item.status))}>
+                            <div className={cn('w-fit shrink-0 px-2.5 py-1 border-2 border-black text-[9px] font-black uppercase tracking-[0.18em] whitespace-nowrap', statusBg(item.status))}>
                               {statusLabel(item.status, item.daysLeft ?? 0, scoreLabel)}
                             </div>
                           </div>
@@ -679,7 +679,7 @@ export default function InventoryPage() {
                           <div className="grid grid-cols-2 gap-2 text-xs font-manrope mt-auto">
                             <div className="border-2 border-black bg-white p-2 flex flex-col justify-center">
                               <p className="text-[9px] font-black uppercase tracking-[0.14em] text-black/50">Storage</p>
-                              <span className={cn('mt-1 inline-flex border border-black px-1.5 py-0.5 text-[9px] font-black uppercase w-fit', storageBadge(item.storageMethodId?.name))}>
+                              <span className={cn('mt-1 inline-flex max-w-full border border-black px-1.5 py-0.5 text-[9px] font-black uppercase w-fit truncate', storageBadge(item.storageMethodId?.name))}>
                                 {item.storageMethodId?.name || 'Room Temp'}
                               </span>
                             </div>
