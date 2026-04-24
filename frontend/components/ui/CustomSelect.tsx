@@ -49,13 +49,13 @@ export default function CustomSelect({
   }
 
   return (
-    <div className={`relative ${className}`} ref={containerRef}>
+    <div className={`relative min-w-0 ${className}`} ref={containerRef}>
       <button
         type="button"
         onClick={() => !disabled && setIsOpen(!isOpen)}
         disabled={disabled}
         className={`
-          w-full h-full flex items-center justify-between px-5 py-3 text-left
+          w-full h-full min-w-0 flex items-center justify-between gap-2 px-3 sm:px-5 py-3 text-left
           border rounded-2xl transition-all duration-200
           focus:outline-none focus:ring-2 focus:ring-primary/20
           ${disabled 
@@ -65,11 +65,11 @@ export default function CustomSelect({
           ${isOpen ? 'ring-2 ring-primary/20 border-primary/30 bg-background' : ''}
         `}
       >
-        <span className="flex items-center gap-2 truncate">
+        <span className="flex min-w-0 items-center gap-2 truncate">
           {selectedOption ? (
             <>
               {selectedOption.icon && <span className="text-primary">{selectedOption.icon}</span>}
-              <span className="font-medium">{selectedOption.label}</span>
+              <span className="truncate font-medium">{selectedOption.label}</span>
             </>
           ) : (
             <span className="text-muted-foreground">{placeholder}</span>
@@ -81,7 +81,7 @@ export default function CustomSelect({
       {isOpen && (
         <div className="absolute z-50 w-full mt-2 bg-card border border-border/50 rounded-2xl shadow-xl shadow-black/10 max-h-60 overflow-auto py-2 animate-in fade-in zoom-in-95 duration-100">
           {options.length === 0 ? (
-            <div className="px-4 py-3 text-sm text-muted-foreground text-center">
+          <div className="px-4 py-3 text-sm text-muted-foreground text-center">
               No options available
             </div>
           ) : (
@@ -98,7 +98,7 @@ export default function CustomSelect({
                     handleSelect(valToPass)
                   }}
                   className={`
-                    w-full flex items-center justify-between px-4 py-2.5 text-sm text-left
+                    w-full min-w-0 flex items-center justify-between gap-2 px-4 py-2.5 text-sm text-left
                     transition-colors duration-150
                     ${isSelected
                       ? 'bg-primary/10 text-primary font-medium' 
@@ -106,9 +106,9 @@ export default function CustomSelect({
                     }
                   `}
                 >
-                  <span className="flex items-center gap-3">
+                  <span className="flex min-w-0 items-center gap-3">
                     {option.icon && <span className={isSelected ? 'text-primary' : 'text-muted-foreground'}>{option.icon}</span>}
-                    <span>{option.label}</span>
+                    <span className="truncate">{option.label}</span>
                   </span>
                   {isSelected && <Check className="w-4 h-4" />}
                 </button>

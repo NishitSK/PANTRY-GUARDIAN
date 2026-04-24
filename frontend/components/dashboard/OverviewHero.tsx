@@ -28,7 +28,7 @@ export default function OverviewHero({
   const offset = circumference - (purity / 100) * circumference
 
   return (
-    <div className="relative overflow-hidden bg-[#F6F1E7] min-h-[400px] mt-4 mb-8 sm:mt-8 sm:mb-12 p-3 sm:p-6 font-sans border-4 border-black shadow-[10px_10px_0_#000] flex items-center justify-center">
+    <div className="relative max-w-full overflow-hidden bg-[#F6F1E7] min-h-[400px] mt-4 mb-8 sm:mt-8 sm:mb-12 p-2 sm:p-6 font-sans border-4 border-black shadow-[10px_10px_0_#000] flex items-center justify-center">
 
       {/* Brutalist Background Blocks */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -37,7 +37,7 @@ export default function OverviewHero({
       </div>
 
       {/* Main Panel */}
-      <div className="relative z-10 w-full bg-white border-4 border-black shadow-[8px_8px_0_#000] p-6 sm:p-10 transition-all duration-300 flex flex-col lg:flex-row items-center justify-between gap-12">
+      <div className="relative z-10 w-full max-w-full min-w-0 bg-white border-4 border-black shadow-[8px_8px_0_#000] p-4 sm:p-10 transition-all duration-300 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
 
         {isEmpty ? (
           /* ── EMPTY STATE ── */
@@ -48,7 +48,7 @@ export default function OverviewHero({
               transition={{ duration: 0.6 }}
             >
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black/50 mb-4">Getting started</p>
-              <h1 className="text-4xl md:text-5xl font-black text-black leading-tight mb-4 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-black leading-tight mb-4 tracking-tight break-words">
                 Welcome, <span className="bg-[#FFE66D] px-2">{userName}</span>.<br />
                 Your pantry is <span className="bg-black text-white px-2">empty</span>.
               </h1>
@@ -64,19 +64,19 @@ export default function OverviewHero({
               className="flex flex-wrap gap-4 justify-center"
             >
               <Link href="/add">
-                <button className="flex items-center gap-3 bg-[#FFE66D] border-2 border-black px-8 py-4 font-black uppercase tracking-[0.12em] text-black shadow-[4px_4px_0_#000] hover:translate-x-1 hover:-translate-y-1 hover:shadow-none transition-all">
+                <button className="flex w-full sm:w-auto items-center justify-center gap-3 bg-[#FFE66D] border-2 border-black px-5 sm:px-8 py-4 font-black uppercase tracking-[0.12em] text-black shadow-[4px_4px_0_#000] hover:translate-x-1 hover:-translate-y-1 hover:shadow-none transition-all">
                   <Plus className="h-5 w-5" />
                   Add first item
                 </button>
               </Link>
             </motion.div>
 
-            <div className="mt-2 flex gap-6">
-              <div className="bg-[#F6F1E7] px-6 py-4 border-2 border-black text-center">
+            <div className="mt-2 grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto sm:gap-6">
+              <div className="bg-[#F6F1E7] px-3 sm:px-6 py-4 border-2 border-black text-center">
                 <p className="text-[10px] uppercase font-black tracking-[0.2em] text-black/50 mb-1">Items Tracked</p>
                 <p className="text-3xl font-noto-serif font-bold text-black">0</p>
               </div>
-              <div className="bg-[#F6F1E7] px-6 py-4 border-2 border-black text-center">
+              <div className="bg-[#F6F1E7] px-3 sm:px-6 py-4 border-2 border-black text-center">
                 <p className="text-[10px] uppercase font-black tracking-[0.2em] text-black/50 mb-1">To Restock</p>
                 <p className="text-3xl font-noto-serif font-bold text-black">0</p>
               </div>
@@ -85,12 +85,12 @@ export default function OverviewHero({
         ) : (
           /* ── DATA STATE ── */
           <>
-            <div className="relative z-10 max-w-2xl">
+            <div className="relative z-10 w-full min-w-0 max-w-2xl text-center lg:text-left">
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="text-5xl md:text-6xl font-black text-black leading-tight mb-4 tracking-tight"
+                className="text-3xl sm:text-5xl md:text-6xl font-black text-black leading-tight mb-4 tracking-tight break-words"
               >
                 Good morning, <span className="bg-[#FFE66D] px-2">{userName}</span>.<br />
                 Your kitchen is <span className="bg-[#93E1A8] px-2">{purity}%</span> prime.
@@ -100,7 +100,7 @@ export default function OverviewHero({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
-                className="text-lg text-black/80 font-medium max-w-md leading-relaxed"
+                className="mx-auto text-base sm:text-lg text-black/80 font-medium max-w-md leading-relaxed lg:mx-0"
               >
                 {urgentItemName
                   ? <>The <strong>{urgentItemName}</strong> in your pantry is expiring soon — use it today to avoid waste.</>
@@ -108,10 +108,10 @@ export default function OverviewHero({
                 }
               </motion.p>
 
-              <div className="mt-10 flex gap-6 flex-wrap">
+              <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 sm:flex sm:gap-6 sm:flex-wrap">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  className="bg-[#FFE66D] px-8 py-5 border-2 border-black"
+                  className="bg-[#FFE66D] px-3 sm:px-8 py-5 border-2 border-black"
                 >
                   <p className="text-[10px] uppercase font-black tracking-[0.2em] text-black mb-2">Items Tracked</p>
                   <p className="text-4xl font-noto-serif font-bold text-black">{itemsTracked}</p>
@@ -119,7 +119,7 @@ export default function OverviewHero({
 
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  className="bg-[#93E1A8] px-8 py-5 border-2 border-black"
+                  className="bg-[#93E1A8] px-3 sm:px-8 py-5 border-2 border-black"
                 >
                   <p className="text-[10px] uppercase font-black tracking-[0.2em] text-black mb-2">Expiring Soon</p>
                   <p className="text-4xl font-noto-serif font-bold text-black">{toRestock}</p>
@@ -128,7 +128,7 @@ export default function OverviewHero({
             </div>
 
             {/* Pantry Health Progress Ring — only shown when data exists */}
-            <div className="relative w-56 h-56 flex items-center justify-center shrink-0">
+            <div className="relative w-44 h-44 sm:w-56 sm:h-56 flex items-center justify-center shrink-0">
               <svg className="w-full h-full -rotate-90">
                 <circle
                   className="text-black/10"
@@ -145,9 +145,9 @@ export default function OverviewHero({
                   strokeWidth="12" strokeLinecap="round"
                 />
               </svg>
-              <div className="absolute flex flex-col items-center bg-white border-2 border-black px-4 py-3">
-                <span className="text-5xl font-noto-serif font-bold text-black">{purity}%</span>
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-black mt-1">Pantry Health</span>
+              <div className="absolute flex max-w-[80%] flex-col items-center bg-white border-2 border-black px-3 sm:px-4 py-2 sm:py-3 text-center">
+                <span className="text-3xl sm:text-5xl font-noto-serif font-bold text-black">{purity}%</span>
+                <span className="text-[8px] sm:text-[10px] font-black uppercase tracking-[0.3em] text-black mt-1">Pantry Health</span>
               </div>
             </div>
           </>

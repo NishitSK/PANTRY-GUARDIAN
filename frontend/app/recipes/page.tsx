@@ -524,8 +524,8 @@ export default async function RecipesPage() {
 	return (
 		<DashboardLayout>
 			<main className="min-h-screen bg-[#F6F1E7] text-black">
-				<div className="mx-auto max-w-[1440px] px-2 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
-					<header className="border-4 border-black bg-white p-6 shadow-[12px_12px_0_#000] lg:p-8">
+				<div className="mx-auto max-w-[1440px] overflow-x-hidden px-0 py-4 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+					<header className="border-4 border-black bg-white p-4 shadow-[12px_12px_0_#000] sm:p-6 lg:p-8">
 						<div className="flex flex-wrap items-center gap-3">
 							<span className="border-2 border-black bg-[#FFE66D] px-3 py-1 text-[10px] font-black uppercase tracking-[0.32em]">
 								Recipe Gallery
@@ -536,7 +536,7 @@ export default async function RecipesPage() {
 						</div>
 						<div className="mt-6 grid gap-6 lg:grid-cols-[1.4fr_0.9fr] lg:items-end">
 							<div>
-								<h1 className="font-noto-serif text-4xl sm:text-5xl leading-[0.92] lg:text-7xl">
+								<h1 className="break-words font-noto-serif text-4xl sm:text-5xl leading-[0.92] lg:text-7xl">
 									Recipe Gallery
 								</h1>
 								<p className="mt-4 max-w-3xl font-manrope text-base sm:text-lg leading-7 sm:leading-8 text-black/75">
@@ -546,7 +546,7 @@ export default async function RecipesPage() {
 								</p>
 							</div>
 
-							<div className="grid grid-cols-2 gap-2 sm:gap-3">
+							<div className="grid min-w-0 grid-cols-2 gap-2 sm:gap-3">
 								<div className="border-2 border-black bg-[#93E1A8] p-4">
 									<p className="text-[10px] font-black uppercase tracking-[0.3em] text-black/70">Recommended</p>
 									<p className="mt-2 font-noto-serif text-4xl">{recommendedRecipes.length}</p>
@@ -571,7 +571,7 @@ export default async function RecipesPage() {
 						</div>
 					</header>
 
-					<section className="mt-8 border-4 border-black bg-[#FFFDF7] p-6 shadow-[12px_12px_0_#000] lg:p-8">
+					<section className="mt-8 max-w-full overflow-hidden border-4 border-black bg-[#FFFDF7] p-4 shadow-[12px_12px_0_#000] sm:p-6 lg:p-8">
 						<div className="flex flex-wrap items-center justify-between gap-3">
 							<div>
 								<p className="text-[10px] font-black uppercase tracking-[0.32em] text-black/60">Recommended recipes</p>
@@ -593,7 +593,7 @@ export default async function RecipesPage() {
 								{recommendedRecipes.map((recipe) => (
 									<article
 										key={recipe.id}
-										className="group flex flex-col overflow-hidden border-4 border-black bg-white shadow-[8px_8px_0_#000] transition-transform duration-200 hover:-translate-y-1"
+										className="group min-w-0 flex flex-col overflow-hidden border-4 border-black bg-white shadow-[8px_8px_0_#000] transition-transform duration-200 hover:-translate-y-1"
 									>
 										<div className="relative aspect-[16/10] overflow-hidden border-b-4 border-black bg-[#F6F1E7]">
 											<Image
@@ -606,11 +606,11 @@ export default async function RecipesPage() {
 											/>
 											<div className="absolute inset-0 bg-gradient-to-t from-black/18 via-transparent to-transparent" />
 										</div>
-										<div className="flex items-start justify-between gap-3 border-b-4 border-black bg-[#DDF5E3] p-4 sm:p-5">
-											<div>
+										<div className="flex flex-col gap-3 border-b-4 border-black bg-[#DDF5E3] p-4 sm:flex-row sm:items-start sm:justify-between sm:p-5">
+											<div className="min-w-0">
 												<p className="text-[10px] font-black uppercase tracking-[0.28em] text-black/60">{recipe.source === 'db' ? 'Verified recipe' : 'Curated recipe'}</p>
 												<div className="mt-2 flex items-start gap-2">
-													<h3 className="min-w-0 flex-1 font-noto-serif text-2xl sm:text-3xl leading-tight">{recipe.title}</h3>
+													<h3 className="min-w-0 flex-1 break-words font-noto-serif text-2xl sm:text-3xl leading-tight">{recipe.title}</h3>
 													<RecipeDetailButton recipe={toDetailRecipe(recipe)} />
 												</div>
 											</div>
@@ -620,7 +620,7 @@ export default async function RecipesPage() {
 											</div>
 										</div>
 
-										<div className="p-4 sm:p-5">
+										<div className="min-w-0 p-4 sm:p-5">
 											<p className="font-manrope text-sm sm:text-base leading-7 text-black/75">{recipe.description}</p>
 
 											<div className="mt-5 flex flex-wrap gap-2">
@@ -632,7 +632,7 @@ export default async function RecipesPage() {
 															className={`inline-flex items-center gap-2 border-2 border-black px-3 py-2 text-xs font-black uppercase tracking-[0.16em] ${ingredient.inInventory ? 'bg-[#93E1A8]' : 'bg-white'}`}
 														>
 															<Icon className="h-4 w-4" />
-															<span>{ingredient.name}</span>
+															<span className="break-words">{ingredient.name}</span>
 															{ingredient.inInventory && <Check className="h-4 w-4" />}
 														</span>
 													)
@@ -658,7 +658,7 @@ export default async function RecipesPage() {
 						)}
 					</section>
 
-					<section className="mt-10 border-4 border-black bg-black p-6 text-white shadow-[12px_12px_0_#93E1A8] lg:p-8">
+					<section className="mt-10 max-w-full overflow-hidden border-4 border-black bg-black p-4 text-white shadow-[12px_12px_0_#93E1A8] sm:p-6 lg:p-8">
 						<div className="flex flex-wrap items-center justify-between gap-3">
 							<div>
 								<p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/60">Other recipes</p>
@@ -676,7 +676,7 @@ export default async function RecipesPage() {
 						) : (
 							<div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
 								{remainingRecipes.map((recipe) => (
-									<article key={recipe.id} className="border-2 border-white/20 bg-white/5 p-5 transition-transform hover:-translate-y-1">
+									<article key={recipe.id} className="min-w-0 border-2 border-white/20 bg-white/5 p-4 sm:p-5 transition-transform hover:-translate-y-1">
 										<div className="relative mb-4 aspect-[16/10] overflow-hidden border border-white/20 bg-white/5">
 											<Image
 													src={getRecipeImageSrc(recipe)}
@@ -691,7 +691,7 @@ export default async function RecipesPage() {
 											<div>
 												<p className="text-[10px] font-black uppercase tracking-[0.28em] text-white/45">{recipe.source === 'db' ? 'Saved recipe' : 'Curated recipe'}</p>
 												<div className="mt-2 flex items-start gap-2">
-													<h3 className="min-w-0 flex-1 font-noto-serif text-2xl leading-tight text-white">{recipe.title}</h3>
+													<h3 className="min-w-0 flex-1 break-words font-noto-serif text-2xl leading-tight text-white">{recipe.title}</h3>
 													<RecipeDetailButton recipe={toDetailRecipe(recipe)} />
 												</div>
 											</div>
@@ -711,7 +711,7 @@ export default async function RecipesPage() {
 														className={`inline-flex items-center gap-2 border border-white/30 px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] ${ingredient.inInventory ? 'bg-[#93E1A8] text-black' : 'bg-transparent text-white/75'}`}
 													>
 														<Icon className="h-4 w-4" />
-														<span>{ingredient.name}</span>
+														<span className="break-words">{ingredient.name}</span>
 														{ingredient.inInventory ? <Check className="h-4 w-4" /> : <span className="text-white/40">Need</span>}
 													</span>
 												)

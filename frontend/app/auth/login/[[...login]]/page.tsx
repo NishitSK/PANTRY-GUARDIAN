@@ -12,14 +12,14 @@ const pillars = [
 
 export default function LoginPage() {
   return (
-    <main className="min-h-screen bg-background text-textMain">
-      <div className="grid min-h-screen lg:grid-cols-[0.92fr_1.08fr]">
-        <section className="relative flex flex-col justify-between border-b-2 border-black bg-surface p-6 lg:border-b-0 lg:border-r-2 lg:p-10 xl:p-14">
+    <main className="min-h-screen max-w-full overflow-x-hidden bg-background text-textMain">
+      <div className="grid min-h-screen min-w-0 lg:grid-cols-[0.92fr_1.08fr]">
+        <section className="relative flex min-w-0 flex-col justify-between border-b-2 border-black bg-surface p-3 sm:p-6 lg:border-b-0 lg:border-r-2 lg:p-10 xl:p-14">
           <div className="absolute inset-0 brutalist-grid opacity-40" />
 
           <div className="relative z-10 space-y-10">
-            <div className="flex items-center justify-between gap-4 border-2 border-black bg-background px-4 py-3">
-              <Link href="/" className="font-anton text-xl sm:text-2xl uppercase tracking-[0.08em]">
+            <div className="flex min-w-0 flex-col gap-3 border-2 border-black bg-background px-4 py-3 min-[380px]:flex-row min-[380px]:items-center min-[380px]:justify-between">
+              <Link href="/" className="truncate font-anton text-xl sm:text-2xl uppercase tracking-[0.08em]">
                 Pantry Guardian
               </Link>
               <span className="border-2 border-black bg-primary px-3 py-1 font-ibm-mono text-[10px] uppercase tracking-[0.28em] text-black">
@@ -39,7 +39,7 @@ export default function LoginPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.05 }}
-                className="max-w-2xl font-anton text-5xl sm:text-6xl uppercase leading-[0.9] sm:text-7xl xl:text-[6.5rem]"
+                className="max-w-2xl break-words font-anton text-4xl min-[380px]:text-5xl sm:text-7xl uppercase leading-[0.9] xl:text-[6.5rem]"
               >
                 Re-enter the
                 <span className="block text-primary">control room.</span>
@@ -76,12 +76,12 @@ export default function LoginPage() {
           </div>
         </section>
 
-        <section className="flex items-center justify-center p-6 xl:p-14">
+        <section className="flex min-w-0 items-center justify-center p-3 sm:p-6 xl:p-14">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}
-            className="w-full max-w-xl border-2 border-black bg-surface p-5 shadow-[12px_12px_0_0_rgba(0,0,0,1)] sm:p-8"
+            className="w-full max-w-xl overflow-hidden border-2 border-black bg-surface p-4 shadow-[12px_12px_0_0_rgba(0,0,0,1)] sm:p-8"
           >
             <div className="mb-6 border-2 border-black bg-black px-4 py-3 text-white">
               <p className="font-ibm-mono text-[10px] uppercase tracking-[0.35em] text-white/60">Secure access</p>

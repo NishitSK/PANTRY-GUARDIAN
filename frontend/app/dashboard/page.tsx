@@ -159,8 +159,8 @@ export default async function DashboardPage() {
     if (connectionError) {
         return (
             <DashboardLayout>
-                <div className="max-w-[1400px] mx-auto py-20 px-4">
-                    <div className="border-4 border-black bg-[#FFD2CC] p-10 shadow-[10px_10px_0_#000] text-center">
+                <div className="max-w-[1400px] mx-auto py-12 sm:py-20 px-2 sm:px-4">
+                    <div className="border-4 border-black bg-[#FFD2CC] p-5 sm:p-10 shadow-[10px_10px_0_#000] text-center">
                         <h1 className="text-3xl font-black uppercase mb-4">Connection Diagnostic</h1>
                         <p className="text-xl font-bold mb-8">The dashboard cannot reach your database.</p>
                         <div className="bg-white/50 p-6 border-2 border-black inline-block text-left font-mono text-sm mb-8">
@@ -197,12 +197,12 @@ export default async function DashboardPage() {
 
     return (
         <DashboardLayout>
-            <div className="max-w-[1400px] mx-auto py-6 md:py-10 px-2 sm:px-4">
+            <div className="max-w-[1400px] mx-auto py-4 md:py-10 px-0 sm:px-4 overflow-x-hidden">
                 {/* Status Header */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mb-8 md:mb-12 border-4 border-black bg-[#F6F1E7] px-4 sm:px-6 py-4 sm:py-5 shadow-[8px_8px_0_#000]">
-                    <div>
+                <div className="flex max-w-full flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mb-8 md:mb-12 border-4 border-black bg-[#F6F1E7] px-3 sm:px-6 py-4 sm:py-5 shadow-[8px_8px_0_#000]">
+                    <div className="min-w-0">
                         <h1 className="text-xs font-manrope font-black uppercase tracking-[0.35em] text-black mb-2">Pantry Status</h1>
-                        <p className="text-xl sm:text-2xl font-noto-serif font-bold text-black">{headerSubtitle}</p>
+                        <p className="break-words text-xl sm:text-2xl font-noto-serif font-bold text-black">{headerSubtitle}</p>
                     </div>
                     <div className="flex w-full sm:w-auto items-center justify-end gap-3 sm:gap-4">
                         <div className="h-12 w-12 border-2 border-black flex items-center justify-center bg-[#FFE66D]">
@@ -223,13 +223,13 @@ export default async function DashboardPage() {
                     urgentItemName={stats.urgentItemName}
                 />
 
-                <div className="grid grid-cols-12 gap-8 mt-16">
+                <div className="grid grid-cols-12 gap-6 md:gap-8 mt-10 md:mt-16">
                     {/* Main Section */}
                     <div className="col-span-12 lg:col-span-8">
                         <ExpiringSoonCarousel items={stats.expiringItems} />
 
                         {/* Pantry Health Report — data-driven, never hardcoded */}
-                        <div className="bg-[#FFFDF7] p-10 border-4 border-black shadow-[10px_10px_0_#000] relative overflow-hidden">
+                        <div className="bg-[#FFFDF7] p-5 sm:p-10 border-4 border-black shadow-[10px_10px_0_#000] relative overflow-hidden">
                             <div className="relative z-10">
                                 {isEmpty ? (
                                     /* Empty state */
@@ -240,7 +240,7 @@ export default async function DashboardPage() {
                                             Recipe suggestions appear once you start tracking items. Add anything in your pantry — even a single item — and we&apos;ll start matching recipes.
                                         </p>
                                         <Link href="/add">
-                                            <button className="flex items-center gap-3 text-black font-black uppercase tracking-[0.12em] hover:gap-5 transition-all group border-2 border-black px-4 py-2 bg-[#FFE66D] hover:bg-black hover:text-white">
+                                            <button className="flex w-full sm:w-auto items-center justify-center gap-3 text-black font-black uppercase tracking-[0.12em] hover:gap-5 transition-all group border-2 border-black px-4 py-2 bg-[#FFE66D] hover:bg-black hover:text-white">
                                                 <Plus className="h-5 w-5" />
                                                 Add your first item
                                             </button>
@@ -251,21 +251,21 @@ export default async function DashboardPage() {
                                     <>
                                         <p className="text-[10px] font-black uppercase tracking-[0.22em] text-black/50 mb-3">Recipe Suggestions</p>
                                         <h2 className="text-3xl font-noto-serif font-bold text-black mb-4">Pantry Health Report</h2>
-                                        <p className="text-black/80 font-manrope text-lg leading-relaxed max-w-xl mb-8">
+                                        <p className="text-black/80 font-manrope text-base sm:text-lg leading-relaxed max-w-xl mb-8">
                                             {stats.urgentItemName
                                                 ? <>Based on your {stats.totalItems} tracked item{stats.totalItems !== 1 ? 's' : ''}, we suggest using your <span className="text-black bg-[#93E1A8] px-1 font-black">{stats.urgentItemName}</span> soon — it&apos;s expiring in 3 days or less.</>
                                                 : <>You have {stats.totalItems} item{stats.totalItems !== 1 ? 's' : ''} in your pantry. Visit the recipe gallery to find meals that match what you have.</>
                                             }
                                         </p>
-                                        <div className="flex flex-wrap gap-3">
+                                        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                                             <Link href="/recipes">
-                                                <button className="flex items-center gap-3 text-black font-black uppercase tracking-[0.12em] hover:gap-5 transition-all group border-2 border-black px-4 py-2 bg-white hover:bg-[#FFE66D]">
+                                                <button className="flex w-full sm:w-auto items-center justify-center gap-3 text-black font-black uppercase tracking-[0.12em] hover:gap-5 transition-all group border-2 border-black px-4 py-2 bg-white hover:bg-[#FFE66D]">
                                                     Explore recipe gallery
                                                     <ArrowRight className="h-5 w-5 group-hover:scale-110 transition-transform" />
                                                 </button>
                                             </Link>
                                             <Link href="/inventory">
-                                                <button className="flex items-center gap-3 text-black font-black uppercase tracking-[0.12em] border-2 border-black px-4 py-2 bg-white hover:bg-black hover:text-white transition-all">
+                                                <button className="flex w-full sm:w-auto items-center justify-center gap-3 text-black font-black uppercase tracking-[0.12em] border-2 border-black px-4 py-2 bg-white hover:bg-black hover:text-white transition-all">
                                                     View full inventory
                                                 </button>
                                             </Link>
@@ -283,7 +283,7 @@ export default async function DashboardPage() {
                         <QuickActions />
 
                         {/* Pantry Health — real computed metrics */}
-                        <div className="bg-white p-8 border-4 border-black shadow-[8px_8px_0_#000]">
+                        <div className="bg-white p-5 sm:p-8 border-4 border-black shadow-[8px_8px_0_#000]">
                             <h3 className="text-xl font-noto-serif font-bold text-black mb-6">Pantry Health</h3>
 
                             {isEmpty ? (

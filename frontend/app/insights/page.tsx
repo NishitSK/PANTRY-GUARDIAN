@@ -96,8 +96,8 @@ export default async function InsightsPage() {
     if (connectionError) {
         return (
             <DashboardLayout>
-                <div className="max-w-[1400px] mx-auto py-20 px-4">
-                    <div className="border-4 border-black bg-[#FFD2CC] p-10 shadow-[10px_10px_0_#000] text-center">
+                <div className="max-w-[1400px] mx-auto py-12 sm:py-20 px-2 sm:px-4">
+                    <div className="border-4 border-black bg-[#FFD2CC] p-5 sm:p-10 shadow-[10px_10px_0_#000] text-center">
                         <h1 className="text-3xl font-black uppercase mb-4">Insights Diagnostic</h1>
                         <p className="text-xl font-bold mb-8">Unable to generate analytics.</p>
                         <div className="bg-white/50 p-6 border-2 border-black inline-block text-left font-mono text-sm mb-8">
@@ -178,16 +178,16 @@ export default async function InsightsPage() {
 
     return (
         <DashboardLayout>
-            <div className="max-w-[1400px] mx-auto py-6 md:py-12 px-2 sm:px-4 md:px-6 space-y-8 md:space-y-12">
+            <div className="max-w-[1400px] mx-auto overflow-x-hidden py-4 md:py-12 px-0 sm:px-4 md:px-6 space-y-8 md:space-y-12">
 
                 {/* Editorial Header */}
-                <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8 border-4 border-black bg-white p-4 sm:p-6 shadow-[8px_8px_0_#000]">
-                    <div className="space-y-4">
+                <header className="flex max-w-full flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8 border-4 border-black bg-white p-4 sm:p-6 shadow-[8px_8px_0_#000]">
+                    <div className="min-w-0 space-y-4">
                         <div className="flex items-center gap-3">
                             <span className="text-[10px] bg-[#FFE66D] text-black px-3 py-1 border-2 border-black font-black uppercase tracking-[0.2em]">Curation Intel</span>
                             <div className="h-[2px] w-12 bg-black" />
                         </div>
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-noto-serif font-bold text-black leading-tight">Kitchen Analytics</h1>
+                        <h1 className="break-words text-4xl sm:text-5xl md:text-6xl font-noto-serif font-bold text-black leading-tight">Kitchen Analytics</h1>
                         <p className="text-black/80 font-manrope text-base sm:text-lg max-w-xl leading-relaxed">
                             {headerDesc}
                         </p>
@@ -210,7 +210,7 @@ export default async function InsightsPage() {
                                 Add your first item to unlock freshness tracking, expiry predictions, and category breakdowns.
                             </p>
                             <Link href="/add">
-                                <button className="inline-flex items-center gap-3 border-2 border-black bg-[#FFE66D] px-8 py-4 font-black uppercase tracking-[0.12em] text-black shadow-[4px_4px_0_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+                                <button className="inline-flex w-full items-center justify-center gap-3 border-2 border-black bg-[#FFE66D] px-5 sm:px-8 py-4 font-black uppercase tracking-[0.12em] text-black shadow-[4px_4px_0_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all sm:w-auto">
                                     <Plus className="h-5 w-5" />
                                     Add your first item
                                 </button>
@@ -231,16 +231,16 @@ export default async function InsightsPage() {
                                     </p>
                                 </div>
 
-                                <div className="grid gap-3 md:grid-cols-2 lg:max-w-2xl">
+                                <div className="grid min-w-0 gap-3 md:grid-cols-2 lg:max-w-2xl">
                                     <div className="border-2 border-black bg-white px-4 py-3 shadow-[4px_4px_0_#000]">
                                         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/60">Formula</p>
-                                        <p className="mt-2 font-mono text-sm leading-6 text-black">
+                                        <p className="mt-2 break-words font-mono text-sm leading-6 text-black">
                                             Expiry Date = Purchase Date + Adjusted Shelf Life
                                         </p>
                                     </div>
                                     <div className="border-2 border-black bg-white px-4 py-3 shadow-[4px_4px_0_#000]">
                                         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/60">Opened Items</p>
-                                        <p className="mt-2 font-mono text-sm leading-6 text-black">
+                                        <p className="mt-2 break-words font-mono text-sm leading-6 text-black">
                                             Adjusted Shelf Life = Storage Shelf Life × Weather Penalty × 0.75
                                         </p>
                                     </div>
@@ -250,7 +250,7 @@ export default async function InsightsPage() {
 
                         {/* Stats Grid — all computed from real data */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <div className="bg-white p-8 border-4 border-black shadow-[6px_6px_0_#000] transition-all group overflow-hidden relative">
+                            <div className="bg-white p-5 sm:p-8 border-4 border-black shadow-[6px_6px_0_#000] transition-all group overflow-hidden relative">
                                 <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                                     <Package className="w-24 h-24 text-black" />
                                 </div>
@@ -265,7 +265,7 @@ export default async function InsightsPage() {
                                 </div>
                             </div>
 
-                            <div className="bg-white p-8 border-4 border-black shadow-[6px_6px_0_#000] transition-all group overflow-hidden relative">
+                            <div className="bg-white p-5 sm:p-8 border-4 border-black shadow-[6px_6px_0_#000] transition-all group overflow-hidden relative">
                                 <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                                     <AlertTriangle className="w-24 h-24 text-red-600" />
                                 </div>
@@ -280,7 +280,7 @@ export default async function InsightsPage() {
                                 </div>
                             </div>
 
-                            <div className="bg-white p-8 border-4 border-black shadow-[6px_6px_0_#000] transition-all group overflow-hidden relative">
+                            <div className="bg-white p-5 sm:p-8 border-4 border-black shadow-[6px_6px_0_#000] transition-all group overflow-hidden relative">
                                 <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                                     <Timer className="w-24 h-24 text-black" />
                                 </div>
@@ -295,7 +295,7 @@ export default async function InsightsPage() {
                                 </div>
                             </div>
 
-                            <div className="bg-white p-8 border-4 border-black shadow-[6px_6px_0_#000] transition-all group overflow-hidden relative">
+                            <div className="bg-white p-5 sm:p-8 border-4 border-black shadow-[6px_6px_0_#000] transition-all group overflow-hidden relative">
                                 <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                                     <Leaf className="w-24 h-24 text-black" />
                                 </div>

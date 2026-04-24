@@ -491,7 +491,7 @@ export default function InventoryPage() {
   if (!isLoaded || loading) {
     return (
       <DashboardLayout>
-        <div className="max-w-[1400px] mx-auto py-6 md:py-10 px-2 sm:px-4">
+        <div className="max-w-[1400px] mx-auto py-4 md:py-10 px-0 sm:px-4 overflow-x-hidden">
           <div className="h-20 border-4 border-black bg-[#F6F1E7] animate-pulse mb-8 shadow-[8px_8px_0_#000]" />
           <div className="hidden xl:block bg-[#F4F4EF] overflow-hidden border-4 border-black shadow-[8px_8px_0_#000]">
             <div className="h-12 border-b-2 border-black bg-black/5 animate-pulse" />
@@ -507,10 +507,10 @@ export default function InventoryPage() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-[1400px] mx-auto py-6 md:py-10 px-2 sm:px-4">
+      <div className="max-w-[1400px] mx-auto py-4 md:py-10 px-0 sm:px-4 overflow-x-hidden">
 
         {/* ── Top Action Bar ─────────────────────────────────── */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 md:mb-10 gap-4 sticky top-0 bg-[#F6F1E7] z-30 py-3 px-3 md:px-5 border-4 border-black shadow-[8px_8px_0_#000]">
+        <div className="flex max-w-full flex-col md:flex-row justify-between items-stretch md:items-center mb-8 md:mb-10 gap-3 md:gap-4 sticky top-0 bg-[#F6F1E7] z-30 py-3 px-2 sm:px-3 md:px-5 border-4 border-black shadow-[8px_8px_0_#000]">
           {/* Search */}
           <div className="relative flex-1 w-full max-w-xl group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-black/40 group-focus-within:text-black transition-colors" />
@@ -533,12 +533,12 @@ export default function InventoryPage() {
           </div>
 
           {/* Sort */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex min-w-0 items-center gap-2 md:shrink-0">
             <ArrowUpDown className="h-4 w-4 text-black/60 shrink-0" />
             <select
               value={sortBy}
               onChange={e => setSortBy(e.target.value as SortKey)}
-              className="border-2 border-black bg-white px-3 py-2.5 font-manrope font-black text-xs uppercase tracking-[0.12em] focus:outline-none"
+              className="min-w-0 flex-1 border-2 border-black bg-white px-3 py-2.5 font-manrope font-black text-xs uppercase tracking-[0.12em] focus:outline-none md:flex-none"
             >
               <option value="expiry">Expiry (soonest)</option>
               <option value="freshness">Freshness %</option>
@@ -548,11 +548,11 @@ export default function InventoryPage() {
           </div>
 
           {/* Add */}
-          <Link href="/add" className="shrink-0">
+          <Link href="/add" className="w-full shrink-0 md:w-auto">
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="bg-[#FFE66D] text-black px-6 py-3 border-2 border-black font-black text-sm shadow-[4px_4px_0_#000] flex items-center gap-2 hover:bg-black hover:text-white transition-colors"
+              className="w-full justify-center bg-[#FFE66D] text-black px-6 py-3 border-2 border-black font-black text-sm shadow-[4px_4px_0_#000] flex items-center gap-2 hover:bg-black hover:text-white transition-colors md:w-auto"
             >
               <Plus className="h-5 w-5" />
               Add Item
@@ -571,11 +571,11 @@ export default function InventoryPage() {
 
         {/* ── Title + Filters ────────────────────────────────── */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-8 gap-4">
-          <div>
-            <h2 className="text-3xl sm:text-4xl font-noto-serif font-bold text-black mb-1">
+          <div className="min-w-0">
+            <h2 className="break-words text-3xl sm:text-4xl font-noto-serif font-bold text-black mb-1">
               Inventory
               {items.length > 0 && (
-                <span className="ml-3 text-lg font-manrope font-normal text-black/50">
+                <span className="mt-1 block text-base font-manrope font-normal text-black/50 sm:ml-3 sm:mt-0 sm:inline sm:text-lg">
                   {filteredItems.length} of {items.length} item{items.length !== 1 ? 's' : ''}
                 </span>
               )}
@@ -929,7 +929,7 @@ export default function InventoryPage() {
               initial={{ y: 80, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 80, opacity: 0 }}
-              className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 border-4 border-black bg-black text-white px-6 py-4 shadow-[8px_8px_0_#93E1A8]"
+              className="fixed inset-x-2 bottom-20 z-50 flex flex-col items-stretch gap-3 border-4 border-black bg-black text-white px-4 py-4 shadow-[8px_8px_0_#93E1A8] sm:bottom-6 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:flex-row sm:items-center sm:gap-4 sm:px-6"
             >
               <CheckCircle2 className="h-5 w-5 text-[#93E1A8] shrink-0" />
               <span className="font-black text-sm uppercase tracking-[0.15em]">
@@ -938,7 +938,7 @@ export default function InventoryPage() {
               <button
                 onClick={handleBulkDelete}
                 disabled={bulkDeleting}
-                className="flex items-center gap-2 border-2 border-white bg-[#FFD2CC] text-black px-4 py-2 font-black text-xs uppercase tracking-[0.15em] hover:bg-white transition-colors disabled:opacity-50"
+                className="flex items-center justify-center gap-2 border-2 border-white bg-[#FFD2CC] text-black px-4 py-2 font-black text-xs uppercase tracking-[0.15em] hover:bg-white transition-colors disabled:opacity-50"
               >
                 <Trash2 className="h-4 w-4" />
                 {bulkDeleting ? 'Deleting…' : `Delete ${selectedIds.size}`}

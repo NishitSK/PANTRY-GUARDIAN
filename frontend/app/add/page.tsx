@@ -564,8 +564,8 @@ export default function AddItemPage() {
   }
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#F6F1E7] px-2 py-6 sm:px-6 sm:py-8 lg:px-8">
-      <div className="mx-auto max-w-[1280px]">
+    <main className="min-h-screen overflow-x-hidden bg-[#F6F1E7] px-0 py-4 sm:px-6 sm:py-8 lg:px-8">
+      <div className="mx-auto max-w-[1280px] px-2 sm:px-0">
       <div className="mb-6 sm:mb-8 border-4 border-black bg-white p-4 sm:p-6 shadow-[8px_8px_0_#000]">
         <Button
           type="button"
@@ -581,7 +581,7 @@ export default function AddItemPage() {
           Back
         </Button>
         <p className="text-[10px] font-black uppercase tracking-[0.32em] text-black/60">Inventory Intake</p>
-        <h1 className="mt-2 font-noto-serif text-4xl sm:text-5xl leading-[0.95] text-black">Add New Item</h1>
+        <h1 className="mt-2 break-words font-noto-serif text-4xl sm:text-5xl leading-[0.95] text-black">Add New Item</h1>
         <p className="mt-3 font-manrope text-sm text-black/75">Add groceries to your inventory with smart expiry predictions.</p>
       </div>
 
@@ -598,7 +598,7 @@ export default function AddItemPage() {
 
       {/* Review Items from AI */}
       {showReviewItems && reviewItems.length > 0 && (
-        <div className="mb-8 border-4 border-black bg-[#DDE8FF] p-4 shadow-[8px_8px_0_#000]">
+        <div className="mb-8 max-w-full overflow-hidden border-4 border-black bg-[#DDE8FF] p-3 sm:p-4 shadow-[8px_8px_0_#000]">
           <div className="mb-4">
             <h3 className="font-ibm-mono text-xs font-black uppercase tracking-[0.26em] text-black flex items-center gap-2">
               <span>✨</span> Review Item List
@@ -607,7 +607,7 @@ export default function AddItemPage() {
           <div className="space-y-3">
             {reviewItems.map((item) => (
               <div key={item.id} className="border-2 border-black bg-white p-3">
-                <div className="grid gap-3 md:grid-cols-[1fr_1fr_0.45fr_0.45fr_auto]">
+                <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_0.45fr_0.45fr_auto]">
                   <input
                     value={item.ocrName}
                     readOnly
@@ -691,9 +691,9 @@ export default function AddItemPage() {
         </div>
       )}
 
-      <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
+      <div className="grid min-w-0 gap-6 sm:gap-8 md:grid-cols-3">
         <div className="md:col-span-2">
-          <div className="border-4 border-black bg-white p-4 sm:p-6 shadow-[8px_8px_0_#000]">
+          <div className="max-w-full overflow-visible border-4 border-black bg-white p-4 sm:p-6 shadow-[8px_8px_0_#000]">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label className="mb-2 block font-ibm-mono text-[10px] font-black uppercase tracking-[0.22em] text-black/70">
@@ -838,13 +838,13 @@ export default function AddItemPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                <Button type="submit" disabled={submitting} className="min-h-11 border-2 border-black bg-[#93E1A8] px-6 py-3 font-ibm-mono text-[10px] uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white">
+                <Button type="submit" disabled={submitting} className="min-h-11 w-full border-2 border-black bg-[#93E1A8] px-6 py-3 font-ibm-mono text-[10px] uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white sm:w-auto">
                   {submitting ? 'Adding...' : 'Add to Inventory'}
                 </Button>
                 <Button
                   type="button"
                   onClick={() => router.push('/inventory')}
-                  className="min-h-11 border-2 border-black bg-white px-6 py-3 font-ibm-mono text-[10px] uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white"
+                  className="min-h-11 w-full border-2 border-black bg-white px-6 py-3 font-ibm-mono text-[10px] uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white sm:w-auto"
                 >
                   Cancel
                 </Button>
@@ -854,14 +854,14 @@ export default function AddItemPage() {
         </div>
 
         <div>
-          <div className="border-4 border-black bg-white p-4 sm:p-6 shadow-[8px_8px_0_#000]">
+          <div className="max-w-full overflow-hidden border-4 border-black bg-white p-4 sm:p-6 shadow-[8px_8px_0_#000]">
             <h3 className="mb-4 font-noto-serif text-3xl text-black">Prediction Preview</h3>
             
             {predictedExpiry ? (
               <div className="space-y-6">
                 <div className="border-2 border-black bg-[#DDF5E3] p-4 text-center">
                   <p className="mb-1 font-ibm-mono text-[10px] font-black uppercase tracking-[0.2em] text-black/70">Predicted Expiry</p>
-                  <p className="font-noto-serif text-4xl font-bold text-black">
+                  <p className="break-words font-noto-serif text-3xl sm:text-4xl font-bold text-black">
                     {formatIndianDate(predictedExpiry)}
                   </p>
                   <p className="mt-1 font-manrope text-sm font-bold text-black/80">

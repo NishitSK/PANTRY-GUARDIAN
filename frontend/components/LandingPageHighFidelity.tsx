@@ -44,17 +44,17 @@ export default function LandingPageHighFidelity() {
   const { isSignedIn, user } = useUser()
 
   return (
-    <main className="min-h-screen bg-background text-textMain overflow-hidden selection:bg-primary selection:text-black">
+    <main className="min-h-screen max-w-full bg-background text-textMain overflow-hidden selection:bg-primary selection:text-black">
       <header className="sticky top-0 z-50 border-b-2 border-black bg-background/95 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-3">
+        <div className="mx-auto flex max-w-7xl min-w-0 items-center justify-between gap-2 px-2 py-4 sm:gap-4 sm:px-6 lg:px-8">
+          <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3">
             <img
               src="/icon.svg"
               alt="Pantry Guardian logo"
               className="h-10 w-10 sm:h-11 sm:w-11 border-2 border-black bg-white object-contain shadow-[4px_4px_0_0_rgba(0,0,0,1)]"
             />
             <div>
-              <p className="font-anton text-xl sm:text-2xl uppercase tracking-[0.08em] leading-none">Pantry Guardian</p>
+              <p className="truncate font-anton text-lg sm:text-2xl uppercase tracking-[0.08em] leading-none">Pantry Guardian</p>
               <p className="hidden sm:block font-ibm-mono text-[10px] uppercase tracking-[0.35em] text-textMuted">Brutalist inventory control</p>
             </div>
           </Link>
@@ -75,15 +75,15 @@ export default function LandingPageHighFidelity() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-2">
             {isSignedIn ? (
               <>
                 <Link href="/dashboard">
-                  <Button size="sm" className="min-h-11 px-4 py-2 font-ibm-mono text-[10px] uppercase tracking-[0.3em]">
+                  <Button size="sm" className="min-h-11 px-2 py-2 font-ibm-mono text-[10px] uppercase tracking-[0.3em] sm:px-4">
                     Dashboard
                   </Button>
                 </Link>
-                <Link href="/profile" className="inline-flex min-h-11 items-center gap-2 border-2 border-black bg-[#FFE66D] px-2 py-1.5 shadow-[4px_4px_0_0_rgba(0,0,0,1)] transition-transform hover:-translate-y-1">
+                <Link href="/profile" className="inline-flex min-h-11 items-center gap-2 border-2 border-black bg-[#FFE66D] px-1.5 sm:px-2 py-1.5 shadow-[4px_4px_0_0_rgba(0,0,0,1)] transition-transform hover:-translate-y-1">
                   {user?.imageUrl ? (
                     <img src={user.imageUrl} alt="Profile" className="h-8 w-8 border-2 border-black object-cover" />
                   ) : (
@@ -99,12 +99,12 @@ export default function LandingPageHighFidelity() {
             ) : (
               <>
                 <Link href="/auth/login">
-                  <Button variant="ghost" size="sm" className="min-h-11 px-4 py-2 font-ibm-mono text-[10px] uppercase tracking-[0.3em]">
+                  <Button variant="ghost" size="sm" className="min-h-11 px-2 py-2 font-ibm-mono text-[10px] uppercase tracking-[0.3em] sm:px-4">
                     Log in
                   </Button>
                 </Link>
                 <Link href="/auth/signup">
-                  <Button size="sm" className="min-h-11 px-4 py-2 font-ibm-mono text-[10px] uppercase tracking-[0.3em]">
+                  <Button size="sm" className="min-h-11 px-2 py-2 font-ibm-mono text-[10px] uppercase tracking-[0.3em] sm:px-4">
                     Start
                   </Button>
                 </Link>
@@ -116,12 +116,12 @@ export default function LandingPageHighFidelity() {
 
       <section className="relative border-b-2 border-black">
         <div className="absolute inset-0 brutalist-grid opacity-50" />
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-14">
+        <div className="mx-auto grid max-w-7xl gap-6 px-2 py-6 sm:px-6 sm:py-10 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-14">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative z-10 flex flex-col justify-between gap-8 border-2 border-black bg-surface p-6 shadow-[12px_12px_0_0_rgba(0,0,0,1)] sm:p-8 lg:min-h-[760px]"
+            className="relative z-10 flex min-w-0 flex-col justify-between gap-8 border-2 border-black bg-surface p-4 shadow-[12px_12px_0_0_rgba(0,0,0,1)] sm:p-8 lg:min-h-[760px]"
           >
             <div className="space-y-6">
               <div className="flex flex-wrap items-center gap-3">
@@ -135,7 +135,7 @@ export default function LandingPageHighFidelity() {
                 <p className="font-ibm-mono text-[10px] uppercase tracking-[0.4em] text-textMuted">
                   Pantry Guardian
                 </p>
-                <h1 className="max-w-4xl font-anton text-6xl uppercase leading-[0.9] sm:text-7xl lg:text-[7.5rem]">
+                <h1 className="max-w-4xl break-words font-anton text-5xl uppercase leading-[0.9] sm:text-7xl lg:text-[7.5rem]">
                   Waste Is a
                   <span className="block text-primary">Design Problem.</span>
                 </h1>
@@ -174,7 +174,7 @@ export default function LandingPageHighFidelity() {
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="relative z-10 flex min-h-[760px] flex-col justify-between gap-6 border-2 border-black bg-black p-4 text-white shadow-[12px_12px_0_0_rgba(0,0,0,1)] sm:p-6"
+            className="relative z-10 flex min-h-[560px] min-w-0 flex-col justify-between gap-6 border-2 border-black bg-black p-4 text-white shadow-[12px_12px_0_0_rgba(0,0,0,1)] sm:min-h-[760px] sm:p-6"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between border-2 border-white px-3 py-2 font-ibm-mono text-[10px] uppercase tracking-[0.32em] text-white">
@@ -186,7 +186,7 @@ export default function LandingPageHighFidelity() {
                 <img
                   src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop"
                   alt="Kitchen inventory"
-                  className="h-[420px] w-full object-cover grayscale contrast-125"
+                  className="h-[320px] w-full object-cover grayscale contrast-125 sm:h-[420px]"
                 />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(0,0,0,0.35))]" />
                 <div className="absolute left-4 top-4 border-2 border-white bg-black px-3 py-2 font-ibm-mono text-[10px] uppercase tracking-[0.28em]">

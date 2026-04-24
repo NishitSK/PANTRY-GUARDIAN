@@ -19,13 +19,13 @@ export default function ExpiringSoonCarousel({ items }: ExpiringSoonCarouselProp
   if (items.length === 0) return null
 
   return (
-    <section className="mb-12 border-4 border-black bg-[#F4F4EF] shadow-[8px_8px_0_#000]">
-      <div className="flex items-center justify-between border-b-2 border-black px-4 py-4 sm:px-6">
-        <div>
+    <section className="mb-12 max-w-full overflow-hidden border-4 border-black bg-[#F4F4EF] shadow-[8px_8px_0_#000]">
+      <div className="flex flex-col gap-3 border-b-2 border-black px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="min-w-0">
           <h2 className="font-noto-serif text-3xl text-black">Expiring Soon</h2>
           <p className="mt-1 font-manrope text-sm text-black/65">High priority items needing your attention.</p>
         </div>
-        <button className="border-2 border-black bg-white px-3 py-2 font-ibm-mono text-[10px] uppercase tracking-[0.16em] text-black hover:bg-black hover:text-white">
+        <button className="w-full border-2 border-black bg-white px-3 py-2 font-ibm-mono text-[10px] uppercase tracking-[0.16em] text-black hover:bg-black hover:text-white sm:w-auto">
           View Critical List
         </button>
       </div>
@@ -38,10 +38,10 @@ export default function ExpiringSoonCarousel({ items }: ExpiringSoonCarouselProp
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
             whileHover={{ y: -2 }}
-            className="group border-2 border-black bg-white p-4 shadow-[4px_4px_0_#000]"
+            className="group min-w-0 border-2 border-black bg-white p-4 shadow-[4px_4px_0_#000]"
           >
-            <div className="mb-4 flex items-center justify-between border-2 border-black bg-[#F6F1E7] px-3 py-2">
-              <p className="font-ibm-mono text-[10px] font-black uppercase tracking-[0.16em] text-black">{item.category}</p>
+            <div className="mb-4 flex flex-col gap-2 border-2 border-black bg-[#F6F1E7] px-3 py-2 min-[380px]:flex-row min-[380px]:items-center min-[380px]:justify-between">
+              <p className="min-w-0 truncate font-ibm-mono text-[10px] font-black uppercase tracking-[0.16em] text-black">{item.category}</p>
               <span
                 className={cn(
                   "border-2 border-black px-2 py-1 font-ibm-mono text-[10px] uppercase tracking-[0.12em]",
@@ -52,7 +52,7 @@ export default function ExpiringSoonCarousel({ items }: ExpiringSoonCarouselProp
               </span>
             </div>
 
-            <h3 className="font-noto-serif text-3xl font-bold leading-tight text-black">{item.name}</h3>
+            <h3 className="break-words font-noto-serif text-2xl sm:text-3xl font-bold leading-tight text-black">{item.name}</h3>
 
             <div className="mt-4 border-t-2 border-black pt-3">
               <p className="font-manrope text-sm text-black/75">

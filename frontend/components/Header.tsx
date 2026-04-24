@@ -23,12 +23,12 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b-2 border-black bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between gap-3">
+    <header className="sticky top-0 z-40 max-w-full overflow-x-hidden border-b-2 border-black bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90">
+      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div className="flex h-16 min-w-0 items-center justify-between gap-2 sm:gap-3">
           {/* Left: Brand */}
-          <div className="flex items-center gap-2">
-            <Link href="/dashboard" className="inline-flex items-center gap-3 border-2 border-black bg-surface px-3 py-2 shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
+          <div className="flex min-w-0 items-center gap-2">
+            <Link href="/dashboard" className="inline-flex min-w-0 items-center gap-2 sm:gap-3 border-2 border-black bg-surface px-2 sm:px-3 py-2 shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
               <img src="/icon.svg" alt="Pantry Guardian logo" className="h-8 w-8 border-2 border-black bg-white object-contain" />
               <span className="hidden sm:inline font-anton text-xl uppercase tracking-[0.08em] text-textMain">
                 Pantry Guardian
@@ -53,7 +53,7 @@ export default function Header() {
           )}
 
           {/* Right: Utilities */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex min-w-0 items-center gap-1 sm:gap-3">
             <div className="hidden sm:block">
               <WeatherChip />
             </div>
@@ -75,9 +75,9 @@ export default function Header() {
                 <Button variant="ghost" className="hidden md:inline-flex border-2 border-black bg-white text-black hover:bg-black hover:text-white px-3 py-2">Sign out</Button>
               </SignOutButton>
             ) : (
-              <div className="flex gap-2">
-                 <Link href="/auth/login"><Button variant="ghost" size="sm" className="border-2 border-black bg-white text-black hover:bg-black hover:text-white">Login</Button></Link>
-                 <Link href="/auth/login"><Button size="sm" className="border-2 border-black bg-[#FFE66D] text-black hover:bg-black hover:text-white">Get Started</Button></Link>
+              <div className="flex min-w-0 gap-1 sm:gap-2">
+                 <Link href="/auth/login"><Button variant="ghost" size="sm" className="border-2 border-black bg-white px-2 text-[10px] text-black hover:bg-black hover:text-white sm:px-3 sm:text-sm">Login</Button></Link>
+                 <Link href="/auth/login"><Button size="sm" className="border-2 border-black bg-[#FFE66D] px-2 text-[10px] text-black hover:bg-black hover:text-white sm:px-3 sm:text-sm">Start</Button></Link>
               </div>
             )}
           </div>
@@ -93,8 +93,8 @@ export default function Header() {
             exit={{ opacity: 0, height: 0 }}
             className="max-h-[calc(100vh-4rem)] overflow-y-auto overflow-x-hidden border-t-2 border-black bg-background md:hidden"
           >
-            <div className="p-4 space-y-4">
-              <div className="flex items-center justify-between border-b-2 border-black pb-4">
+            <div className="space-y-4 p-3 sm:p-4">
+              <div className="flex min-w-0 items-center justify-between border-b-2 border-black pb-4">
                  <WeatherChip />
               </div>
               <nav className="flex flex-col gap-2">
@@ -104,7 +104,7 @@ export default function Header() {
                     <Link 
                       key={l.href} 
                       href={l.href}
-                      prefetch
+                      prefetch={false}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={`border-2 border-black px-4 py-3 font-ibm-mono text-[10px] uppercase tracking-[0.28em] transition-colors ${
                         active 

@@ -79,7 +79,14 @@
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
   }
+
+  html {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -89,6 +96,17 @@
       linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
     overflow-x: hidden;
     background-size: auto, 100% 24px, 24px 100%;
+  }
+
+  img,
+  svg,
+  video,
+  canvas,
+  input,
+  select,
+  textarea,
+  button {
+    max-width: 100%;
   }
 
   .dark body {
@@ -176,4 +194,16 @@
 
 .animation-delay-4000 {
   animation-delay: 4s;
+}
+
+@media (max-width: 640px) {
+  [class*="shadow-["],
+  .shadow-brutal,
+  .shadow-brutal-lg {
+    box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.95) !important;
+  }
+
+  [class*="tracking-["] {
+    letter-spacing: 0.08em !important;
+  }
 }

@@ -95,22 +95,22 @@ export default function InsightsCharts({ categoryData, storageData, totalItems }
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 flex-1 min-h-0 pb-6 items-stretch">
+    <div className="grid min-w-0 gap-6 md:grid-cols-2 flex-1 min-h-0 pb-6 items-stretch">
       {/* Top Categories Bar Chart */}
-      <Card className="overflow-hidden !shadow-[6px_6px_0_#000] !border-4 !border-black flex flex-col !rounded-none min-h-[460px] !bg-white">
+      <Card className="overflow-hidden !shadow-[6px_6px_0_#000] !border-4 !border-black flex min-w-0 flex-col !rounded-none min-h-[360px] sm:min-h-[460px] !bg-white">
         <div className="p-4 border-b-2 border-black shrink-0 bg-[#F6F1E7]">
           <h3 className="font-serif text-lg font-bold text-black flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-black" /> Top Categories
           </h3>
         </div>
-        <div className="p-4 flex-1 min-h-0">
+        <div className="p-2 sm:p-4 flex-1 min-h-0">
           {barData.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-black/70">
               <p className="text-sm font-black uppercase tracking-[0.1em]">No data available</p>
             </div>
           ) : (
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={barData} margin={{ top: 16, right: 14, left: 0, bottom: 8 }}>
+              <BarChart data={barData} margin={{ top: 16, right: 6, left: -18, bottom: 8 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" opacity={0.5} />
                 <XAxis 
                   dataKey="name" 
@@ -137,7 +137,7 @@ export default function InsightsCharts({ categoryData, storageData, totalItems }
       </Card>
 
       {/* Storage Distribution Pie Chart */}
-      <Card className="overflow-hidden !shadow-[6px_6px_0_#000] !border-4 !border-black flex flex-col !rounded-none min-h-[460px] !bg-white">
+      <Card className="overflow-hidden !shadow-[6px_6px_0_#000] !border-4 !border-black flex min-w-0 flex-col !rounded-none min-h-[360px] sm:min-h-[460px] !bg-white">
         <div className="p-4 border-b-2 border-black shrink-0 bg-[#F6F1E7]">
           <h3 className="font-serif text-lg font-bold text-black flex items-center gap-2">
             <Package className="w-4 h-4 text-black" /> Storage Distribution
