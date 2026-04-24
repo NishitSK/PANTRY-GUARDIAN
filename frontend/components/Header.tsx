@@ -29,7 +29,7 @@ export default function Header() {
           {/* Left: Brand */}
           <div className="flex min-w-0 items-center gap-2">
             <Link href="/dashboard" className="inline-flex min-w-0 items-center gap-2 sm:gap-3 border-2 border-black bg-surface px-2 sm:px-3 py-2 shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
-              <img src="/icon.svg" alt="Pantry Guardian logo" className="h-8 w-8 border-2 border-black bg-white object-contain" />
+              <img src="/logo.png" alt="Pantry Guardian logo" className="h-9 w-9 object-contain" />
               <span className="hidden sm:inline font-anton text-xl uppercase tracking-[0.08em] text-textMain">
                 Pantry Guardian
               </span>

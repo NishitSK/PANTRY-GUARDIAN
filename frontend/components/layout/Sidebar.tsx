@@ -23,7 +23,7 @@ export default function Sidebar() {
       {/* Brand Header */}
       <div className="shrink-0 flex flex-col justify-center px-6 py-4 border-b-4 border-black bg-white">
         <div className="flex items-center gap-3">
-          <img src="/icon.svg" alt="Pantry Guardian logo" className="h-8 w-8 border-2 border-black bg-white object-contain" />
+          <img src="/logo.png" alt="Pantry Guardian logo" className="h-9 w-9 object-contain" />
           <span className="ml-0.5 text-xl font-noto-serif font-bold text-black tracking-tight leading-none">Pantry Guardian</span>
         </div>
         <p className="mt-1.5 ml-0.5 text-[9px] font-manrope font-black uppercase tracking-[0.24em] text-black">Brutalist inventory control</p>

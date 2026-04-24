@@ -531,6 +531,35 @@ export default function OcrTestPage() {
   const [reviewItems, setReviewItems] = useState<ReviewItem[]>([])
   const [confirmedItems, setConfirmedItems] = useState<ReviewItem[]>([])
   const [reviewError, setReviewError] = useState('')
+  const [ocrMsgIndex, setOcrMsgIndex] = useState(0)
+  const [ocrMsgVisible, setOcrMsgVisible] = useState(true)
+
+  const OCR_MESSAGES = [
+    'Reading the receipt',
+    'Scanning item names',
+    'Checking the letters',
+    'Looking at the list',
+    'Matching grocery items',
+    'Identifying products',
+    'Cross-referencing pantry',
+    'Parsing quantities',
+    'Verifying item names',
+    'Almost there',
+  ]
+
+  useEffect(() => {
+    if (!isLoading) return
+    setOcrMsgIndex(0)
+    setOcrMsgVisible(true)
+    const interval = setInterval(() => {
+      setOcrMsgVisible(false)
+      setTimeout(() => {
+        setOcrMsgIndex(prev => (prev + 1) % OCR_MESSAGES.length)
+        setOcrMsgVisible(true)
+      }, 300)
+    }, 2200)
+    return () => clearInterval(interval)
+  }, [isLoading])
 
   const parsed = useMemo(() => {
     if (!ocrText.trim()) return null
@@ -676,6 +705,41 @@ export default function OcrTestPage() {
 
   return (
     <main className="min-h-screen bg-background px-4 py-8 sm:px-8">
+
+      {/* OCR Loading Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-6 border-4 border-black bg-[#F6F1E7] p-10 shadow-[12px_12px_0_#000] min-w-[280px]">
+            {/* Spinner */}
+            <div className="h-10 w-10 animate-spin rounded-none border-4 border-black border-t-transparent" />
+
+            {/* Rotating message */}
+            <div className="flex flex-col items-center gap-2 min-h-[3.5rem] text-center">
+              <p
+                className="font-anton text-2xl uppercase leading-none text-black transition-opacity duration-300"
+                style={{ opacity: ocrMsgVisible ? 1 : 0 }}
+              >
+                {OCR_MESSAGES[ocrMsgIndex]}
+              </p>
+              <p className="font-ibm-mono text-[10px] uppercase tracking-[0.24em] text-black/50">
+                AI scan in progress
+              </p>
+            </div>
+
+            {/* Progress dots */}
+            <div className="flex gap-2">
+              {OCR_MESSAGES.slice(0, 5).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-2 w-2 border-2 border-black transition-colors duration-300"
+                  style={{ background: i === ocrMsgIndex % 5 ? '#000' : 'transparent' }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mx-auto max-w-4xl rounded-none border-2 border-black bg-white p-6 shadow-[10px_10px_0_0_rgba(0,0,0,1)]">
         <h1 className="font-anton text-4xl uppercase leading-none">OCR Test Only</h1>
         <p className="mt-3 font-ibm-mono text-xs uppercase tracking-[0.2em] text-textMuted">
@@ -706,7 +770,7 @@ export default function OcrTestPage() {
               disabled={isLoading}
               className="min-h-11 border-2 border-black bg-[#FFE66D] px-4 py-2 font-ibm-mono text-[10px] uppercase tracking-[0.24em] text-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] transition-transform hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:opacity-50"
             >
-              {isLoading ? 'Running OCR...' : 'Run OCR'}
+              {isLoading ? 'Processing image' : 'Run OCR'}
             </button>
 
             {previewUrl ? (

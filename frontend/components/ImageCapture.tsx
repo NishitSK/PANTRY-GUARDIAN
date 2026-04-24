@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Camera, Image as ImageIcon, X, Sparkles } from 'lucide-react'
 import Image from 'next/image'
@@ -16,6 +16,35 @@ export default function ImageCapture({ onImageCaptured, onAnalysisComplete }: Im
   const [analyzing, setAnalyzing] = useState(false)
   const [capturedFile, setCapturedFile] = useState<File | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [ocrMsgIndex, setOcrMsgIndex] = useState(0)
+  const [ocrMsgVisible, setOcrMsgVisible] = useState(true)
+
+  const OCR_MESSAGES = [
+    'Reading the receipt',
+    'Scanning item names',
+    'Checking the letters',
+    'Looking at the list',
+    'Matching grocery items',
+    'Identifying products',
+    'Cross-referencing pantry',
+    'Parsing quantities',
+    'Verifying item names',
+    'Almost there',
+  ]
+
+  useEffect(() => {
+    if (!analyzing) return
+    setOcrMsgIndex(0)
+    setOcrMsgVisible(true)
+    const interval = setInterval(() => {
+      setOcrMsgVisible(false)
+      setTimeout(() => {
+        setOcrMsgIndex(prev => (prev + 1) % OCR_MESSAGES.length)
+        setOcrMsgVisible(true)
+      }, 300)
+    }, 2200)
+    return () => clearInterval(interval)
+  }, [analyzing])
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -118,7 +147,42 @@ export default function ImageCapture({ onImageCaptured, onAnalysisComplete }: Im
   }
 
   return (
-    <div className="w-full bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm transition-all">
+    <>
+      {/* OCR Analyzing Overlay */}
+      {analyzing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-6 border-4 border-black bg-[#F6F1E7] p-10 shadow-[12px_12px_0_#000] min-w-[300px]">
+            {/* Brutalist spinner */}
+            <div className="h-10 w-10 animate-spin border-4 border-black border-t-transparent" />
+
+            {/* Rotating message */}
+            <div className="flex flex-col items-center gap-2 min-h-[3.5rem] text-center">
+              <p
+                className="font-anton text-2xl uppercase leading-none text-black transition-opacity duration-300"
+                style={{ opacity: ocrMsgVisible ? 1 : 0 }}
+              >
+                {OCR_MESSAGES[ocrMsgIndex]}
+              </p>
+              <p className="font-ibm-mono text-[10px] uppercase tracking-[0.24em] text-black/50">
+                AI scan in progress
+              </p>
+            </div>
+
+            {/* Progress dots */}
+            <div className="flex gap-2">
+              {OCR_MESSAGES.slice(0, 5).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-2 w-2 border-2 border-black transition-colors duration-300"
+                  style={{ background: i === ocrMsgIndex % 5 ? '#000' : 'transparent' }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="w-full bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm transition-all">
       <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
         <h3 className="font-semibold flex items-center gap-2 text-gray-900 dark:text-gray-100">
           <Sparkles className="h-4 w-4 text-purple-500" />
@@ -182,7 +246,7 @@ export default function ImageCapture({ onImageCaptured, onAnalysisComplete }: Im
                 disabled={analyzing}
               >
                 {analyzing ? (
-                  <>Processing...</>
+                  <>Scanning</>
                 ) : (
                   <>
                     <Sparkles className="h-4 w-4" />
@@ -204,6 +268,7 @@ export default function ImageCapture({ onImageCaptured, onAnalysisComplete }: Im
           onChange={handleFileSelect}
         />
       </div>
-    </div>
+      </div>
+    </>
   )
 }

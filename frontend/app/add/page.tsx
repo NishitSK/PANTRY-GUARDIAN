@@ -118,6 +118,35 @@ export default function AddItemPage() {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [saveMsgIndex, setSaveMsgIndex] = useState(0)
+  const [saveMsgVisible, setSaveMsgVisible] = useState(true)
+
+  const SAVE_MESSAGES = [
+    'Saving items',
+    'Updating pantry',
+    'Checking products',
+    'Writing to inventory',
+    'Matching shelf life',
+    'Confirming storage',
+    'Logging purchase',
+    'Syncing records',
+    'Almost done',
+    'Finalising',
+  ]
+
+  useEffect(() => {
+    if (!submitting) return
+    setSaveMsgIndex(0)
+    setSaveMsgVisible(true)
+    const interval = setInterval(() => {
+      setSaveMsgVisible(false)
+      setTimeout(() => {
+        setSaveMsgIndex(prev => (prev + 1) % SAVE_MESSAGES.length)
+        setSaveMsgVisible(true)
+      }, 300)
+    }, 2200)
+    return () => clearInterval(interval)
+  }, [submitting])
 
   // Form state
   const [selectedCategory, setSelectedCategory] = useState('')
@@ -565,6 +594,41 @@ export default function AddItemPage() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#F6F1E7] px-0 py-4 sm:px-6 sm:py-8 lg:px-8">
+
+      {/* Add-to-inventory loading overlay */}
+      {submitting && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-6 border-4 border-black bg-[#F6F1E7] p-10 shadow-[12px_12px_0_#000] min-w-[300px] text-center">
+            {/* Spinner */}
+            <div className="h-10 w-10 animate-spin border-4 border-black border-t-transparent" />
+
+            {/* Rotating message */}
+            <div className="flex flex-col items-center gap-2 min-h-[3.5rem]">
+              <p
+                className="font-anton text-2xl uppercase leading-none text-black transition-opacity duration-300"
+                style={{ opacity: saveMsgVisible ? 1 : 0 }}
+              >
+                {SAVE_MESSAGES[saveMsgIndex]}
+              </p>
+              <p className="font-ibm-mono text-[10px] uppercase tracking-[0.24em] text-black/50">
+                Adding to your pantry
+              </p>
+            </div>
+
+            {/* Progress dots */}
+            <div className="flex gap-2">
+              {SAVE_MESSAGES.slice(0, 5).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-2 w-2 border-2 border-black transition-colors duration-300"
+                  style={{ background: i === saveMsgIndex % 5 ? '#000' : 'transparent' }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mx-auto max-w-[1280px] px-2 sm:px-0">
       <div className="mb-6 sm:mb-8 border-4 border-black bg-white p-4 sm:p-6 shadow-[8px_8px_0_#000]">
         <Button
@@ -673,8 +737,39 @@ export default function AddItemPage() {
                   >
                     Freezer
                   </button>
+
+                  {/* Inline expiry prediction */}
+                  {(() => {
+                    const matchedName = getMatchedInventoryName(item)
+                    const directMatch = item.matchedProductId ? products.find(p => p.id === item.matchedProductId) || null : null
+                    const matched = directMatch || findBestProductByName(matchedName)
+                    if (!matched || !purchasedAt) return null
+
+                    let shelfLife = matched.baseShelfLifeDays
+                    if (item.suggestedStorage === 'room_temp' && matched.roomTempShelfLifeDays != null) shelfLife = matched.roomTempShelfLifeDays
+                    else if (item.suggestedStorage === 'refrigerator' && matched.fridgeShelfLifeDays != null) shelfLife = matched.fridgeShelfLifeDays
+                    else if (item.suggestedStorage === 'freezer' && matched.freezerShelfLifeDays != null) shelfLife = matched.freezerShelfLifeDays
+
+                    const expiry = new Date(purchasedAt)
+                    expiry.setDate(expiry.getDate() + shelfLife)
+                    const daysLeft = Math.ceil((expiry.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+                    const label = expiry.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })
+
+                    const color = daysLeft <= 2
+                      ? 'bg-[#FFD2CC] border-red-400 text-red-800'
+                      : daysLeft <= 7
+                      ? 'bg-[#FFF3C4] border-yellow-400 text-yellow-800'
+                      : 'bg-[#DDF5E3] border-green-400 text-green-800'
+
+                    return (
+                      <span className={`ml-auto border-2 px-2 py-1 font-ibm-mono text-[10px] uppercase tracking-[0.14em] ${color}`}>
+                        Expires ~{label} ({daysLeft}d)
+                      </span>
+                    )
+                  })()}
                 </div>
               </div>
+
             ))}
 
             <div className="flex justify-end pt-2">
@@ -684,7 +779,7 @@ export default function AddItemPage() {
                 disabled={submitting || reviewItems.length === 0}
                 className="border-2 border-black bg-[#93E1A8] px-4 py-2 font-ibm-mono text-[10px] uppercase tracking-[0.16em] text-black hover:bg-black hover:text-white disabled:opacity-50"
               >
-                {submitting ? 'Adding...' : 'Add All To Inventory'}
+                {submitting ? 'Saving items' : 'Add All To Inventory'}
               </button>
             </div>
           </div>

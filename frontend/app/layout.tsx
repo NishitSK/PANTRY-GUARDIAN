@@ -53,9 +53,9 @@ export const metadata = {
   title: 'Pantry Guardian',
   description: 'Brutalist grocery shelf-life and pantry manager.',
   icons: {
-    icon: '/icon.svg',
-    shortcut: '/icon.svg',
-    apple: '/icon.svg',
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
   },
   manifest: '/manifest.json',
 }

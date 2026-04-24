@@ -104,7 +104,7 @@ export default function WeatherChip() {
     return (
       <div className="flex items-center gap-2 w-full px-3 py-2 bg-white border-2 border-black shadow-[3px_3px_0_#000]">
         <div className="w-4 h-4 rounded-full border-2 border-black/30 border-t-black animate-spin" />
-        <span className="text-[10px] text-black font-black uppercase tracking-[0.14em]">Loading weather…</span>
+        <span className="text-[10px] text-black font-black uppercase tracking-[0.14em]">Fetching weather</span>
       </div>
     )
   }

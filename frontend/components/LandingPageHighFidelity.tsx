@@ -49,9 +49,9 @@ export default function LandingPageHighFidelity() {
         <div className="mx-auto flex max-w-7xl min-w-0 items-center justify-between gap-2 px-2 py-4 sm:gap-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3">
             <img
-              src="/icon.svg"
+              src="/logo.png"
               alt="Pantry Guardian logo"
-              className="h-10 w-10 sm:h-11 sm:w-11 border-2 border-black bg-white object-contain shadow-[4px_4px_0_0_rgba(0,0,0,1)]"
+              className="h-10 w-10 sm:h-11 sm:w-11 object-contain"
             />
             <div>
               <p className="truncate font-anton text-lg sm:text-2xl uppercase tracking-[0.08em] leading-none">Pantry Guardian</p>

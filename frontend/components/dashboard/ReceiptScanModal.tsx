@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { X, Upload, Camera, Loader2, CheckCircle, AlertTriangle, ArrowRight, RotateCcw } from 'lucide-react'
 import { getApiBaseUrl } from '@/lib/api'
@@ -30,6 +30,19 @@ interface ReceiptScanModalProps {
   onClose: () => void
 }
 
+const OCR_MESSAGES = [
+  'Reading the receipt',
+  'Scanning item names',
+  'Checking the letters',
+  'Looking at the list',
+  'Matching grocery items',
+  'Identifying products',
+  'Cross-referencing pantry',
+  'Parsing quantities',
+  'Verifying item names',
+  'Almost there',
+]
+
 export default function ReceiptScanModal({ onClose }: ReceiptScanModalProps) {
   const router = useRouter()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -41,6 +54,23 @@ export default function ReceiptScanModal({ onClose }: ReceiptScanModalProps) {
   const [scanResult, setScanResult] = useState<ScanResult | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [selectedItems, setSelectedItems] = useState<Set<number>>(new Set())
+  const [ocrMsgIndex, setOcrMsgIndex] = useState(0)
+  const [ocrMsgVisible, setOcrMsgVisible] = useState(true)
+
+  useEffect(() => {
+    if (step !== 'uploading') return
+    setOcrMsgIndex(0)
+    setOcrMsgVisible(true)
+    const interval = setInterval(() => {
+      // fade out
+      setOcrMsgVisible(false)
+      setTimeout(() => {
+        setOcrMsgIndex(prev => (prev + 1) % OCR_MESSAGES.length)
+        setOcrMsgVisible(true)
+      }, 300)
+    }, 2200)
+    return () => clearInterval(interval)
+  }, [step])
 
   const handleFile = (file: File) => {
     if (file.size > 5 * 1024 * 1024) {
@@ -230,10 +260,35 @@ export default function ReceiptScanModal({ onClose }: ReceiptScanModalProps) {
               {preview && (
                 <img src={preview} alt="Receipt preview" className="max-h-40 border-2 border-black object-contain" />
               )}
-              <div className="flex flex-col items-center gap-3">
-                <Loader2 className="h-10 w-10 animate-spin text-black" />
-                <p className="font-manrope text-sm text-black/70">Analysing receipt…</p>
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">OCR is running, please wait</p>
+              <div className="flex flex-col items-center gap-4">
+                {/* Spinner */}
+                <div className="relative flex items-center justify-center">
+                  <Loader2 className="h-10 w-10 animate-spin text-black" />
+                </div>
+
+                {/* Rotating message */}
+                <div className="flex flex-col items-center gap-1 min-h-[3rem]">
+                  <p
+                    className="font-anton text-xl uppercase leading-none text-black transition-opacity duration-300"
+                    style={{ opacity: ocrMsgVisible ? 1 : 0 }}
+                  >
+                    {OCR_MESSAGES[ocrMsgIndex]}
+                  </p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">
+                    AI scan in progress
+                  </p>
+                </div>
+
+                {/* Progress dots */}
+                <div className="flex gap-1.5 mt-1">
+                  {OCR_MESSAGES.slice(0, 5).map((_, i) => (
+                    <div
+                      key={i}
+                      className="h-1.5 w-1.5 border border-black transition-colors duration-300"
+                      style={{ background: i === ocrMsgIndex % 5 ? '#000' : 'transparent' }}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           )}

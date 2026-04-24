@@ -297,7 +297,7 @@ function EditModal({ item, onClose, onSaved }: { item: InventoryItem; onClose: (
               disabled={saving}
               className="flex-1 border-2 border-black bg-[#FFE66D] px-4 py-3 text-[10px] font-black uppercase tracking-[0.18em] hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0_#000] disabled:opacity-50"
             >
-              {saving ? 'Saving…' : 'Save changes'}
+              {saving ? 'Updating pantry' : 'Save changes'}
             </button>
           </div>
         </div>

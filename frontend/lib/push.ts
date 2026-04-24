@@ -41,8 +41,8 @@ export async function sendPushToUser(userId: string, payload: PushPayload) {
 	const notification = {
 		title: payload.title,
 		body: payload.body,
-		icon: payload.icon || '/icon.svg',
-		badge: payload.badge || '/icon.svg',
+		icon: payload.icon || '/logo.png',
+		badge: payload.badge || '/logo.png',
 		tag: payload.tag || 'notification',
 		data: payload.data || {},
 	}

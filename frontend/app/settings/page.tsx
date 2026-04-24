@@ -48,7 +48,7 @@ export default function SettingsPage() {
   }
 
   const handleDetectLocation = async () => {
-    setMessage('Detecting your location...')
+    setMessage('Fetching location')
     
     try {
       const detectedCity = await detectUserCity()
@@ -97,7 +97,7 @@ export default function SettingsPage() {
   if (!isLoaded || loading) {
     return (
       <main className="container mx-auto px-4 py-8">
-        <p>Loading...</p>
+        <p>Loading settings</p>
       </main>
     )
   }
@@ -168,7 +168,7 @@ export default function SettingsPage() {
                   className="flex-1 min-h-11 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 />
                 <Button onClick={handleUpdateCity} disabled={saving} className="min-h-11 bg-[#FFE66D] text-black border-2 border-black hover:bg-black hover:text-white">
-                  {saving ? 'Saving...' : 'Update'}
+                  {saving ? 'Updating settings' : 'Update'}
                 </Button>
               </div>
               <div className="flex items-center gap-2">

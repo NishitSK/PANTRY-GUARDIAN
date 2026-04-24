@@ -73,7 +73,7 @@ export default function PushNotificationPrompt() {
 						disabled={isLoading}
 						className="border-2 border-black bg-primary px-5 py-4 font-ibm-mono text-[10px] uppercase tracking-[0.3em] text-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] transition-transform hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:opacity-50"
 					>
-						{isLoading ? 'Enabling...' : 'Enable notifications'}
+						{isLoading ? 'Enabling notifications' : 'Enable notifications'}
 					</button>
 					<button
 						onClick={handleDismiss}

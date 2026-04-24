@@ -41,7 +41,7 @@ export default function LoadingFruit() {
           />
           <style>{`@keyframes dash { to { stroke-dashoffset: 0; } }`}</style>
         </svg>
-        <p className="font-anton text-3xl uppercase leading-none">Loading</p>
+        <p className="font-anton text-3xl uppercase leading-none">Loading pantry</p>
         <p className="max-w-xs font-ibm-mono text-[10px] uppercase tracking-[0.28em] text-textMuted">
           Preparing the inventory view.
         </p>

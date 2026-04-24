@@ -66,7 +66,7 @@ export default function ScrollVideo({ src, className, scale = 1, objectFit = "co
         {/* Loading State */}
         {!isLoaded && (
             <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                <span className="animate-pulse">Loading Video...</span>
+                <span className="animate-pulse">Fetching video</span>
             </div>
         )}
         

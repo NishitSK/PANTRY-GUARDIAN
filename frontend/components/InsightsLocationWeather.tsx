@@ -88,7 +88,7 @@ export default function InsightsLocationWeather() {
   }
 
   const handleDetect = async () => {
-    setMsg('Detecting your location via GPS...')
+    setMsg('Fetching location via GPS')
     if (!navigator.geolocation) {
       setMsg('Geolocation not supported. Enter city manually.')
       return
@@ -102,7 +102,7 @@ export default function InsightsLocationWeather() {
           (error) => {
             // If high accuracy times out, try with lower accuracy
             if (error.code === error.TIMEOUT) {
-              setMsg('GPS taking longer, trying network location...')
+              setMsg('Fetching via network')
               navigator.geolocation.getCurrentPosition(
                 resolve,
                 reject,
@@ -119,7 +119,7 @@ export default function InsightsLocationWeather() {
       const { latitude, longitude, accuracy } = position.coords
       const locationSource = accuracy < 100 ? 'GPS' : 'Network'
       console.log(`Location detected via ${locationSource} (accuracy: ${Math.round(accuracy)}m)`)
-      setMsg(`Location detected via ${locationSource} (±${Math.round(accuracy)}m). Fetching city name...`)
+      setMsg(`Location detected via ${locationSource}. Fetching city name`)
 
       const baseUrl = getApiBaseUrl()
       const r = await fetch(`${baseUrl}/api/weather/current?lat=${latitude}&lon=${longitude}&t=${Date.now()}`, { cache: 'no-store' })
@@ -167,7 +167,7 @@ export default function InsightsLocationWeather() {
         </div>
         <div className="flex gap-2">
           <Button onClick={handleDetect} className="bg-[#93E1A8] text-black border-2 border-black hover:bg-black hover:text-white">Detect</Button>
-          <Button onClick={handleSave} disabled={saving} className="bg-[#FFE66D] text-black border-2 border-black hover:bg-black hover:text-white">{saving ? 'Saving...' : 'Save'}</Button>
+          <Button onClick={handleSave} disabled={saving} className="bg-[#FFE66D] text-black border-2 border-black hover:bg-black hover:text-white">{saving ? 'Updating location' : 'Save'}</Button>
         </div>
       </div>
 

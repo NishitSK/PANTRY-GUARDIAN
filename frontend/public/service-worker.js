@@ -6,8 +6,8 @@ self.addEventListener('push', (event) => {
 
 	const options = {
 		body: body || 'You have a new notification',
-		icon: icon || '/icon.svg',
-		badge: badge || '/icon.svg',
+		icon: icon || '/logo.png',
+		badge: badge || '/logo.png',
 		tag: tag || 'notification',
 		data: notificationData || {},
 		// Allow browser to display notifications even when site not open

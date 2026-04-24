@@ -281,7 +281,7 @@ export default function ProfilePage() {
                                     disabled={saving}
                                 className="min-h-11 border-2 border-black bg-[#93E1A8] px-8 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-black transition-colors hover:bg-black hover:text-white"
                                 >
-                                    {saving ? 'Syncing...' : 'Seal Identity'}
+                                    {saving ? 'Updating identity' : 'Seal Identity'}
                                 </button>
                             </div>
                         )}

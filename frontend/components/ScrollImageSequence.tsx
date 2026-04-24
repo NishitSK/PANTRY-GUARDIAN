@@ -80,7 +80,7 @@ export default function ScrollImageSequence({
         {/* Only show loading if we haven't even loaded the first few frames AND the image isn't visible yet */}
         {!imagesPreloaded && currentFrame === 1 && (
             <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-background/50 z-10 pointer-events-none opacity-0">
-                <span className="animate-pulse text-sm">Loading...</span>
+                <span className="animate-pulse text-sm">Fetching sequence</span>
             </div>
         )}
         
