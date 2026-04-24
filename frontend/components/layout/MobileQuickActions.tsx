@@ -24,6 +24,7 @@ export default function MobileQuickActions() {
             <Link
               key={action.href}
               href={action.href}
+              prefetch={false}
               className={cn(
                 "flex-1 flex min-h-[48px] items-center justify-center gap-1.5 border-2 border-black px-1 py-2 text-[9px] font-black uppercase tracking-tight transition-colors",
                 active ? 'bg-[#FFE66D] text-black shadow-[2px_2px_0_#000]' : 'bg-white text-black hover:bg-black hover:text-white'

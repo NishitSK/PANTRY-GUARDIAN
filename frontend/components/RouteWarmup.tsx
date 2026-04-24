@@ -5,11 +5,7 @@ import { useRouter } from 'next/navigation'
 import { getApiBaseUrl } from '@/lib/api'
 
 const ROUTES_TO_PREFETCH = [
-  '/dashboard',
-  '/inventory',
   '/add',
-  '/insights',
-  '/recipes',
   '/settings',
 ]
 

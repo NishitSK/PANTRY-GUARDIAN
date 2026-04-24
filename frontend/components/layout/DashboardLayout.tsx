@@ -6,6 +6,7 @@ import RouteWarmup from '@/components/RouteWarmup'
 import SpoilageNotifier from '@/components/SpoilageNotifier'
 import ThinFooter from './ThinFooter'
 import MobileQuickActions from './MobileQuickActions'
+import RefreshAfterInventoryChange from '@/components/RefreshAfterInventoryChange'
 
 export default function DashboardLayout({
   children,
@@ -24,6 +25,7 @@ export default function DashboardLayout({
 
       <RouteWarmup />
       <SpoilageNotifier />
+      <RefreshAfterInventoryChange />
       
       <main className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-24 sm:pb-24 md:pb-6 transition-all duration-300 flex flex-col items-center">
         <div className="w-full mx-auto max-w-7xl animate-in fade-in slide-in-from-bottom-4 duration-500 pb-10">

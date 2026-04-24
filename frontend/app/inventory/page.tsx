@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { normalizeCategory, getCategoryDisplayLabel, CANONICAL_CATEGORIES } from '@/lib/categoryNormalizer'
 import { getScoreLabel, calculateShelfLife } from '@/lib/shelfLifeDb'
 import { getApiBaseUrl } from '@/lib/api'
+import { markInventoryChanged } from '@/lib/inventoryInvalidation'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -209,6 +210,7 @@ function EditModal({ item, onClose, onSaved }: { item: InventoryItem; onClose: (
         throw new Error(body.error || 'Failed to save')
       }
       const updated = await res.json()
+      markInventoryChanged()
       onSaved(enhanceItem(updated))
       onClose()
     } catch (e: any) {
@@ -445,6 +447,7 @@ export default function InventoryPage() {
     try {
       const res = await fetch(`${baseUrl}/api/inventory/${id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error('Delete failed')
+      markInventoryChanged()
       setItems(prev => prev.filter(i => i._id !== id))
       setSelectedIds(prev => { const n = new Set(prev); n.delete(id); return n })
       router.refresh()
@@ -461,6 +464,7 @@ export default function InventoryPage() {
       await Promise.all(Array.from(selectedIds).map(id =>
         fetch(`${baseUrl}/api/inventory/${id}`, { method: 'DELETE' })
       ))
+      markInventoryChanged()
       setItems(prev => prev.filter(i => !selectedIds.has(i._id)))
       setSelectedIds(new Set())
       router.refresh()

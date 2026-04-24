@@ -8,6 +8,7 @@ import LoadingFruit from '@/components/ui/loading-fruit'
 import ImageCapture from '@/components/ImageCapture'
 import { formatIndianDate } from '@/lib/dateUtils'
 import { getApiBaseUrl } from '@/lib/api'
+import { markInventoryChanged } from '@/lib/inventoryInvalidation'
 
 type Product = {
   id: string
@@ -400,6 +401,7 @@ export default function AddItemPage() {
         return
       }
 
+      markInventoryChanged()
       router.refresh()
       router.push('/inventory')
     } catch (err: any) {
@@ -538,6 +540,7 @@ export default function AddItemPage() {
         throw new Error(data.error || 'Failed to add item')
       }
 
+      markInventoryChanged()
       router.refresh()
       router.push('/inventory')
     } catch (err: any) {
