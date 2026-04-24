@@ -1,0 +1,11 @@
+  ▲ Next.js 14.2.33
+  - Local:        http://localhost:3001
+  - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 26.2s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 1418ms (189 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 11.3s (434 modules)
+ GET /api/health 404 in 12377ms
