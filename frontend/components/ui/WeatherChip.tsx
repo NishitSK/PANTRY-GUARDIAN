@@ -122,11 +122,11 @@ export default function WeatherChip() {
 
   return (
     <div
-      className="w-full p-3 bg-white border-2 border-black shadow-[4px_4px_0_#000]"
+      className="w-full p-2 bg-white border-2 border-black shadow-[4px_4px_0_#000]"
       title={tooltip}
     >
       {/* Row 1: temperature + location */}
-      <div className="flex items-center gap-3 mb-2">
+      <div className="flex items-center gap-3 mb-1.5">
         <div className="p-1.5 bg-[#93E1A8] border border-black text-black shrink-0">
           <Thermometer className="w-4 h-4" />
         </div>
@@ -139,7 +139,7 @@ export default function WeatherChip() {
       </div>
 
       {/* Row 2: humidity + refresh — clearly separated */}
-      <div className="flex items-center justify-between gap-1 mt-1">
+      <div className="flex items-center justify-between gap-1 mt-0.5">
         <div className="flex items-center gap-1 bg-[#FFE66D] border-2 border-black px-1.5 py-0.5 min-w-0">
           <Droplets className="w-3 h-3 text-black shrink-0" />
           <span className="text-[9px] font-black text-black uppercase tracking-tight truncate">

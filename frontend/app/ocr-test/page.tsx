@@ -552,12 +552,8 @@ export default function OcrTestPage() {
     setOcrMsgIndex(0)
     setOcrMsgVisible(true)
     const interval = setInterval(() => {
-      setOcrMsgVisible(false)
-      setTimeout(() => {
-        setOcrMsgIndex(prev => (prev + 1) % OCR_MESSAGES.length)
-        setOcrMsgVisible(true)
-      }, 300)
-    }, 2200)
+      setOcrMsgIndex(prev => (prev + 1) % OCR_MESSAGES.length)
+    }, 2000)
     return () => clearInterval(interval)
   }, [isLoading])
 
@@ -715,10 +711,7 @@ export default function OcrTestPage() {
 
             {/* Rotating message */}
             <div className="flex flex-col items-center gap-2 min-h-[3.5rem] text-center">
-              <p
-                className="font-anton text-2xl uppercase leading-none text-black transition-opacity duration-300"
-                style={{ opacity: ocrMsgVisible ? 1 : 0 }}
-              >
+              <p className="font-anton text-2xl uppercase leading-none text-black">
                 {OCR_MESSAGES[ocrMsgIndex]}
               </p>
               <p className="font-ibm-mono text-[10px] uppercase tracking-[0.24em] text-black/50">

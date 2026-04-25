@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { SignUp } from '@clerk/nextjs'
+import { GoogleAuthButton } from '@/components/GoogleAuthButton'
 
 const pillars = [
   'Create a profile built for food control.',
@@ -26,6 +27,7 @@ export default function SignupPage() {
               <p className="mt-2 font-anton text-4xl uppercase leading-none">Create account</p>
             </div>
 
+            <GoogleAuthButton mode="signUp" />
             <SignUp
               path="/auth/signup"
               routing="path"
@@ -49,14 +51,14 @@ export default function SignupPage() {
                   footerActionLink: 'hidden',
                   footerPages: 'hidden',
                   footerPagesLink: 'hidden',
-                  socialButtonsRoot: 'space-y-4',
-                  socialButtons: 'space-y-3',
-                  socialButtonsBlockButton: 'rounded-none border-2 border-black bg-background py-4 font-ibm-mono text-[10px] uppercase tracking-[0.28em] text-textMain shadow-[4px_4px_0_0_rgba(0,0,0,1)] transition-transform hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none',
+                  socialButtonsRoot: 'hidden',
+                  socialButtons: 'hidden',
+                  socialButtonsBlockButton: 'hidden',
                   formButtonPrimary: 'rounded-none border-2 border-black bg-primary py-4 font-ibm-mono text-[10px] uppercase tracking-[0.3em] text-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] transition-transform hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none',
                   formFieldInput: 'rounded-none border-2 border-black bg-background px-4 py-3 font-ibm-mono text-sm text-textMain shadow-none focus:border-black focus:ring-0',
                   formFieldLabel: 'mb-2 font-ibm-mono text-[10px] uppercase tracking-[0.28em] text-textMuted',
-                  dividerLine: 'bg-black',
-                  dividerText: 'font-ibm-mono text-[10px] uppercase tracking-[0.28em] text-textMuted',
+                  dividerLine: 'hidden',
+                  dividerText: 'hidden',
                 },
               }}
               signInUrl="/auth/login"

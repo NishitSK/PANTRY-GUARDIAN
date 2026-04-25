@@ -31,7 +31,7 @@ export default function Sidebar() {
 
       <div className="flex-1 min-h-0 flex flex-col">
         {/* Navigation */}
-        <nav className="flex-1 min-h-0 space-y-2 px-3 py-6">
+        <nav className="flex-1 min-h-0 space-y-2 px-3 py-6 overflow-y-auto scrollbar-hide">
           {navigation.map((item) => {
             const isActive = pathname === item.href
             return (
@@ -62,20 +62,20 @@ export default function Sidebar() {
         </nav>
 
         {/* User & Settings */}
-        <div className="shrink-0 p-4 space-y-3 border-t-4 border-black bg-[#F6F1E7]">
+        <div className="shrink-0 p-3 space-y-2 border-t-4 border-black bg-[#F6F1E7]">
         <div className="flex items-center gap-2">
           <WeatherChip />
         </div>
 
         <Link href="/settings" className={cn(
-          "flex items-center gap-4 px-4 py-3 text-sm font-black uppercase tracking-[0.14em] border-2 border-black transition-all",
+          "flex items-center gap-4 px-3 py-2 text-sm font-black uppercase tracking-[0.14em] border-2 border-black transition-all",
           pathname === '/settings' ? 'bg-[#93E1A8] text-black shadow-[4px_4px_0_#000]' : 'bg-white text-black hover:bg-black hover:text-white'
         )}>
           <span className="material-symbols-outlined text-2xl">settings</span>
           <span className="font-manrope">Settings</span>
         </Link>
         
-        <div className="mt-1 px-3 py-3 bg-white border-2 border-black shadow-[4px_4px_0_#000]">
+        <div className="mt-1 px-3 py-2 bg-white border-2 border-black shadow-[4px_4px_0_#000]">
           <div className="flex items-center gap-3">
           {user?.imageUrl ? (
              <img src={user.imageUrl} alt="Profile" className="h-10 w-10 border-2 border-black object-cover" />

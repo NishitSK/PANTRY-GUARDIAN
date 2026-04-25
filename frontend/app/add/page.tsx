@@ -137,14 +137,9 @@ export default function AddItemPage() {
   useEffect(() => {
     if (!submitting) return
     setSaveMsgIndex(0)
-    setSaveMsgVisible(true)
     const interval = setInterval(() => {
-      setSaveMsgVisible(false)
-      setTimeout(() => {
-        setSaveMsgIndex(prev => (prev + 1) % SAVE_MESSAGES.length)
-        setSaveMsgVisible(true)
-      }, 300)
-    }, 2200)
+      setSaveMsgIndex(prev => (prev + 1) % SAVE_MESSAGES.length)
+    }, 2000)
     return () => clearInterval(interval)
   }, [submitting])
 
@@ -604,10 +599,7 @@ export default function AddItemPage() {
 
             {/* Rotating message */}
             <div className="flex flex-col items-center gap-2 min-h-[3.5rem]">
-              <p
-                className="font-anton text-2xl uppercase leading-none text-black transition-opacity duration-300"
-                style={{ opacity: saveMsgVisible ? 1 : 0 }}
-              >
+              <p className="font-anton text-2xl uppercase leading-none text-black">
                 {SAVE_MESSAGES[saveMsgIndex]}
               </p>
               <p className="font-ibm-mono text-[10px] uppercase tracking-[0.24em] text-black/50">

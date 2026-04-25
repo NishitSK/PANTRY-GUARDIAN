@@ -11,6 +11,7 @@ const isPublicRoute = createRouteMatcher([
   '/ocr-test(.*)',
   '/auth/login(.*)',
   '/auth/signup(.*)',
+  '/auth/sso-callback(.*)',
   '/api/public(.*)',
   '/api/analyze-image(.*)',
 ]);
